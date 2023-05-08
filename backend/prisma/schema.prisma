@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  firstName String
+  lastName String
+  DOB DateTime
+
+  Listing Listing[]
+  Favourites Favourites[]
+  LandlordChats Chat[] @relation("landlordChats")
+  TenantChats Chat[] @relation("tenantChats")
+  Message Message[]
+}
+
+model Listing {
+  id Int @id @default(autoincrement())
+  title String
+  description String @default("")
+  video String
+  price Int
+  bedrooms Int
+  bathrooms Int
+  petsAllowed Boolean
+  hasGarage Boolean
+  floor Int?
+  addressNo Int
+  streetName String
+  postCode String
+  city String
+  county String
+  latitude Float?
+  longitude Float?
+  deletedAt DateTime?
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  status String
+  favourites Favourites[]
+  chats Chat[]
+  images Image[]
+}
+
+model Image {
+  id Int @id @default(autoincrement())
+  url String
+  listing Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+
+model Favourites {
+  id Int @id @default(autoincrement())
+  user User @relation(fields:[userId], references: [id])
+  userId Int
+  listing Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+  deletedAt DateTime?
+}
+
+model Chat {
+  id Int @id @default(autoincrement())
+  landlord User @relation("landlordChats", fields: [landlordId], references: [id])
+  landlordId Int
+  tenant User @relation("tenantChats", fields: [tenantId], references: [id])
+  tenantId Int
+  listing Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+  messages Message[]
+  deletedAt DateTime?
+}
+
+model Message{
+  id Int @id @default(autoincrement())
+  content String
+  createdAt DateTime @default(now())
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  chat Chat @relation(fields: [chatId], references: [id])
+  chatId Int
+  deletedAt DateTime?
+}
