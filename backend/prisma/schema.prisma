@@ -17,7 +17,7 @@ model User {
   firstName String
   lastName String
   DOB DateTime
-
+  deletedAt DateTime?
   Listing Listing[]
   Favourites Favourites[]
   LandlordChats Chat[] @relation("landlordChats")
