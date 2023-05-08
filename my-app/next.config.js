@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  pagesDir:'pages'
 }
 
 module.exports = nextConfig
