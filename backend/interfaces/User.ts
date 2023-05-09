@@ -17,5 +17,5 @@ export interface User {
   favourites: Favourites[];
   landlordChats: Chat[];
   tenantChats: Chat[];
-  message: Message[];
+  messages: Message[];
 }

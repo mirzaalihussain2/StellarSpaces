@@ -1,12 +1,51 @@
 import { Listing } from '../interfaces/Listing';
 
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 // Create a new listing
 async function createListing(data: Listing) {
+  const {
+    title,
+    description,
+    video,
+    price,
+    bedrooms,
+    bathrooms,
+    petsAllowed,
+    hasGarage,
+    floor,
+    addressNo,
+    streetName,
+    postCode,
+    city,
+    county,
+    latitude,
+    longitude,
+    userId,
+    status,
+  } = data;
   return await prisma.listing.create({
-    data,
+    data: {
+      title,
+      description,
+      video: video ?? '',
+      price,
+      bedrooms,
+      bathrooms,
+      petsAllowed,
+      hasGarage,
+      floor,
+      addressNo,
+      streetName,
+      postCode,
+      city,
+      county,
+      latitude,
+      longitude,
+      userId,
+      status,
+    },
   });
 }
 
@@ -29,12 +68,31 @@ async function getListingById(id: Listing['id']) {
 }
 
 // Update a listing by ID
-async function updateListing(id: Listing['id'], data: Listing) {
+async function updateListing(id: Listing['id'], data: Partial<Listing>) {
   return await prisma.listing.update({
     where: {
       id: id,
     },
-    data,
+    data: {
+      title: data.title,
+      description: data.description,
+      video: data.video ?? '',
+      price: data.price,
+      bedrooms: data.bedrooms,
+      bathrooms: data.bathrooms,
+      petsAllowed: data.petsAllowed,
+      hasGarage: data.hasGarage,
+      floor: data.floor,
+      addressNo: data.addressNo,
+      streetName: data.streetName,
+      postCode: data.postCode,
+      city: data.city,
+      county: data.county,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      userId: data.userId,
+      status: data.status,
+    },
   });
 }
 
@@ -42,28 +100,36 @@ async function updateListing(id: Listing['id'], data: Listing) {
 async function softDeleteListing(id: Listing['id']) {
   const listing = await prisma.listing.update({
     where: { id: id },
-    data: { deletedAt: new Date() },
-    include: {
-      Image: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+    data: {
+      deletedAt: new Date(),
+      images: {
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
       favourites: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
       chats: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
     },
   });
   return listing;
 }
-
 // Hard delete a listing by ID
 async function hardDeleteListing(id: Listing['id']) {
   const listing = await prisma.listing.delete({
     where: { id: id },
     include: {
-      Image: true,
+      images: true,
       favourites: true,
       chats: true,
     },
