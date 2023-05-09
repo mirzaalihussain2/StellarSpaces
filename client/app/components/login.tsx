@@ -1,9 +1,12 @@
-'use client'
 import "./Login.css";
 import { useState } from "react";
 import { Button, Space } from "antd";
 
-function Login(props) {
+interface LoginProps {
+    toggle: () => void;
+}
+
+function Login(props: LoginProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -13,7 +16,7 @@ function Login(props) {
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
 
-    function handleLogin(e) {
+    function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         //change admin to a function that checks if email exists in database
         if (email === "admin") {
@@ -27,11 +30,15 @@ function Login(props) {
     return (
         <div className="popup">
             <div className="popup-inner">
-                <div className='popup-close'>
-                    <Button shape="circle" onClick={props.toggle}>X</Button>
-                    <h2 className="popup-title">{login ? "Login" : register ? "Register" : "Log in or Sign Up"}</h2>
+                <div className="popup-close">
+                    <Button shape="circle" onClick={props.toggle}>
+                        X
+                    </Button>
+                    <h2 className="popup-title">
+                        {login ? "Login" : register ? "Register" : "Log in or Sign Up"}
+                    </h2>
                 </div>
-                <form>
+                <form onSubmit={handleLogin}>
                     <label>
                         Email:
                         <input
@@ -88,29 +95,32 @@ function Login(props) {
                     )}
                     {login || register ? (
                         <div>
-                            <Space direction="vertical"
+                            <Space
+                                direction="vertical"
                                 style={{
-                                    width: '100%',
+                                    width: "100%",
                                 }}
                             >
-                                <Button type="primary" block>Submit</Button>
+                                <Button type="primary" block>
+                                    Submit
+                                </Button>
                             </Space>
                         </div>
                     ) : (
                         <div>
-                            <Space direction="vertical"
+                            <Space
+                                direction="vertical"
                                 style={{
-                                    width: '100%',
+                                    width: "100%",
                                 }}
                             >
-                                <Button type="primary" onClick={handleLogin} block>
+                                <Button type="primary" htmlType="submit" block>
                                     Continue
                                 </Button>
                             </Space>
                         </div>
                     )}
                 </form>
-
             </div>
         </div>
     );
