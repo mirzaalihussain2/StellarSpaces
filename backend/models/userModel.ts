@@ -1,6 +1,6 @@
 import { User } from '../interfaces/User';
 
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // Create a new user
@@ -38,19 +38,38 @@ async function updateUser(id: User['id'], data: User) {
 async function softDeleteUser(id: User['id']) {
   const user = await prisma.user.update({
     where: { id: id },
-    data: { deletedAt: new Date() },
-    include: {
+    data: {
+      deletedAt: new Date(),
       Listing: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
-      tenantChats: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+
+      TenantChats: {
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
-      landlordChats: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+      LandlordChats: {
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
-      favourites: {
-        update: { data: { deletedAt: new Date() }, where: { deletedAt: null } },
+      Favourites: {
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
+      },
+      Message: {
+        updateMany: {
+          data: { deletedAt: new Date() },
+          where: { deletedAt: null },
+        },
       },
     },
   });
@@ -63,9 +82,10 @@ async function hardDeleteUser(id: User['id']) {
     where: { id: id },
     include: {
       Listing: true,
-      tenantChats: true,
-      landlordChats: true,
-      favourites: true,
+      TenantChats: true,
+      LandlordChats: true,
+      Favourites: true,
+      Message: true,
     },
   });
   return user;

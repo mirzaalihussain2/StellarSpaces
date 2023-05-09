@@ -1,14 +1,16 @@
-import { ListenOptions } from 'net';
 import { Favourites } from '../interfaces/Favourite';
-import { Listing } from '../interfaces/Listing';
+import { PrismaClient } from '@prisma/client';
 
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // Add a listing to user's favourites
 async function addFavourite(data: Favourites) {
+  const { userId, listingId } = data;
   return await prisma.favourites.create({
-    data,
+    data: {
+      userId,
+      listingId,
+    },
   });
 }
 
@@ -38,29 +40,6 @@ async function getFavouritesByListingId(listingId: Favourites['listingId']) {
   });
 }
 
-// Get all users who have favourited a listing
-async function getUsersByListingId(listingId: Favourites['id']) {
-  const favourites = await prisma.favourites.findMany({
-    where: {
-      listingId: listingId,
-      deletedAt: null,
-    },
-    select: {
-      userId: true,
-    },
-  });
-
-  const userIds = favourites.map((favourite: Favourites) => favourite.userId);
-
-  return await prisma.user.findMany({
-    where: {
-      id: {
-        in: userIds,
-      },
-    },
-  });
-}
-
 // Remove a favourite by ID (Soft delete)
 async function softDeleteFavourite(id: Favourites['id']) {
   return await prisma.favourites.update({
@@ -73,11 +52,18 @@ async function softDeleteFavourite(id: Favourites['id']) {
   });
 }
 
+async function hardDeleteFavourite(id: Favourites['id']) {
+  const favourite = await prisma.favourites.delete({
+    where: { id: id },
+  });
+  return favourite;
+}
+
 // Export the CRUD operations
-module.exports = {
+export {
   addFavourite,
   getFavouritesByUserId,
   getFavouritesByListingId,
-  getUsersByListingId,
   softDeleteFavourite,
+  hardDeleteFavourite,
 };
