@@ -11,87 +11,140 @@ datasource db {
 }
 
 model User {
-  id            Int          @id @default(autoincrement())
-  email         String       @unique
-  password      String
-  firstName     String
-  lastName      String
-  DOB           DateTime
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  deletedAt     DateTime?
+  // flat data fields
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  DOB       DateTime
+
+  // datetime boilerplate
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // relations TO other tables
   listings      Listing[]
   favourites    Favourites[]
   landlordChats Chat[]       @relation("LandlordChats")
   tenantChats   Chat[]       @relation("TenantChats")
   messages      Message[]
+
+  // relations FROM other tables
 }
 
 model Listing {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String       @default("")
-  video       String
-  price       Int
-  bedrooms    Int
-  bathrooms   Int
-  petsAllowed Boolean
-  hasGarage   Boolean
-  floor       Int?
-  addressNo   Int
-  streetName  String
-  postCode    String
-  city        String
-  county      String
-  latitude    Float?
-  longitude   Float?
-  deletedAt   DateTime?
-  user        User         @relation(fields: [userId], references: [id])
-  userId      Int
-  status      String
-  favourites  Favourites[]
-  chats       Chat[]
-  images      Image[]
-}
+  // flat data fields
+  id             Int     @id @default(autoincrement())
+  title          String
+  description    String  @default("")
+  video          String
+  price          Int
+  numOfBedrooms  Int
+  numOfBathrooms Int
+  petsAllowed    Boolean @default(false)
+  hasGarage      Boolean @default(false)
+  status         String // define types & add type-safety (live, dormant, letAgreed)
 
-model Image {
-  id        Int       @id @default(autoincrement())
-  url       String
-  listing   Listing   @relation(fields: [listingId], references: [id])
-  listingId Int
+  // address as flat data fields
+  addressApartmentFloorNum Int?
+  addressHouseNum          Int
+  addressStreetName        String
+  addressPostCode          String
+  addressCity              String
+  addressCounty            String
+  addressLongitude         Float?
+  addressLatitude          Float?
+
+  // datetime boilerplate
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
+  // relations TO other tables
+  favourites Favourites[]
+  chats      Chat[]
+  images     Image[]
+
+  // relations FROM other tables
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Image {
+  // flat data fields
+  id  Int    @id @default(autoincrement())
+  url String
+
+  // datetime boilerplate
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // relations TO other tables
+
+  // relations FROM other tables
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId Int
 }
 
 model Favourites {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  listing   Listing   @relation(fields: [listingId], references: [id])
-  listingId Int
+  // datetime boilerplate
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
+
+  // relations TO other tables
+
+  // relations FROM other tables
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+
+  // flat data fields
+  @@id([userId, listingId])
 }
 
 model Chat {
-  id         Int       @id @default(autoincrement())
-  landlord   User      @relation("LandlordChats", fields: [landlordId], references: [id])
+  // flat data fields
+  id Int @id @default(autoincrement())
+
+  // datetime boilerplate
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt // should this be the datetime of the latest msg in chat?
+  deletedAt DateTime?
+
+  // relations TO other tables
+  messages Message[]
+
+  // relations FROM other tables
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+
+  landlord   User @relation("LandlordChats", fields: [landlordId], references: [id])
   landlordId Int
-  tenant     User      @relation("TenantChats", fields: [tenantId], references: [id])
-  tenantId   Int
-  listing    Listing   @relation(fields: [listingId], references: [id])
-  listingId  Int
-  messages   Message[]
-  deletedAt  DateTime?
+
+  tenant   User @relation("TenantChats", fields: [tenantId], references: [id])
+  tenantId Int
 }
 
 model Message {
-  id        Int       @id @default(autoincrement())
-  content   String
+  // flat data fields
+  id      Int    @id @default(autoincrement())
+  content String
+
+  // datetime boilerplate
   createdAt DateTime  @default(now())
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  Int
-  chat      Chat      @relation(fields: [chatId], references: [id])
-  chatId    Int
   deletedAt DateTime?
+
+  // relations TO other tables
+
+  // relations FROM other tables
+  chat   Chat @relation(fields: [chatId], references: [id])
+  chatId Int
+
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
 }
