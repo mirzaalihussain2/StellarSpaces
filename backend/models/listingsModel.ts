@@ -71,8 +71,7 @@ async function hardDeleteListing(id: Listing['id']) {
   return listing;
 }
 
-// Export the CRUD operations
-module.exports = {
+export {
   createListing,
   getListings,
   getListingById,

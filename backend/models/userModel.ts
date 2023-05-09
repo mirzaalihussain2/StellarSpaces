@@ -72,7 +72,7 @@ async function hardDeleteUser(id: User['id']) {
 }
 
 // Export the CRUD operations
-module.exports = {
+export {
   createUser,
   getUsers,
   getUserById,
