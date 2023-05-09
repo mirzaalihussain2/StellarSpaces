@@ -6,15 +6,15 @@ import Login from './components/login'
 import HomePage from './HomePage/page'
 
 export default function Home() {
-  const [seen, setSeen] = useState(false);
+  // const [seen, setSeen] = useState(false);
 
-  const togglePop = () => {
-    setSeen(!seen);
-  }
+  // const togglePop = () => {
+  //   setSeen(!seen);
+  // }
   return (
     <div>
-      <button onClick={togglePop}>Log In</button>
-      {seen ? <Login toggle={togglePop} /> : null}
+      {/* <button onClick={togglePop}>Log In</button>
+      {seen ? <Login toggle={togglePop} /> : null} */}
       <HomePage />
     </div>
   )

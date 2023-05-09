@@ -1,183 +1,245 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #eff7fa
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #eff7fa;
+  overflow: auto;
+}
+
+.tagline {
+  font-size: 2vw;
+  font-weight: bold;
+  color: white;
+ 
+  top:18vw;
+  text-shadow: 60px 10px 3px black;
+  left:30vw;
+  position: absolute;
+}
+
+.cardContainer {
+  margin: 2vw auto;
   
-  .tagline {
-    font-size: 1em;
-    font-weight: bold;
-    margin: 5vw 0;
-  }
-  
-  .cardContainer {
-    margin: 3vw auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 100vw;
-  }
-  
-  
-  .card {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 1vw;
-    margin-inline: 4vw;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    width: 40vw;
-    height:30vw;
-  }
-  
-  .cardLabel {
-    font-size: 2vw;
-    font-weight: bold;
-    z-index: 100;
-    padding-bottom: 5vw;
-  }
-  
-  .cardButton {
-    background-color: white;
-    border-color: blue;
-    margin: 15vw;
-    color: blue;
-    width: 10vw;
-    z-index:100;
-    height: 5vw;
-    font-size: 1vw;
-    border-radius: 1vw;
-    cursor: pointer;
-  }
-  
-  .featured {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-  
-  .featuredLabel {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  
-  
-  
-  
-  .carousel  {
-    display: flex;
-    width: 95vw;
-    margin-bottom: 20px;
-    cursor: grab;
-    overflow: scroll;
-  }
-  
-  
-  
-  .carouselCardFeatured {
-    /* From https://css.glass */
-    /* From https://css.glass */
-   
-    width: 40vw;
-    height: 30vw;
-    margin: 1vw;
-    
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.36);
-   
-  }
-  
-  .carouselCardRecentlyAdded {
-    /* From https://css.glass */
-    /* From https://css.glass */
-    background: rgba(255, 255, 255, 0.97);
-    width: 5vw;
-    border-radius: 2vw;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.36);
-  }
-  
-  .recentlyAddedImage{
-    border-top-left-radius: 1vw;
-    border-top-right-radius: 1vw;
-    width:5vw;
-    height: 20vw;
-    object-fit: cover;
-  }
-  .carouselCardImage {
-    border-top-left-radius: 1vw;
-    border-top-right-radius: 1vw;
-    width:40vw;
-    height: 20vw;
-    object-fit: cover;
-    /*margin-bottom: 10px;*/
-  }
-  
-  .carouselCardTitle {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .carouselCardLocation {
-    font-size: 16px;
-    color: gray;
-  
-  }
-  
-  .recentlyAdded {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .recentlyAddedLabel {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .recentlyAddedCarousel {
-    display: flex;
-    overflow-x: scroll;
-    width: 80%;
-  }
-  
-  .recentlyAddedCarouselCard {
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    margin-right: 20px;
-  }
-  
-  .recently-added-carousel-card-image {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-  
-  .recently-added-carousel-card-title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .recently-added-carousel-card-location {
-    font-size: 14px;
-    color: gray;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100vw;
+}
+
+
+.card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 1vw;
+  margin-inline: 4vw;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  width: 40vw;
+  height:30vw;
+}
+
+
+.cardLabel {
+  font-size: 2vw;
+  font-weight: bold;
+  z-index: 100;
+  padding-bottom: 5vw;
+}
+
+.cardButton {
+  background-color: white;
+  border-color: blue;
+  margin: 15vw;
+  color: blue;
+  width: 10vw;
+  z-index:100;
+  height: 10vw;
+  font-size: 1vw;
+  border-radius: 1vw;
+  cursor: pointer;
+  margin-bottom: 1vw;
+}
+.cardButton:hover{
+  background-color: blue;
+  color: white;
+}
+.featured {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.featuredLabel {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-right: 70vw;
+  margin-bottom: 20px;
+}
+
+.carousel  {
+  display: flex;
+  width: 85vw;
+ margin-right: 3vw;
+  margin-left: 3vw;
+  padding:2vw;
+  overflow: scroll;
+  -ms-overflow-style: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+.arrowButtonLeft {
+  visibility: hidden;
+  position: absolute;
+  align-self: center;
+  background-color: #f2f2f2;
+  border-color: black;
+  color: #333;
+  width: 3vw;
+  height: 3vw;
+  font-size: x-large;
+  cursor: pointer;
+  left:1vw;
+  border-radius: 50%;
+}
+.arrowButtonRight {
+  visibility: hidden;
+  position: absolute;
+  align-self: center;
+  background-color: #f2f2f2;
+  border-color: black;
+  color: #333;
+  width: 3vw;
+  height: 3vw;
+  font-size: x-large;
+  cursor: pointer;
+  border-radius: 50%;
+  right:1vw;
+}
+.carousel:hover .arrowButtonRight{
+  visibility: visible;
+}
+
+.carousel:hover .arrowButtonLeft{
+  visibility: visible;
+}
+
+.arrowButton:hover {
+  background-color: #ddd;
+}
+
+
+.arrowButton:active {
+  background-color: #ccc;
+}
+.carouselCardFeatured {
+  /* From https://css.glass */
+  /* From https://css.glass */
+  width: 40vw;
+  height: 40vw;
+  margin: 1vw;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+ 
+}
+.carouselCardFeatured:hover{
+  background-color: white;
+}
+.carouselCardRecentlyAdded {
+  /* From https://css.glass */
+  /* From https://css.glass */
+  width: 40vw;
+  height: 30vw;
+  margin: 1vw;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+
+}
+.carouselCardRecentlyAdded:hover{
+  background-color: white;
+}
+
+.recentlyAddedImage{
+  border-top-left-radius: 1vw;
+  border-top-right-radius: 1vw;
+  width:20vw;
+  height: 20vw;
+  object-fit: cover;
+}
+.carouselCardImage {
+  border-top-left-radius: 1vw;
+  border-top-right-radius: 1vw;
+  width:40vw;
+  height: 20vw;
+  object-fit: cover;
+  /*margin-bottom: 10px;*/
+}
+
+.carouselCardTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.carouselCardLocation {
+  font-size: 16px;
+  color: gray;
+
+}
+
+.recentlyAdded {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recentlyAddedLabel {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-right: 74vw;
+  margin-bottom: 20px;;
+}
+
+.recentlyAddedCarousel {
+  display: flex;
+  overflow-x: scroll;
+  width: 80%;
+}
+
+.recentlyAddedCarouselCard {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  margin-right: 20px;
+}
+
+.recently-added-carousel-card-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.recently-added-carousel-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recently-added-carousel-card-location {
+  font-size: 14px;
+  color: gray;
+}
