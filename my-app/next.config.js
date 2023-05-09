@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-  pagesDir:'pages'
+  // pagesDir:'pages'
 }
 
 module.exports = nextConfig
