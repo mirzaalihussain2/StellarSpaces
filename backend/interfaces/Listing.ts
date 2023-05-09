@@ -1,31 +1,31 @@
-import { Image } from './Image';
-import { Chat } from './Chat';
-import { User } from './User';
-import { Favourites } from './Favourite';
-
 export interface Listing {
+  // flat data fields
   id: number;
   title: string;
   description: string;
   video?: string;
   price: number;
-  bedrooms: number;
-  bathrooms: number;
+  numOfBedrooms: number;
+  numOfBathrooms: number;
   petsAllowed: boolean;
   hasGarage: boolean;
-  floor?: number;
-  addressNo: number;
-  streetName: string;
-  postCode: string;
-  city: string;
-  county: string;
-  latitude?: number;
-  longitude?: number;
-  deletedAt?: Date;
-  userId: number;
   status: string;
-  user: User;
-  favourites: Favourites[];
-  chats: Chat[];
-  images: Image[];
+
+  // address as flat data fields
+  addressApartmentFloorNum?: number;
+  addressHouseNum: number;
+  addressStreetName: string;
+  addressPostCode: string;
+  addressCity: string;
+  addressCounty: string;
+  addressLongitude?: number;
+  addressLatitude?: number;
+
+  // datetime boilerplate
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+
+  // foreign keys
+  userId: number;
 }

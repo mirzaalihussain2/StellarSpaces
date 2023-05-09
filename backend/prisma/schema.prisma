@@ -24,14 +24,14 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  // relations FROM other tables
+
   // relations TO other tables
   listings      Listing[]
   favourites    Favourites[]
   landlordChats Chat[]       @relation("LandlordChats")
   tenantChats   Chat[]       @relation("TenantChats")
   messages      Message[]
-
-  // relations FROM other tables
 }
 
 model Listing {
@@ -39,7 +39,7 @@ model Listing {
   id             Int     @id @default(autoincrement())
   title          String
   description    String  @default("")
-  video          String
+  video          String?
   price          Int
   numOfBedrooms  Int
   numOfBathrooms Int
@@ -62,14 +62,14 @@ model Listing {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  // relations FROM other tables
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
   // relations TO other tables
   favourites Favourites[]
   chats      Chat[]
   images     Image[]
-
-  // relations FROM other tables
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
 }
 
 model Image {
@@ -82,11 +82,11 @@ model Image {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  // relations TO other tables
-
   // relations FROM other tables
   listing   Listing @relation(fields: [listingId], references: [id])
   listingId Int
+
+  // relations TO other tables
 }
 
 model Favourites {
@@ -94,14 +94,14 @@ model Favourites {
   createdAt DateTime  @default(now())
   deletedAt DateTime?
 
-  // relations TO other tables
-
   // relations FROM other tables
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
   listing   Listing @relation(fields: [listingId], references: [id])
   listingId Int
+
+  // relations TO other tables
 
   // flat data fields
   @@id([userId, listingId])
@@ -116,9 +116,6 @@ model Chat {
   updatedAt DateTime  @updatedAt // should this be the datetime of the latest msg in chat?
   deletedAt DateTime?
 
-  // relations TO other tables
-  messages Message[]
-
   // relations FROM other tables
   listing   Listing @relation(fields: [listingId], references: [id])
   listingId Int
@@ -128,6 +125,9 @@ model Chat {
 
   tenant   User @relation("TenantChats", fields: [tenantId], references: [id])
   tenantId Int
+
+  // relations TO other tables
+  messages Message[]
 }
 
 model Message {
@@ -137,9 +137,8 @@ model Message {
 
   // datetime boilerplate
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-
-  // relations TO other tables
 
   // relations FROM other tables
   chat   Chat @relation(fields: [chatId], references: [id])
@@ -147,4 +146,6 @@ model Message {
 
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
+
+  // relations TO other tables
 }

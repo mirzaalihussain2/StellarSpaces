@@ -1,14 +1,14 @@
-import { Chat } from './Chat';
-import { User } from './User';
-
 export interface Message {
+  // flat data fields
   id: number;
   content: string;
-  author: User;
-  authorId: number;
-  chat: Chat;
-  chatId: number;
+
+  // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
+
+  // foreign keys
+  chatId: number;
+  authorId: number;
 }

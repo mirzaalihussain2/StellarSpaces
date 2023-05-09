@@ -1,15 +1,14 @@
-import { Listing } from './Listing';
-import { Message } from './Message';
-import { User } from './User';
-
 export interface Chat {
+  // flat data fields
   id: number;
-  landlord: User;
-  landlordId: number;
-  tenant: User;
-  tenantId: number;
-  listing: Listing;
-  listingId: number;
-  messages: Message[];
+
+  // datetime boilerplate
+  createdAt: Date;
+  updatedAt: Date;
   deletedAt?: Date;
+
+  // foreign keys
+  listingId: number;
+  landlordId: number;
+  tenantId: number;
 }

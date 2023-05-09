@@ -1,11 +1,13 @@
-import { Listing } from './Listing';
-
 export interface Image {
+  // flat data fields
   id: number;
   url: string;
+
+  // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
-  listingId: number;
-  listing: Listing;
   deletedAt?: Date;
+
+  // foreign keys
+  listingId: number;
 }

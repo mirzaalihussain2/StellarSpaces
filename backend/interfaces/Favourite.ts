@@ -1,11 +1,11 @@
-import { Listing } from './Listing';
-import { User } from './User';
-
 export interface Favourites {
-  id: number;
-  user: User;
-  userId: number;
-  listing: Listing;
-  listingId: number;
+  // datetime boilerplate
+  createdAt: Date;
   deletedAt?: Date;
+
+  // foreign keys
+  userId: number;
+  listingId: number;
+
+  // flat data fields
 }
