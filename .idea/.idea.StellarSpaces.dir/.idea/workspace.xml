@@ -2,78 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e179bb36-2ada-468a-9d1e-0661efef8711" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/my-app/pages/_events.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/app-build-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/build-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/0.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/1.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/2.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/3.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/4.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/5.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/index.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/client-development/index.pack.old" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/0.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/1.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/2.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/3.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/index.pack" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/cache/webpack/server-development/index.pack.old" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/react-loadable-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/_error.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/app-paths-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/client-reference-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/client-reference-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/flight-server-css-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/flight-server-css-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/middleware-build-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/middleware-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/middleware-react-loadable-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/next-font-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/next-font-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/pages-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/pages/_app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/pages/_document.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/pages/_error.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/server-reference-manifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/server-reference-manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/server/webpack-runtime.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/_error.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/amp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/main-app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/pages/_app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/pages/_error.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/polyfills.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/react-refresh.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/chunks/webpack.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/development/_buildManifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/development/_ssgManifest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/9f5da4ba77ff6f28.webpack.hot-update.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/amp.9f5da4ba77ff6f28.hot-update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/d9b1c67a21b358ec.webpack.hot-update.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/main.9f5da4ba77ff6f28.hot-update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/webpack.9f5da4ba77ff6f28.hot-update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/static/webpack/webpack.d9b1c67a21b358ec.hot-update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/trace" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/pages/types/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my-app/src/app/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/public/wood.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-app/src/components/NavBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StellarSpaces.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StellarSpaces.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/next.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/LogInOrSignUpWindow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/property-list/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/LogInWindow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/LogInOrSignUpWindow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/LogInWindow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/Searchbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/components/SignUpWindow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/Searchbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/pages/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/pages/page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/pages/property-list/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/[property-page]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/pages/property-page/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/SignUpWindow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/page.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/components/NavBar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +21,7 @@
       <list>
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -107,7 +44,9 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;watcher.settings&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/dannygold/Documents/GitHub/StellarSpaces/my-app/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -126,7 +65,10 @@
       <workItem from="1683567030347" duration="87000" />
       <workItem from="1683567146913" duration="2213000" />
       <workItem from="1683569387671" duration="1253000" />
-      <workItem from="1683619351215" duration="5421000" />
+      <workItem from="1683619351215" duration="6832000" />
+      <workItem from="1683627576105" duration="10281000" />
+      <workItem from="1683639309972" duration="564000" />
+      <workItem from="1683639902823" duration="2926000" />
     </task>
     <servers />
   </component>
@@ -149,5 +91,9 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
