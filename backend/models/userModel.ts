@@ -1,6 +1,6 @@
 import { User } from '../interfaces/User';
-
 import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 // Create a new user

@@ -93,7 +93,7 @@ async function hardDeleteUsers(
 // Export the controller functions
 export {
   createUsers,
-  getUsers,
+  getAllUser,
   getUsersById,
   updateUsers,
   softDeleteUsers,

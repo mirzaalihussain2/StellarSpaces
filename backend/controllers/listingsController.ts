@@ -95,10 +95,10 @@ async function hardDeleteListings(
 
 // Export the controller functions
 export {
-  createListing,
-  getListings,
-  getListingById,
-  updateListing,
-  softDeleteListing,
-  hardDeleteListing,
+  createListings,
+  fetchListings,
+  getListingsById,
+  updateListings,
+  softDeleteListings,
+  hardDeleteListings,
 };
