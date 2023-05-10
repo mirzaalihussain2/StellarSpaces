@@ -22,9 +22,6 @@ model User {
   // datetime boilerplate
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // relations FROM other tables
-
   // relations TO other tables
   listings      Listing[]
   favourites    Favourites[]
