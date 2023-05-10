@@ -7,6 +7,7 @@ import Head from 'next/head'
 import Script from 'next/script'
 import NavBar from '../components/NavBar'
 import banner from '../../public/wood.jpg'
+import Link from "next/link";
 
 export default function HomePage() {
 
@@ -38,7 +39,8 @@ export default function HomePage() {
                 background="transparent" speed="1"
                 style={{ paddingTop: '10px', position: 'absolute', width: '40vw', height: '30vw' }}
                 loop autoplay></lottie-player>
-              <button className={styles.cardButton}>Add Listing</button>
+              
+              <Link href={'/AddListing'} className={styles.cardButton}>Add Listing</Link>
             </div>
           </section>
           <section className={styles.featured}>
@@ -77,8 +79,6 @@ export default function HomePage() {
               <button className={styles.arrowButtonLeft} onClick={() => handleChangeFeatured(-1)}>&#8249;</button>
               <button className={styles.arrowButtonRight} onClick={() => handleChangeFeatured(1)}>&#8250;</button>
             </div>
-
-
           </section>
           <section className={styles.recentlyAdded}>
             <h2 className={styles.recentlyAddedLabel}>Recently Added</h2>
