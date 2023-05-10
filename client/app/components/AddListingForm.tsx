@@ -126,6 +126,7 @@ const AddListingForm: React.FC = () => {
                                     <Select.Option value="Bungalow">Bungalow</Select.Option>
                                     <Select.Option value="End Terrace">End Terrace</Select.Option>
                                 </OptGroup>
+                          
                                 <OptGroup label='Flat'>
                                     <Select.Option value="Flat">Flat</Select.Option>
                                     <Select.Option value="Penthouse">Penthouse</Select.Option>
@@ -146,9 +147,9 @@ const AddListingForm: React.FC = () => {
                         <Form.Item label="Is there a garage?">
                             <Checkbox/>
                         </Form.Item>
-                        <Form.Item label="Is there a garden?">
-                            <Checkbox/>
-                        </Form.Item>
+                        {/*<Form.Item label="Is there a garden?">*/}
+                        {/*    <Checkbox/>*/}
+                        {/*</Form.Item>*/}
                         <Form.Item label="Add description">
                             <TextArea rows={4}/>
                         </Form.Item>
@@ -167,24 +168,15 @@ const AddListingForm: React.FC = () => {
                         <Form.Item label="Monthly rent">
                             <InputNumber/>
                         </Form.Item>
-                        <Form.Item label="Deposit Amount">
-                            <Select>
-                                <Select.Option value="Studio Flat">None</Select.Option>
-                                <Select.Option value="Bedsit">2 week</Select.Option>
-                                <Select.Option value="Bedsit">3 week</Select.Option>
-                                <Select.Option value="Bedsit">1 month</Select.Option>
-                                <Select.Option value="Bedsit">Custom</Select.Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item label="Earliest Movie In Date">
-                            <DatePicker/>
-                        </Form.Item>
-                        <Form.Item label="Minimum Tenancy Length">
-                            <InputNumber/>
-                        </Form.Item>
-                        <Form.Item label="Maximum Number of Tenants">
-                            <InputNumber/>
-                        </Form.Item>
+                        {/*<Form.Item label="Earliest Movie In Date">*/}
+                        {/*    <DatePicker/>*/}
+                        {/*</Form.Item>*/}
+                        {/*<Form.Item label="Minimum Tenancy Length">*/}
+                        {/*    <InputNumber/>*/}
+                        {/*</Form.Item>*/}
+                        {/*<Form.Item label="Maximum Number of Tenants">*/}
+                        {/*    <InputNumber/>*/}
+                        {/*</Form.Item>*/}
                         <Form.Item label="Are pets allowed?">
                             <Checkbox/>
                         </Form.Item>
