@@ -14,21 +14,21 @@ const prisma = new PrismaClient();
   // Hard-delete users / records that have been soft-deleted - i.e. clean up database.
 
 
-// (1) Create a new user
+// (1) Create a new user // tested by MAH @ 10 May, 3:50pm. WORKING
 async function createUser(data: User) {
   return await prisma.user.create({
     data
   });
 }
 
-// (2) Get all users (INCLUDING soft-deleted users)
+// (2) Get all users (INCLUDING soft-deleted users) // tested by MAH @ 10 May, 3:50pm. WORKING
 async function getUsers() {
   return await prisma.user.findMany();
 }
 
 // (3) Get all users (EXCLUDING soft-deleted users)
 
-// (4) Get a user by Id (NOT soft-deleted)
+// (4) Get a user by Id (NOT soft-deleted) // tested by MAH @ 10 May, 3:50pm. WORKING
 async function getUserById(id: User['id']) {
   return await prisma.user.findUnique({
     where: {
@@ -37,15 +37,16 @@ async function getUserById(id: User['id']) {
   });
 }
 
-// // Update a user by ID
-// async function updateUser(id: User['id'], data: User) {
-//   return await prisma.user.update({
-//     where: {
-//       id: id,
-//     },
-//     data,
-//   });
-// }
+// (5) Update a user by ID // tested by MAH @ 10 May, 3:50pm. WORKING
+async function updateUser(id: User['id'], data: User) {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data,
+  });
+}
+
 
 // // Soft delete a user by ID
 // async function softDeleteUser(id: User['id']) {
@@ -109,7 +110,7 @@ export {
   createUser,
   getUsers,
   getUserById,
-  // updateUser,
+  updateUser,
   // softDeleteUser,
   // hardDeleteUser,
 };

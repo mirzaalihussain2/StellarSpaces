@@ -6,7 +6,6 @@ export interface Message {
   // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
 
   // foreign keys
   chatId: number;

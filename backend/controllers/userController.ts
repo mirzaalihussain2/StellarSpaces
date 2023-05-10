@@ -1,12 +1,14 @@
+// Local imports
 import {
   createUser,
   getUsers,
   getUserById,
-  // updateUser,
+  updateUser,
   // softDeleteUser,
   // hardDeleteUser,
 } from '../models/userModel';
 
+// Global imports
 import { NextFunction, Request, Response } from 'express';
 
 // Create a new user
@@ -44,16 +46,16 @@ async function getUsersById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-// // Update a user by ID
-// async function updateUsers(req: Request, res: Response, next: NextFunction) {
-//   try {
-//     const userId = parseInt(req.params.id);
-//     const updatedUser = await updateUser(userId, req.body);
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+// Update a user by ID
+async function updateUsers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = parseInt(req.params.id);
+    const updatedUser = await updateUser(userId, req.body);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+}
 
 // // Soft delete a user by ID
 // async function softDeleteUsers(
@@ -95,7 +97,7 @@ export {
   createUsers,
   getAllUser,
   getUsersById,
-  // updateUsers,
+  updateUsers,
   // softDeleteUsers,
   // hardDeleteUsers,
 };

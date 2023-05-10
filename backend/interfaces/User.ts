@@ -10,7 +10,6 @@ export interface User {
   // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
 
   // foreign keys
 }
