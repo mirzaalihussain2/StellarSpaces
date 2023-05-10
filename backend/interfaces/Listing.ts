@@ -4,6 +4,7 @@ export interface Listing {
   title: string;
   description: string;
   video?: string;
+  propertyType: string; // define Type rather than string: 'detached', 'semi-detached', 'bungalow', 'flat'
   price: number;
   numOfBedrooms: number;
   numOfBathrooms: number;
