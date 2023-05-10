@@ -43,10 +43,9 @@ async function updateUser(id: User['id'], data: User) {
     where: {
       id: id,
     },
-    data,
+    data
   });
 }
-
 
 // // Soft delete a user by ID
 // async function softDeleteUser(id: User['id']) {
@@ -90,20 +89,13 @@ async function updateUser(id: User['id'], data: User) {
 //   return user;
 // }
 
-// // Delete a user by ID
-// async function hardDeleteUser(id: User['id']) {
-//   const user = await prisma.user.delete({
-//     where: { id: id },
-//     include: {
-//       listings: true,
-//       tenantChats: true,
-//       landlordChats: true,
-//       favourites: true,
-//       messages: true,
-//     },
-//   });
-//   return user;
-// }
+// Delete a user by ID
+async function hardDeleteUser(id: User['id']) {
+  const user = await prisma.user.delete({
+    where: { id: id },
+  });
+  return user;
+}
 
 // Export the CRUD operations
 export {
@@ -112,5 +104,5 @@ export {
   getUserById,
   updateUser,
   // softDeleteUser,
-  // hardDeleteUser,
+  hardDeleteUser
 };
