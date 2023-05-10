@@ -7,7 +7,7 @@ interface Address {
 }
 
 import {
-    Button,
+    Button, Checkbox,
     DatePicker,
     Form,
     Input,
@@ -34,68 +34,43 @@ const normFile = (e: any) => {
 
 const AddListingForm: React.FC = () => {
     const [showSelectAddress, setShowSelectAddress] = useState(false)
-    const [addresses, setAddresses] = useState([])
+    const [postcodeValidation, setPostcodeValidation] = useState(false)
     const [postcode, SetPostcode] = useState('')
+    const [streetName, SetStreetName] = useState('')
+    const [city, setCity] = useState('')
+    const [county, setCounty] = useState('')
     const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
-
-    useEffect(() => {
-        const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-        script.async = true;
-        document.head.appendChild(script);
-    }, []);
 
 
     async function handleSearchPostcode() {
         setShowSelectAddress(true)
-        const bounds = await getBoundsFromPostalCode(postcode)
-        const addresses = await getAddressesFromBounds(bounds)
-        console.log(addresses)
+        const address = await getAddress(postcode)
+        console.log(address)
+        if (address[0]['address_components'].length > 5 && address[0]['address_components'][5]['long_name'] === 'United Kingdom') {
+            SetStreetName(address[0]['address_components'][1]['long_name'])
+            setCity(address[0]['address_components'][2]['long_name'])
+            setPostcodeValidation(true)
+        } else setPostcodeValidation(false)
+
     }
 
     function handleInputChange(e) {
         SetPostcode(e.target.value)
-    }
-
-    async function getAddressesFromBounds(bounds) {
-        console.log(bounds)
-        const northEast = bounds[0].northeast
-        const southWest = bounds[0].southwest
-        console.log(northEast)
-        console.log(southWest)
-        const geocoder = new google.maps.Geocoder();
-        const LatLngBounds = new google.maps.LatLngBounds(
-            new google.maps.LatLng(northEast.lat, northEast.lng),
-            new google.maps.LatLng(southWest.lat, southWest.lng)
-        );
-        console.log(LatLngBounds)
-        const bounds1 = new google.maps.LatLngBounds(
-            new google.maps.LatLng(40.712, -74.227), // southwest corner
-            new google.maps.LatLng(40.774, -74.125) // northeast corner
-        );
-
-        await geocoder.geocode({'bounds': bounds1 }, (results, status) => {
-            if (status === 'OK') {
-                console.log(results)
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        })
 
     }
 
-    async function getBoundsFromPostalCode(postalCode: string): Promise<string[]> {
 
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${postalCode}&key=${apiKey}`;
+    async function getAddress(postCode: string): Promise<string[]> {
+
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${postCode}&key=${apiKey}`;
         try {
             const response = await axios.get(url);
             console.log(response.data.results)
-            const bounds = response.data.results.map((result: Address) => result.geometry.bounds);
-            console.log(bounds)
-            return bounds;
+            const address = response.data.results.map((result: Address) => result);
+
+            return address
         } catch (error) {
-            console.error(`Error getting addresses from postal code ${postalCode}: ${error}`);
+            console.error(`Error getting addresses from postal code ${postCode}: ${error}`);
             return [];
         }
     }
@@ -110,56 +85,89 @@ const AddListingForm: React.FC = () => {
                 layout="horizontal"
                 style={{maxWidth: '100vw'}}
             >
-                <Form.Item label="Enter Postcode">
-                    <Input onChange={handleInputChange}/>
-                    <Button onClick={handleSearchPostcode}>Find Address</Button>
-                </Form.Item>
-                {showSelectAddress && (
-                    <Form.Item label="Select address">
-                        <Select>
-                            {addresses.map((address, index) => (
-                                <Select.Option key={index} value={address}>{address}</Select.Option>
-                            ))}
-                        </Select>
+
+                {postcodeValidation ? (
+
+                    <>
+                        <Form.Item label="Enter Postcode" hasFeedback validateStatus="success">
+                            <Input value={postcode} onChange={(e) => {
+                                handleInputChange(e);
+                                handleSearchPostcode();
+                            }}/>
+                        </Form.Item>
+                        <Form.Item label="Flat or house number">
+                            <h4 style={{position: 'absolute', marginLeft: '-10.5vw'}}>will be kept hidden</h4>
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item label="Street address ">
+                            <Input value={streetName}/>
+                        </Form.Item>
+                        <Form.Item label="Address line 2 (optional) ">
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item label="Town or city">
+                            <Input value={city}/>
+                        </Form.Item>
+                        <Form.Item label="county">
+                            <Input value={county}/>
+                        </Form.Item>
+                        <Form.Item label="Property type">
+                            <Select>
+                                <OptGroup label='Single Occupancy'>
+                                    <Select.Option value="Studio Flat">Stuido Flat</Select.Option>
+                                    <Select.Option value="Bedsit">Bedsit</Select.Option>
+                                </OptGroup>
+                                <OptGroup label='House'>
+                                    <Select.Option value="Detached">Detached</Select.Option>
+                                    <Select.Option value="Semi-Detached">Semi-Detached</Select.Option>
+                                    <Select.Option value="Terrace">Terrace</Select.Option>
+                                    <Select.Option value="Bungalow">Bungalow</Select.Option>
+                                    <Select.Option value="End Terrace">End Terrace</Select.Option>
+                                </OptGroup>
+                                <OptGroup label='Flat'>
+                                    <Select.Option value="Flat">Flat</Select.Option>
+                                    <Select.Option value="Penthouse">Penthouse</Select.Option>
+                                    <Select.Option value="Maisonette">Maisonette</Select.Option>
+                                </OptGroup>
+                                <OptGroup label='Other types'>
+                                    <Select.Option value="Mobile home">Mobile Home</Select.Option>
+                                    <Select.Option value="House boat">House Boat</Select.Option>
+                                </OptGroup>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Number of bedrooms">
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item label="Number of bathrooms">
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item label="Garage?">
+                            <Checkbox/>
+                        </Form.Item>
+                     
+                        <Form.Item label="Upload Photos" valuePropName="fileList" getValueFromEvent={normFile}>
+                            <Upload action="/upload.do" listType="picture-card">
+                                <div>
+                                    <PlusOutlined/>
+                                    <div style={{marginTop: 8}}>Upload</div>
+                                </div>
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item label="Youtube URL">
+                            <Input/>
+                        </Form.Item>
+                    </>
+                ) : (
+                    <Form.Item label="Enter Postcode" hasFeedback validateStatus="validating">
+                        <Input onChange={(e) => {
+                            handleInputChange(e);
+                            handleSearchPostcode();
+                        }}/>
                     </Form.Item>
                 )}
-                <Form.Item label="Flat or house number">
-                    <h4>this is kept hidden from listing</h4>
-                    <Input/>
-                </Form.Item>
-                <Form.Item label="Address line 2 (optional) ">
-                    <Input/>
-                </Form.Item>
-                <Form.Item label="Address line 3 (optional) ">
-                    <Input/>
-                </Form.Item>
-                <Form.Item label="Town">
-                    <Input/>
-                </Form.Item>
-                <Form.Item label="Property type">
-                    <Select>
-                        <OptGroup label='Single Occupancy'>
-                            <Select.Option value="Studio Flat">Stuido Flat</Select.Option>
-                            <Select.Option value="Bedsit">Bedsit</Select.Option>
-                        </OptGroup>
-                        <OptGroup label='House'>
-                            <Select.Option value="Detached">Detached</Select.Option>
-                            <Select.Option value="Semi-Detached">Semi-Detached</Select.Option>
-                            <Select.Option value="Terrace">Terrace</Select.Option>
-                            <Select.Option value="Bungalow">Bungalow</Select.Option>
-                            <Select.Option value="End Terrace">End Terrace</Select.Option>
-                        </OptGroup>
-                        <OptGroup label='Flat'>
-                            <Select.Option value="Flat">Flat</Select.Option>
-                            <Select.Option value="Penthouse">Penthouse</Select.Option>
-                            <Select.Option value="Maisonette">Maisonette</Select.Option>
-                        </OptGroup>
-                        <OptGroup label='Other types'>
-                            <Select.Option value="Mobile home">Mobile Home</Select.Option>
-                            <Select.Option value="House boat">House Boat</Select.Option>
-                        </OptGroup>
-                    </Select>
-                </Form.Item>
+
+                <h1>Tenancy Details</h1>
+                
                 <Form.Item label="DatePicker">
                     <DatePicker/>
                 </Form.Item>
