@@ -1,1 +1,1 @@
-# Stellar Spaces 
+# StellarSpaces
