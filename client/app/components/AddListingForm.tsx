@@ -1,13 +1,17 @@
 import {PlusOutlined} from '@ant-design/icons';
+import {CSSTransition} from 'react-transition-group';
+import axios from 'axios';
+
+interface Address {
+    formatted_address: string;
+}
+
 import {
     Button,
-    Cascader,
-    Checkbox,
     DatePicker,
     Form,
     Input,
     InputNumber,
-    Radio,
     Select,
     Switch,
     TreeSelect,
@@ -15,6 +19,8 @@ import {
 } from 'antd';
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
+import event = google.maps.event;
+import {formatResults} from "next/dist/lib/eslint/customFormatter";
 
 const {RangePicker} = DatePicker;
 const {TextArea} = Input;
@@ -27,12 +33,74 @@ const normFile = (e: any) => {
 };
 
 const AddListingForm: React.FC = () => {
-    
-    function handleSubmitForm(){
-        setShowSelectAddress(true)
-    }
-    
     const [showSelectAddress, setShowSelectAddress] = useState(false)
+    const [addresses, setAddresses] = useState([])
+    const [postcode, SetPostcode] = useState('')
+    const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+
+    useEffect(() => {
+        const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+        script.async = true;
+        document.head.appendChild(script);
+    }, []);
+
+
+    async function handleSearchPostcode() {
+        setShowSelectAddress(true)
+        const bounds = await getBoundsFromPostalCode(postcode)
+        const addresses = await getAddressesFromBounds(bounds)
+        console.log(addresses)
+    }
+
+    function handleInputChange(e) {
+        SetPostcode(e.target.value)
+    }
+
+    async function getAddressesFromBounds(bounds) {
+        console.log(bounds)
+        const northEast = bounds[0].northeast
+        const southWest = bounds[0].southwest
+        console.log(northEast)
+        console.log(southWest)
+        const geocoder = new google.maps.Geocoder();
+        const LatLngBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(northEast.lat, northEast.lng),
+            new google.maps.LatLng(southWest.lat, southWest.lng)
+        );
+        console.log(LatLngBounds)
+        const bounds1 = new google.maps.LatLngBounds(
+            new google.maps.LatLng(40.712, -74.227), // southwest corner
+            new google.maps.LatLng(40.774, -74.125) // northeast corner
+        );
+
+        await geocoder.geocode({'bounds': bounds1 }, (results, status) => {
+            if (status === 'OK') {
+                console.log(results)
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        })
+
+    }
+
+    async function getBoundsFromPostalCode(postalCode: string): Promise<string[]> {
+
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${postalCode}&key=${apiKey}`;
+        try {
+            const response = await axios.get(url);
+            console.log(response.data.results)
+            const bounds = response.data.results.map((result: Address) => result.geometry.bounds);
+            console.log(bounds)
+            return bounds;
+        } catch (error) {
+            console.error(`Error getting addresses from postal code ${postalCode}: ${error}`);
+            return [];
+        }
+    }
+
+
     return (
         <>
             <h1>Property details</h1>
@@ -43,16 +111,18 @@ const AddListingForm: React.FC = () => {
                 style={{maxWidth: '100vw'}}
             >
                 <Form.Item label="Enter Postcode">
-                    <Input/>
-                    <Button onClick={handleSubmitForm}>Find Address</Button>
+                    <Input onChange={handleInputChange}/>
+                    <Button onClick={handleSearchPostcode}>Find Address</Button>
                 </Form.Item>
-                {showSelectAddress &&(
-                <Form.Item label="Select address">
-                    <Select>
-                        <Select.Option value="demo">Demo</Select.Option>
-                    </Select>
-                </Form.Item>
-                    )}
+                {showSelectAddress && (
+                    <Form.Item label="Select address">
+                        <Select>
+                            {addresses.map((address, index) => (
+                                <Select.Option key={index} value={address}>{address}</Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                )}
                 <Form.Item label="Flat or house number">
                     <h4>this is kept hidden from listing</h4>
                     <Input/>
