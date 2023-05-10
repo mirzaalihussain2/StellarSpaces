@@ -9,27 +9,23 @@ import './page.css'
 export default function App() {
     const parallax = useRef<IParallax>(null!)
     return (
-        <main style={{ overflow: 'hidden' }} >
-            <NavBar />
-            <div style={{ width: '100%', height: '90vh', background: '#2596be' }}>
-                <Parallax style={{ height: '90vh' }} ref={parallax} pages={5}>
+        <>
+            <div style={{ width: '100%', height: '100%', background: '#2596be' }}>
+                <Parallax ref={parallax} pages={5}>
                     <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
                     <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#87BCDE' }} />
-
-                    <ParallaxLayer
-                        offset={0}
-                        speed={0}
-                        factor={3}
+                    <ParallaxLayer offset={0} speed={0} factor={3}
                         style={{
                             backgroundImage: 'url("https://awv3node-homepage.surge.sh/build/assets/stars.svg")',
                             backgroundSize: 'cover',
                         }}
                     />
                     <ParallaxLayer offset={0} speed={0}>
+                        < NavBar />
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
                             <div style={{ width: '60%' }}>
                                 <img className='house' src={"https://i.imgur.com/y0l7pBS.jpeg"} />
-                                <p style={{ fontSize: '30px' }}>
+                                <p style={{ fontSize: '20px' }}>
                                     STARTS HERE!!!
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
 
@@ -61,9 +57,7 @@ export default function App() {
                         </div>
                     </ParallaxLayer>
                 </Parallax>
-
             </div>
-
-        </main>
+        </>
     )
 }

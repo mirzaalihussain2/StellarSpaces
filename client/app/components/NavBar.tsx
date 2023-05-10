@@ -85,8 +85,8 @@ const NavBar: React.FC = () => {
     };
 
     return (
-        <div style={{ height: '10vh' }}>
-            < Menu style={{ display: 'flex', justifyContent: 'space-between', marginLeft: '2vw', fontSize: '2vw', height: '4vw', backgroundColor: 'white' }} selectedKeys={[current]} mode="horizontal"
+        <div>
+            < Menu style={{ display: 'flex', justifyContent: 'space-between', fontSize: '2vw', height: '4vw', backgroundColor: 'white' }} selectedKeys={[current]} mode="horizontal"
                 items={items} />
 
             {showLogin ? <Login toggle={togglePop} /> : null}
