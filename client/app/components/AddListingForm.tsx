@@ -33,7 +33,7 @@ const normFile = (e: any) => {
 };
 
 const AddListingForm: React.FC = () => {
-    const [showSelectAddress, setShowSelectAddress] = useState(false)
+  
     const [postcodeValidation, setPostcodeValidation] = useState(false)
     const [postcode, SetPostcode] = useState('')
     const [streetName, SetStreetName] = useState('')
@@ -43,20 +43,21 @@ const AddListingForm: React.FC = () => {
 
 
     async function handleSearchPostcode() {
-        setShowSelectAddress(true)
+       
         const address = await getAddress(postcode)
         console.log(address)
         if (address[0]['address_components'].length > 5 && address[0]['address_components'][5]['long_name'] === 'United Kingdom') {
             SetStreetName(address[0]['address_components'][1]['long_name'])
             setCity(address[0]['address_components'][2]['long_name'])
+            setCounty(address[0]['address_components'][3]['long_name'])
             setPostcodeValidation(true)
         } else setPostcodeValidation(false)
 
     }
 
     function handleInputChange(e) {
+        e.preventDefault()
         SetPostcode(e.target.value)
-
     }
 
 
@@ -78,7 +79,7 @@ const AddListingForm: React.FC = () => {
 
     return (
         <>
-            <h1>Property details</h1>
+            <h1>Where is your property located?</h1>
             <Form
                 labelCol={{span: 4}}
                 wrapperCol={{span: 14}}
@@ -108,9 +109,10 @@ const AddListingForm: React.FC = () => {
                         <Form.Item label="Town or city">
                             <Input value={city}/>
                         </Form.Item>
-                        <Form.Item label="county">
+                        <Form.Item label="County">
                             <Input value={county}/>
                         </Form.Item>
+                        <h1>Property Details</h1>
                         <Form.Item label="Property type">
                             <Select>
                                 <OptGroup label='Single Occupancy'>
@@ -141,10 +143,15 @@ const AddListingForm: React.FC = () => {
                         <Form.Item label="Number of bathrooms">
                             <InputNumber/>
                         </Form.Item>
-                        <Form.Item label="Garage?">
+                        <Form.Item label="Is there a garage?">
                             <Checkbox/>
                         </Form.Item>
-                     
+                        <Form.Item label="Is there a garden?">
+                            <Checkbox/>
+                        </Form.Item>
+                        <Form.Item label="Add description">
+                            <TextArea rows={4}/>
+                        </Form.Item>
                         <Form.Item label="Upload Photos" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload action="/upload.do" listType="picture-card">
                                 <div>
@@ -156,6 +163,38 @@ const AddListingForm: React.FC = () => {
                         <Form.Item label="Youtube URL">
                             <Input/>
                         </Form.Item>
+                        <h1>Tenancy Details</h1>
+                        <Form.Item label="Monthly rent">
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item label="Deposit Amount">
+                            <Select>
+                                <Select.Option value="Studio Flat">None</Select.Option>
+                                <Select.Option value="Bedsit">2 week</Select.Option>
+                                <Select.Option value="Bedsit">3 week</Select.Option>
+                                <Select.Option value="Bedsit">1 month</Select.Option>
+                                <Select.Option value="Bedsit">Custom</Select.Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Earliest Movie In Date">
+                            <DatePicker/>
+                        </Form.Item>
+                        <Form.Item label="Minimum Tenancy Length">
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item label="Maximum Number of Tenants">
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item label="Are pets allowed?">
+                            <Checkbox/>
+                        </Form.Item>
+                    
+                    <Form.Item>
+                        <Button style={{margin: '1vw'}}>Discard</Button>
+                        <Button style={{margin: '1vw'}}>Save as draft</Button>
+                        <Button style={{margin: '1vw'}}>Save and preview</Button>
+                    </Form.Item>
+
                     </>
                 ) : (
                     <Form.Item label="Enter Postcode" hasFeedback validateStatus="validating">
@@ -164,48 +203,16 @@ const AddListingForm: React.FC = () => {
                             handleSearchPostcode();
                         }}/>
                     </Form.Item>
+                    
                 )}
-
-                <h1>Tenancy Details</h1>
-                
-                <Form.Item label="DatePicker">
-                    <DatePicker/>
-                </Form.Item>
-                <Form.Item label="RangePicker">
-                    <RangePicker/>
-                </Form.Item>
-                <Form.Item label="InputNumber">
-                    <InputNumber/>
-                </Form.Item>
-                <Form.Item label="Add description">
-                    <TextArea rows={4}/>
-                </Form.Item>
-                <Form.Item label="Switch" valuePropName="checked">
-                    <Switch/>
-                </Form.Item>
-                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
-                    <Upload action="/upload.do" listType="picture-card">
-                        <div>
-                            <PlusOutlined/>
-                            <div style={{marginTop: 8}}>Upload</div>
-                        </div>
-                    </Upload>
-                </Form.Item>
-                <Form.Item label="TreeSelect">
-                    <TreeSelect
-                        treeData={[
-                            {title: 'Light', value: 'light', children: [{title: 'Bamboo', value: 'bamboo'}]},
-                        ]}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button style={{margin: '1vw'}}>Discard</Button>
-                    <Button style={{margin: '1vw'}}>Save as draft</Button>
-                    <Button style={{margin: '1vw'}}>Save and preview</Button>
-                </Form.Item>
             </Form>
+
+              
+            
         </>
-    );
+);
 };
 
-export default () => <AddListingForm/>;
+export default () =>
+    <AddListingForm/>
+;
