@@ -49,6 +49,31 @@ const AddListingForm: React.FC = () => {
                         <Select.Option value="demo">Demo</Select.Option>
                     </Select>
                 </Form.Item>
+                <Form.Item label="Flat or house number">
+                    <h4>this is kept hidden from listing</h4>
+                    <Input/>
+                </Form.Item>
+                <Form.Item label="Address line 2 (optional) ">
+                    <Input/>
+                </Form.Item>
+                <Form.Item label="Address line 3 (optional) ">
+                    <Input/>
+                </Form.Item>
+                <Form.Item label="Town">
+                    <Input/>
+                </Form.Item>
+                <Form.Item label="Property type">
+                    <Select>
+                        <Select.Option value="demo">Demo</Select.Option>
+                        <Select.Option value="demo">Demo</Select.Option>
+                        <Select.Option >Demo</Select.Option>
+                        <h1>House</h1>
+                        <Select.Option value="demo">Demo</Select.Option>
+                        <Select.Option value="demo">Demo</Select.Option>
+                        <Select.Option value="demo">Demo</Select.Option>
+                    </Select>
+                   
+                </Form.Item>
                 <Form.Item label="DatePicker">
                     <DatePicker/>
                 </Form.Item>
@@ -72,8 +97,17 @@ const AddListingForm: React.FC = () => {
                         </div>
                     </Upload>
                 </Form.Item>
-                <Form.Item label="Button">
-                    <Button>Button</Button>
+                <Form.Item label="TreeSelect">
+                    <TreeSelect
+                        treeData={[
+                            { title: 'Light', value: 'light', children: [{ title: 'Bamboo', value: 'bamboo' }] },
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item >
+                    <Button style={{margin:'1vw'}}>Discard</Button>
+                    <Button style={{margin:'1vw'}}>Save as draft</Button>
+                    <Button style={{margin:'1vw'}}>Save and preview</Button>
                 </Form.Item>
             </Form>
         </>
