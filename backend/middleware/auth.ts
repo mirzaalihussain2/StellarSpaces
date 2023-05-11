@@ -40,6 +40,7 @@ passport.use(
 
 passport.use(
   new LocalStrategy(
+    //to login, you need email and password, usernameField is set to 'email' and passwordField set to password for the local passport strategy, so local users must use a valid email and passport to log in
     {
       usernameField: 'email',
       passwordField: 'password',
@@ -60,6 +61,7 @@ const jwtOptions = {
 };
 
 passport.use(
+  //assigns a jwt to user
   new JwtStrategy(jwtOptions, function (jwtPayload, done) {
     const user = getUserById(jwtPayload.id);
     if (!user) {
@@ -83,6 +85,7 @@ function authenticateJwt(
   next: NextFunction
 ): void {
   passport.authenticate(
+    //authenticates the json webtoken which was generated
     'jwt',
     { session: false },
     function (err: Error, user: Express.User | undefined, info: String) {
@@ -101,24 +104,7 @@ function authenticateJwt(
 function authRoutes(): Router {
   const express = require('express');
   const router = express.Router();
-
-  router.post(
-    '/login',
-    passport.authenticate('local', { session: false }),
-    function (req: Request, res: Response) {
-      const token = generateJwtToken(req.user as User);
-      res.json({ token });
-    }
-  );
-
-  router.get(
-    '/protected',
-    authenticateJwt,
-    function (req: Request, res: Response) {
-      res.json({ message: 'Protected content' });
-    }
-  );
-
+  //google login strategy
   router.get(
     '/google',
     passport.authenticate('google', {
@@ -126,7 +112,7 @@ function authRoutes(): Router {
       session: false,
     })
   );
-
+  //google login strategy
   router.get(
     '/google/callback',
     passport.authenticate('google', { session: false }),
