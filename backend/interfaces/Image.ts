@@ -6,7 +6,6 @@ export interface Image {
   // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
 
   // foreign keys
   listingId: number;

@@ -6,11 +6,11 @@ export interface User {
   firstName: string;
   lastName: string;
   DOB: Date;
-
+  //
+  googleId?: string;
   // datetime boilerplate
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
 
   // foreign keys
 }
