@@ -144,7 +144,7 @@ export default function App() {
                                     Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!
                                 </p>
                                 <div className="container">
-                                    <Card title="Mr LandLord" content="Message Landlord" />
+                                    <Card title="Mr LandLord" content="I Hate Poor People. Give me your money." />
                                 </div>
 
                             </div>
