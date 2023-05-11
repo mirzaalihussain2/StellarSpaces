@@ -1,10 +1,9 @@
 'use client'
 import Image from 'next/image'
 import styles from './page.module.css'
-import { useState, useEffect, useRef } from 'react'
-import Login from '../components/login'
+
 import Head from 'next/head'
-import Script from 'next/script'
+
 import NavBar from '../components/NavBar'
 import banner from '../../public/wood.jpg'
 import Link from "next/link";

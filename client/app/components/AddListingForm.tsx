@@ -1,5 +1,4 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {CSSTransition} from 'react-transition-group';
 import axios from 'axios';
 
 interface Address {
@@ -13,14 +12,11 @@ import {
     Input,
     InputNumber,
     Select,
-    Switch,
-    TreeSelect,
     Upload,
 } from 'antd';
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
-import event = google.maps.event;
-import {formatResults} from "next/dist/lib/eslint/customFormatter";
+
 
 const {RangePicker} = DatePicker;
 const {TextArea} = Input;
@@ -33,11 +29,24 @@ const normFile = (e: any) => {
 };
 
 const AddListingForm: React.FC = () => {
-    const [postcodeValidation, setPostcodeValidation] = useState(false)
+    const [postcodeValidation, SetPostcodeValidation] = useState(false)
     const [postcode, SetPostcode] = useState('')
     const [streetName, SetStreetName] = useState('')
     const [city, SetCity] = useState('')
     const [county, SetCounty] = useState('')
+    const [flatOrHouseNumb,SetFlatOrHouseNumb] = useState(null)
+    const [propertyType,SetPropertyType] =useState('')
+    const [addressLine2,SetAddressLine2] =useState('')
+    const [description,SetDescription] = useState('')
+    const [petsAllowed,SetPetsAllowed] = useState(false)
+    const [hasGarage,SetHasGarage] = useState(false)
+    const [monthlyRent,SetMonthlyRent] = useState(null)
+    const [bedroomNumb,SetBedroomNumb] =useState(null)
+    const [bathroomNumb,SetBathroomNumb] =useState(null)
+    const [images,SetImages] = useState([])
+    const [youtubeURL,SetYoutubeURL] = useState('')
+    
+    
     const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
 
     async function handleSearchPostcode() {
@@ -48,16 +57,53 @@ const AddListingForm: React.FC = () => {
             SetStreetName(address[0]['address_components'][1]['long_name'])
             SetCity(address[0]['address_components'][2]['long_name'])
             SetCounty(address[0]['address_components'][3]['long_name'])
-            setPostcodeValidation(true)
-        } else setPostcodeValidation(false)
+            SetPostcodeValidation(true)
+        } else SetPostcodeValidation(false)
     }
-
-    function handleInputChange(e) {
-        console.log(e.target.value)
-        SetPostcode(e.target.value)
+    
+    function onSave(){
+        const Obj = {postcode,streetName,city,county,flatOrHouseNumb,propertyType,addressLine2,description,petsAllowed,hasGarage,monthlyRent,bedroomNumb,bathroomNumb,youtubeURL}
+        
+        console.log(Obj)
     }
-
-
+    
+    function handleNumberInput(value:Number|null,setter):void{
+        if(value){
+            setter(value) 
+        }
+        
+    }
+    function handleInputChange(e,setter) {
+        e.preventDefault()
+        setter(e.target.value)
+        console.log(propertyType,'test')
+        console.log(images)
+        
+    }
+    
+    function handlePropertySelect(value)
+    {
+        SetPropertyType(value)
+    }
+    
+    function handleCheckbox(e,setter):void{
+        console.log(e.target.checked)
+        if(e.target.checked) setter(true)
+        else setter(false)
+    }
+    
+    function handleImageInput(newImage){
+        if(newImage.file.status==='removed'){
+            const newImages = images.filter((file) => file.uid != newImage.file.uid);
+            SetImages(newImages);
+        }
+        else{
+            SetImages(prevImages => [...prevImages, newImage.file]);
+        }
+  
+        
+    }
+    
     async function getAddress(postCode: string): Promise<string[]> {
 
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${postCode}&key=${apiKey}`;
@@ -90,69 +136,75 @@ const AddListingForm: React.FC = () => {
                         <>
                             <Form.Item label="Enter Postcode" hasFeedback validateStatus="success">
                                 <Input value={postcode} onChange={(e) => {
-                                    handleInputChange(e);
+                                    handleInputChange(e,SetPostcode);
                                     handleSearchPostcode();
                                 }}/>
                             </Form.Item>
                             <Form.Item label="Flat or house number">
                                 <h4 style={{position: 'absolute', marginLeft: '-10.5vw'}}>will be kept hidden</h4>
-                                <Input/>
+                                <Input value={flatOrHouseNumb} onChange={(e) => {
+                                    handleInputChange(e,SetFlatOrHouseNumb)}} />
                             </Form.Item>
                             <Form.Item label="Street address ">
-                                <Input value={streetName}/>
+                                <Input value={streetName} onChange={(e) => {
+                                    handleInputChange(e,SetStreetName)}}/>
                             </Form.Item>
                             <Form.Item label="Address line 2 (optional) ">
-                                <Input/>
+                                <Input value ={addressLine2} onChange={(e) => {
+                                    handleInputChange(e,SetAddressLine2)}}/>
                             </Form.Item>
                             <Form.Item label="Town or city">
-                                <Input value={city}/>
+                                <Input value={city} onChange={(e) => {
+                                    handleInputChange(e,SetCity)}}/>
                             </Form.Item>
                             <Form.Item label="County">
-                                <Input value={county}/>
+                                <Input value={county} onChange={(e) => {
+                                    handleInputChange(e,SetCounty)}}/>
                             </Form.Item>
                             <h1>Property Details</h1>
                             <Form.Item label="Property type">
-                                <Select>
+                                <Select onSelect={(value)=>{handlePropertySelect(value)}}>
                                     <OptGroup label='Single Occupancy'>
-                                        <Select.Option value="Studio Flat">Stuido Flat</Select.Option>
-                                        <Select.Option value="Bedsit">Bedsit</Select.Option>
+                                        <Select.Option value="studio flat">Studio Flat</Select.Option>
+                                        <Select.Option value="bedsit">Bedsit</Select.Option>
                                     </OptGroup>
                                     <OptGroup label='House'>
-                                        <Select.Option value="Detached">Detached</Select.Option>
-                                        <Select.Option value="Semi-Detached">Semi-Detached</Select.Option>
-                                        <Select.Option value="Terrace">Terrace</Select.Option>
-                                        <Select.Option value="Bungalow">Bungalow</Select.Option>
-                                        <Select.Option value="End Terrace">End Terrace</Select.Option>
+                                        <Select.Option value="detached">Detached</Select.Option>
+                                        <Select.Option value="demi-detached">Semi-Detached</Select.Option>
+                                        <Select.Option value="terrace">Terrace</Select.Option>
+                                        <Select.Option value="bungalow">Bungalow</Select.Option>
+                                        <Select.Option value="end terrace">End Terrace</Select.Option>
                                     </OptGroup>
 
                                     <OptGroup label='Flat'>
-                                        <Select.Option value="Flat">Flat</Select.Option>
-                                        <Select.Option value="Penthouse">Penthouse</Select.Option>
-                                        <Select.Option value="Maisonette">Maisonette</Select.Option>
+                                        <Select.Option value="flat">Flat</Select.Option>
+                                        <Select.Option value="penthouse">Penthouse</Select.Option>
+                                        <Select.Option value="maisonette">Maisonette</Select.Option>
                                     </OptGroup>
-                                    <OptGroup label='Other types'>
-                                        <Select.Option value="Mobile home">Mobile Home</Select.Option>
-                                        <Select.Option value="House boat">House Boat</Select.Option>
+                                    <OptGroup label='other types'>
+                                        <Select.Option value="mobile home">Mobile Home</Select.Option>
+                                        <Select.Option value="house boat">House Boat</Select.Option>
                                     </OptGroup>
                                 </Select>
                             </Form.Item>
                             <Form.Item label="Number of bedrooms">
-                                <InputNumber/>
+                                <InputNumber value={bedroomNumb} onChange={(value)=>{handleNumberInput(value,SetBedroomNumb)}} />
                             </Form.Item>
                             <Form.Item label="Number of bathrooms">
-                                <InputNumber/>
+                                <InputNumber value ={bathroomNumb} onChange={(value)=>{handleNumberInput(value,SetBathroomNumb)}}  />
                             </Form.Item>
                             <Form.Item label="Is there a garage?">
-                                <Checkbox/>
+                                <Checkbox checked={hasGarage} onChange={(e)=>{handleCheckbox(e,SetHasGarage)}}/>
                             </Form.Item>
                             {/*<Form.Item label="Is there a garden?">*/}
                             {/*    <Checkbox/>*/}
                             {/*</Form.Item>*/}
                             <Form.Item label="Add description">
-                                <TextArea rows={4}/>
+                                <TextArea value ={description} onChange={(e) => {
+                                    handleInputChange(e,SetDescription)}} rows={4}/>
                             </Form.Item>
                             <Form.Item label="Upload Photos" valuePropName="fileList" getValueFromEvent={normFile}>
-                                <Upload action="/upload.do" listType="picture-card">
+                                <Upload beforeUpload={() => false} onChange={(e)=>{handleImageInput(e)}}  listType="picture-card">
                                     <div>
                                         <PlusOutlined/>
                                         <div style={{marginTop: 8}}>Upload</div>
@@ -160,11 +212,12 @@ const AddListingForm: React.FC = () => {
                                 </Upload>
                             </Form.Item>
                             <Form.Item label="Youtube URL">
-                                <Input/>
+                                <Input value= {youtubeURL} onChange={(e) => {
+                                    handleInputChange(e,SetYoutubeURL)}}/>
                             </Form.Item>
                             <h1>Tenancy Details</h1>
                             <Form.Item label="Monthly rent">
-                                <InputNumber/>
+                                <InputNumber value={monthlyRent}onChange={(value)=>{handleNumberInput(value,SetMonthlyRent)}}/>
                             </Form.Item>
                             {/*<Form.Item label="Earliest Movie In Date">*/}
                             {/*    <DatePicker/>*/}
@@ -176,12 +229,12 @@ const AddListingForm: React.FC = () => {
                             {/*    <InputNumber/>*/}
                             {/*</Form.Item>*/}
                             <Form.Item label="Are pets allowed?">
-                                <Checkbox/>
+                                <Checkbox checked={petsAllowed} onChange={(e)=>{handleCheckbox(e,SetPetsAllowed)}}/>
                             </Form.Item>
 
                             <Form.Item>
                                 <Button style={{margin: '1vw'}}>Discard</Button>
-                                <Button style={{margin: '1vw'}}>Save as draft</Button>
+                                <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
                                 <Button style={{margin: '1vw'}}>Save and preview</Button>
                             </Form.Item>
 
@@ -189,7 +242,7 @@ const AddListingForm: React.FC = () => {
                     ) : (
                         <Form.Item label="Enter Postcode" hasFeedback validateStatus={postcode ? "validating" : ""}>
                             <Input value={postcode}  onChange={(e) => {
-                                handleInputChange(e);
+                                handleInputChange(e,SetPostcode);
                                 handleSearchPostcode();
                             }}/>
                         </Form.Item>
