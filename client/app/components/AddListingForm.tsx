@@ -217,7 +217,7 @@ const AddListingForm: React.FC = () => {
                             </Form.Item>
                             <h1>Tenancy Details</h1>
                             <Form.Item label="Monthly rent">
-                                <InputNumber value={monthlyRent}onChange={(value)=>{handleNumberInput(value,SetMonthlyRent)}}/>
+                                <InputNumber value={monthlyRent} onChange={(value)=>{handleNumberInput(value,SetMonthlyRent)}}/>
                             </Form.Item>
                             {/*<Form.Item label="Earliest Movie In Date">*/}
                             {/*    <DatePicker/>*/}

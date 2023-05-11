@@ -2,7 +2,8 @@
 
 import NavBar from "@/app/components/NavBar";
 import Map from '../components/Map'
-export default function PropertySearch() {
+export default function PropertySearch({location}) {
+    console.log(location)
     return (
         <>
             <NavBar></NavBar>
