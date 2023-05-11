@@ -12,8 +12,14 @@ const propertyTypes = [
   'mobile home',
   'house boat'
 ] as const;
-
 type PropertyType = typeof propertyTypes[number];
+
+const status = [
+  'live',
+  'dormant',
+  'let agreed'
+] as const;
+type Status = typeof status[number];
 
 export interface Listing {
   // flat data fields
@@ -27,7 +33,7 @@ export interface Listing {
   numOfBathrooms: number;
   petsAllowed: boolean;
   hasGarage: boolean;
-  status: string;
+  status: Status;
 
   // address as flat data fields
   addressApartmentFloorNum?: number;

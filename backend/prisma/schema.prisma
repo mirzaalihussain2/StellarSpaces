@@ -38,14 +38,14 @@ model Listing {
   id             Int     @id @default(autoincrement())
   title          String
   description    String  @default("")
-  propertyType   String // define types & add type-safety (studio flat, bedsit, detached, semi-detached, bungalow, etc)
+  propertyType   String
   video          String?
   price          Int
   numOfBedrooms  Int
   numOfBathrooms Int
   petsAllowed    Boolean @default(false)
   hasGarage      Boolean @default(false)
-  status         String // define types & add type-safety (live, dormant, letAgreed)
+  status         String
 
   // address as flat data fields
   addressApartmentFloorNum Int?
