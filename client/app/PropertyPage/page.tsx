@@ -1,7 +1,7 @@
 'use client'
 import './page.css';
 import NavBar from '../components/NavBar'
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 //import star from './stars.svg'
 import './page.css'
@@ -11,6 +11,33 @@ import { UserOutlined } from '@ant-design/icons';
 import profilePicture from './profile-picture.png'
 import Image from 'next/image';
 import { Button, Space } from "antd";
+import ImageGallery from 'react-image-gallery';
+
+
+const MyGallery = () => {
+    const [images, setImages] = useState<{ original: string; thumbnail: string; }[]>([]);
+
+    useEffect(() => {
+        const images = [
+            {
+                original: 'https://picsum.photos/id/1018/1000/600/',
+                thumbnail: 'https://picsum.photos/id/1018/250/150/',
+            },
+            {
+                original: 'https://picsum.photos/id/1015/1000/600/',
+                thumbnail: 'https://picsum.photos/id/1015/250/150/',
+            },
+            {
+                original: 'https://picsum.photos/id/1019/1000/600/',
+                thumbnail: 'https://picsum.photos/id/1019/250/150/',
+            },
+        ];
+        setImages(images);
+    }, []);
+
+    return <ImageGallery items={images} />;
+};
+
 
 interface CardProps {
     title: string;
@@ -62,8 +89,9 @@ export default function App() {
                     <ParallaxLayer offset={0} speed={0}>
                         < NavBar />
                         <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', color: 'black' }}>
-                            <div style={{ width: '65%' }}>
-                                <img className='house' src={"https://i.imgur.com/y0l7pBS.jpeg"} />
+                            <div style={{ width: '65%', marginTop: '50px' }}>
+                                <MyGallery />
+                                {/* <img className='house' src={"https://i.imgur.com/y0l7pBS.jpeg"} /> */}
                                 <p className='propertyDescription' style={{ fontSize: '20px' }}>
                                     STARTS HERE!!!
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
@@ -93,7 +121,7 @@ export default function App() {
                                     Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!
                                 </p>
                             </div>
-                            <div style={{ width: '30%' }}>
+                            <div style={{ width: '30%', marginTop: '30px' }}>
 
                                 <p className='propertyDescription' style={{ fontSize: '20px' }}>
                                     STARTS HERE!!!
