@@ -3,6 +3,7 @@ import { AppstoreOutlined, HomeOutlined, LoginOutlined, SettingOutlined } from '
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import Login from './login';
+import Link from "next/link";
 
 
 
@@ -16,7 +17,7 @@ const NavBar: React.FC = () => {
     }
     const items: MenuProps['items'] = [
         {
-            label: 'Stellar Spaces',
+            label: <Link href={'/'}>Stellar Spaces </Link>,
             key: 'HomeOutlined',
             icon: <HomeOutlined style={{ fontSize: '3vw' }} />,
         },

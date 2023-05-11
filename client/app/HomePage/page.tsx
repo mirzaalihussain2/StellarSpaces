@@ -7,6 +7,7 @@ import Head from 'next/head'
 import NavBar from '../components/NavBar'
 import banner from '../../public/wood.jpg'
 import Link from "next/link";
+import {Input} from "antd";
 
 export default function HomePage() {
 
@@ -30,7 +31,8 @@ export default function HomePage() {
                 background="transparent" speed="1"
                 style={{ paddingTop: '10px', position: 'absolute', width: '40vw', height: '30vw' }}
                 loop autoplay></lottie-player>
-              <button className={styles.cardButton}>View properties</button>
+              <Input label ='Enter postcode'></Input>
+              <Link href={'/PropertySearch'} className={styles.cardButton}>View Properties</Link>
             </div>
             <div className={styles.card}>
               <h2 className={styles.cardLabel}>List a space</h2>
