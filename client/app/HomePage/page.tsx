@@ -16,13 +16,13 @@ import {updateLocation} from "@/app/store/store";
 
 export default function HomePage() {
 
-    const dispatch = useDispatch();
-    const location = useSelector((state) => state.location.location);
-
-    function handleLocation(e) {
-        const newLocation = e.target.value
-        dispatch(updateLocation(newLocation))
-    }
+    // const dispatch = useDispatch();
+    // const location = useSelector((state) => state.location.location);
+    //
+    // function handleLocation(e) {
+    //     const newLocation = e.target.value
+    //     dispatch(updateLocation(newLocation))
+    // }
 
     return (
         <>
