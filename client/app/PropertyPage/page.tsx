@@ -20,22 +20,34 @@ const MyGallery = () => {
     useEffect(() => {
         const images = [
             {
-                original: 'https://picsum.photos/id/1018/1000/600/',
-                thumbnail: 'https://picsum.photos/id/1018/250/150/',
+                original: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
             },
             {
-                original: 'https://picsum.photos/id/1015/1000/600/',
-                thumbnail: 'https://picsum.photos/id/1015/250/150/',
+                original: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
             },
             {
-                original: 'https://picsum.photos/id/1019/1000/600/',
-                thumbnail: 'https://picsum.photos/id/1019/250/150/',
+                original: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
             },
+            {
+                original: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
+            },
+            {
+                original: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
+            },
+            {
+                original: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
+                thumbnail: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
+            }
         ];
         setImages(images);
     }, []);
 
-    return <ImageGallery items={images} />;
+    return <ImageGallery items={images} showBullets={true} />;
 };
 
 
