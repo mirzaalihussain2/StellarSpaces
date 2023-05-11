@@ -5,15 +5,54 @@ import React, { useRef } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 //import star from './stars.svg'
 import './page.css'
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+// import 'antd/dist/antd.css';
+import profilePicture from './profile-picture.png'
+import Image from 'next/image';
+import { Button, Space } from "antd";
+
+interface CardProps {
+    title: string;
+    content: string;
+}
+
+const Card: React.FC<CardProps> = ({ title, content }) => {
+    return (
+        <div className="card">
+            <Image src={profilePicture} alt={title} width={100} height={100} />
+            <h1>{title}</h1>
+            <p>{content}</p>
+
+            <Space direction="vertical" style={{ width: "100%", }}>
+                <Button type="primary" htmlType="submit" block>
+                    Message Landlord
+                </Button>
+                <Button type="primary" htmlType="submit" block>
+                    Book a Viewing
+                </Button>
+                <Button type="primary" htmlType="submit" block>
+                    Save to Favourites
+                </Button>
+                <Button type="primary" htmlType="submit" block>
+                    Share Link
+                </Button>
+                <Button type="primary" htmlType="submit" block>
+                    View Similar Properties
+                </Button>
+            </Space>
+        </div>
+    );
+};
 
 export default function App() {
     const parallax = useRef<IParallax>(null!)
     return (
         <>
             <div style={{ width: '100%', height: '100%', background: '#2596be' }}>
-                <Parallax ref={parallax} pages={5}>
+                <Parallax ref={parallax} pages={4}>
                     <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
-                    <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#87BCDE' }} />
+                    <ParallaxLayer offset={3} speed={1} style={{ backgroundColor: '#B2FFD6' }} />
                     <ParallaxLayer offset={0} speed={0} factor={3}
                         style={{
                             backgroundImage: 'url("https://awv3node-homepage.surge.sh/build/assets/stars.svg")',
@@ -22,10 +61,10 @@ export default function App() {
                     />
                     <ParallaxLayer offset={0} speed={0}>
                         < NavBar />
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
-                            <div style={{ width: '60%' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', color: 'black' }}>
+                            <div style={{ width: '65%' }}>
                                 <img className='house' src={"https://i.imgur.com/y0l7pBS.jpeg"} />
-                                <p style={{ fontSize: '20px' }}>
+                                <p className='propertyDescription' style={{ fontSize: '20px' }}>
                                     STARTS HERE!!!
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
 
@@ -53,6 +92,21 @@ export default function App() {
 
                                     Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!
                                 </p>
+                            </div>
+                            <div style={{ width: '30%' }}>
+
+                                <p className='propertyDescription' style={{ fontSize: '20px' }}>
+                                    STARTS HERE!!!
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
+
+                                    Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
+
+                                    Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!
+                                </p>
+                                <div className="container">
+                                    <Card title="Mr LandLord" content="Message Landlord" />
+                                </div>
+
                             </div>
                         </div>
                     </ParallaxLayer>
