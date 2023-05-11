@@ -24,11 +24,11 @@
     "react-redux": "^8.0.5",
     "react-transition-group": "^4.4.5",
     "typescript": "5.0.4",
-    "react-image-gallery": "^1.2.11",
+    "react-image-gallery": "^1.2.11"
   },
   "devDependencies": {
     "@types/google.maps": "^3.53.1",
-    "@types/react-transition-group": "^4.4.6"
-      "@types/react-image-gallery": "^1.2.0"
+    "@types/react-transition-group": "^4.4.6",
+    "@types/react-image-gallery": "^1.2.0"
   }
 }
