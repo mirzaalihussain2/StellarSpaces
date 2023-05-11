@@ -8,17 +8,13 @@ import {
   getUserById,
   loginUser,
 } from '../models/userModel';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { Request, Response, NextFunction, Router } from 'express';
-import { GoogleProfile } from '../interfaces/GoogleProfile';
 
-interface User {
-  id: string;
-  email: string;
-}
+import { User } from '../interfaces/User';
 
-async function findOrCreateUser(profile: GoogleProfile) {
-  let user = await getUserByEmail(profile.emails[0].value);
+async function findOrCreateUser(profile: Profile) {
+  let user = await getUserByEmail(profile.emails?.[0]?.value || '');
 
   if (!user) {
     user = await createUserFromGoogleProfile(profile);
@@ -32,9 +28,10 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: 'http://localhost:3001/auth/google/callback',
+      callbackURL: 'http://localhost:3010/auth/google/callback',
+      passReqToCallback: true,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (req, accessToken, refreshToken, profile, done) => {
       const user = await findOrCreateUser(profile);
       return done(null, user);
     }
@@ -85,16 +82,20 @@ function authenticateJwt(
   res: Response,
   next: NextFunction
 ): void {
-  passport.authenticate('jwt', { session: false }, function (err, user, info) {
-    if (err) {
-      return next(err);
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    function (err: Error, user: Express.User | undefined, info: String) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      req.user = user;
+      next();
     }
-    if (!user) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    req.user = user;
-    next();
-  })(req, res, next);
+  )(req, res, next);
 }
 
 function authRoutes(): Router {
@@ -141,7 +142,7 @@ function authController(req: Request, res: Response, next: NextFunction): void {
   passport.authenticate(
     'local',
     { session: false },
-    async function (err, user, info) {
+    async function (err: any, user: User, info: any) {
       try {
         if (err) {
           return next(err);
