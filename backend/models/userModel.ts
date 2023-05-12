@@ -1,4 +1,4 @@
-import { GoogleProfile } from '../interfaces/GoogleProfile';
+import { Profile } from 'passport-google-oauth20';
 import { User } from '../interfaces/User';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 // (7) Hard-delete user by user.Id (user has not been previously soft-deleted)
 // Hard-delete users / records that have been soft-deleted - i.e. clean up database.
 
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 // Create a new user
 async function createUser(data: User) {
@@ -61,17 +61,27 @@ async function getUserByEmail(email: User['email']) {
 }
 
 // Create a user from Google profile
-async function createUserFromGoogleProfile(profile: GoogleProfile) {
-  return await prisma.user.create({
-    data: {
-      email: profile.emails[0].value,
-      displayName: profile.displayName,
-      googleId: profile.id,
-      // Add any other necessary fields from the Google profile
-    },
-  });
-}
 
+async function createUserFromGoogleProfile(profile: Profile) {
+  const email =
+    profile.emails && profile.emails[0] ? profile.emails[0].value : null;
+
+  const userData = {
+    email: email || '',
+    password: '',
+    firstName: profile._json.given_name || '',
+    lastName: profile._json.family_name || '',
+    DOB: '',
+    googleId: profile.id,
+    displayName: profile.displayName || null,
+  };
+
+  const createdUser = await prisma.user.create({
+    data: userData,
+  });
+
+  return createdUser;
+}
 // (1) Create a new user // tested by MAH @ 10 May, 3:50pm. WORKING
 // async function createUser(data: User) {
 //   return await prisma.user.create({

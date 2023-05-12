@@ -7,6 +7,7 @@ import cors from 'cors';
 import userRouter from './routes/userRouter';
 // import listingsRouter from './routes/listingsRouter';
 import { errorHandlingMiddleware } from './middleware/errorHandlingMiddleware';
+import { authRoutes } from './middleware/auth';
 
 dotenv.config();
 
@@ -18,6 +19,15 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/users', userRouter);
+app.use('/auth', authRoutes());
+
+/*
+
+http://localhost:3010/auth/google - initiates Google OAuth.
+http://localhost:3010/auth/google/callback - callback for Google OAuth.
+
+*/
+
 // app.use('/listings', listingsRouter);
 
 app.use(errorHandlingMiddleware);
