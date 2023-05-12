@@ -18,12 +18,13 @@ model User {
   firstName String
   lastName  String
   DOB       DateTime
-// google authentication
-googleId String?
-// displayName String?
+
+  // google authentication
+  googleId String?
+
   // datetime boilerplate
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   // relations TO other tables
   listings      Listing[]
   favourites    Favourites[]
@@ -37,14 +38,15 @@ model Listing {
   id             Int     @id @default(autoincrement())
   title          String
   description    String  @default("")
-  propertyType   String // define types & add type-safety (studio flat, bedsit, detached, semi-detached, bungalow, etc)
+  propertyType   String
   video          String?
   price          Int
   numOfBedrooms  Int
   numOfBathrooms Int
   petsAllowed    Boolean @default(false)
   hasGarage      Boolean @default(false)
-  status         String // define types & add type-safety (live, dormant, letAgreed)
+  status         String
+  featured       Boolean @default(false)
 
   // address as flat data fields
   addressApartmentFloorNum Int?
@@ -61,7 +63,7 @@ model Listing {
   updatedAt DateTime @updatedAt
 
   // relations FROM other tables
-  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   userId Int?
   // Note on Referential Actions (onDelete, onUpdate):
   // soft-delete a user by setting user.id to NULL (on user table) --> updating referenced original fields (to anything?) will propogate to rest of DB by onUpdate: SetNull
@@ -83,7 +85,7 @@ model Image {
   updatedAt DateTime @updatedAt
 
   // relations FROM other tables
-  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   listingId Int?
 
   // relations TO other tables
@@ -119,13 +121,13 @@ model Chat {
   updatedAt DateTime @updatedAt // should this be the datetime of the latest msg in chat?
 
   // relations FROM other tables
-  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   listingId Int?
 
-  landlord   User? @relation("LandlordChats", fields: [landlordId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  landlord   User? @relation("LandlordChats", fields: [landlordId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   landlordId Int?
 
-  tenant   User? @relation("TenantChats", fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  tenant   User? @relation("TenantChats", fields: [tenantId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   tenantId Int?
 
   // relations TO other tables
@@ -142,10 +144,10 @@ model Message {
   updatedAt DateTime @updatedAt
 
   // relations FROM other tables
-  chat   Chat? @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  chat   Chat? @relation(fields: [chatId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   chatId Int?
 
-  author   User? @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: SetNull)
+  author   User? @relation(fields: [authorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   authorId Int?
 
   // relations TO other tables
