@@ -18,9 +18,10 @@ model User {
   firstName String
   lastName  String
   DOB       DateTime
-// google authentication
-googleId String?
-// displayName String?
+
+  // google authentication
+  googleId String?
+
   // datetime boilerplate
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt

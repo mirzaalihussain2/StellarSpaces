@@ -6,13 +6,14 @@ import {
   updateListings,
   hardDeleteListings
 } from '../controllers/listingsController';
+import { authenticateJwt } from '../middleware/auth';
 
 const router = Router();
 
-router.post('/', createListings);
+router.post('/', authenticateJwt, createListings);
 router.get('/', fetchListings);
 router.get('/:id', getListingsById);
-router.put('/:id', updateListings);
-router.delete('/:id', hardDeleteListings);
+router.put('/:id', authenticateJwt, updateListings);
+router.delete('/:id', authenticateJwt, hardDeleteListings);
 
 export default router;

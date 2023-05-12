@@ -102,7 +102,7 @@ export {
   getListingById,
   userQuery,
   updateListing,
-  hardDeleteListing,
+  hardDeleteListing
 };
 
 

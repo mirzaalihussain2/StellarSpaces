@@ -5,7 +5,7 @@ import cors from 'cors';
 
 // Local imports
 import userRouter from './routes/userRouter';
-// import listingsRouter from './routes/listingsRouter';
+import listingsRouter from './routes/listingsRouter';
 import { errorHandlingMiddleware } from './middleware/errorHandlingMiddleware';
 import { authRoutes } from './middleware/auth';
 
@@ -28,7 +28,7 @@ http://localhost:3010/auth/google/callback - callback for Google OAuth.
 
 */
 
-// app.use('/listings', listingsRouter);
+app.use('/listings', listingsRouter);
 
 app.use(errorHandlingMiddleware);
 
