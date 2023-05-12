@@ -1,50 +1,85 @@
-import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import React, {useState} from 'react';
+import {
+    AppstoreOutlined,
+    CiCircleOutlined,
+    CloseCircleOutlined,
+    MailOutlined,
+    SettingOutlined
+} from '@ant-design/icons';
+import type {MenuProps} from 'antd';
+import {Dropdown, Form, Input, Menu} from 'antd';
+
+import RadiusDropDown from "@/app/components/radiusDropDown";
+import PriceRange from "@/app/components/PriceRange"
+import BedroomRange from "@/app/components/BedroomRange";
+import BathroomRange from "@/app/components/BathroomRange";
 
 const items: MenuProps['items'] = [
     {
-        label: 'Navigation One',
-        key: 'mail',
-        icon: <MailOutlined />,
+        label: <Form.Item label="Location">
+            <Input/>
+             </Form.Item>,
+        key: 'location'
     },
     {
-        label: 'Navigation Two',
-        key: 'app',
-        icon: <AppstoreOutlined />,
-        disabled: true,
+        label: <RadiusDropDown></RadiusDropDown>,
+        key: 'radius',
     },
     {
-        label: 'Navigation Three - Submenu',
-        key: 'SubMenu',
-        icon: <SettingOutlined />,
+        label: 'Property Type',
+        key: 'Property Type',
         children: [
             {
                 type: 'group',
-                label: 'Item 1',
+                label: 'Single Occupancy',
                 children: [
                     {
-                        label: 'Option 1',
-                        key: 'setting:1',
+                        label: 'Studio Flat',
+                        key: 'SF',
                     },
                     {
-                        label: 'Option 2',
-                        key: 'setting:2',
+                        label: 'Bedsit',
+                        key: 'BD',
                     },
                 ],
             },
             {
                 type: 'group',
-                label: 'Item 2',
+                label: 'House',
                 children: [
                     {
-                        label: 'Option 3',
+                        label: 'Detached',
                         key: 'setting:3',
                     },
                     {
-                        label: 'Option 4',
-                        key: 'setting:4',
+                        label: 'Semi-Detached',
+                        key: 'SD',
+                    },
+                    {
+                        label: 'Terrace',
+                        key: 'TE',
+                    },
+                    {
+                        label: 'Bungalow',
+                        key: 'BG',
+                    },
+                    {
+                        label: 'End Terrace',
+                        key: 'ET',
+                    },
+                ],
+            },
+            {
+                type: 'group',
+                label: 'other',
+                children: [
+                    {
+                        label: 'Mobile Home',
+                        key: 'MH',
+                    },
+                    {
+                        label: 'House Boat',
+                        key: 'HB',
                     },
                 ],
             },
@@ -52,11 +87,30 @@ const items: MenuProps['items'] = [
     },
     {
         label: (
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                Navigation Four - Link
-            </a>
+            <div style={{width:'15vw'}}>Monthly Rent
+                <PriceRange styles={{height:'20vw'}}></PriceRange>
+            </div>
+            
         ),
-        key: 'alipay',
+        key: 'moneyrange',
+    },
+    {
+        label: (
+            <div style={{width:'15vw'}}> Number of bedrooms
+               <BedroomRange></BedroomRange>
+            </div>
+
+        ),
+        key: 'bedrange',
+    },
+    {
+        label: (
+            <div style={{width:'15vw'}}> Number of bathrooms
+               <BathroomRange></BathroomRange>
+            </div>
+
+        ),
+        key: 'bathrange',
     },
 ];
 
@@ -68,7 +122,7 @@ const PropertySearchFilter: React.FC = () => {
         setCurrent(e.key);
     };
 
-    return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+    return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items}/>;
 };
 
 export default PropertySearchFilter;
