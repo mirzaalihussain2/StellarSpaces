@@ -1,6 +1,6 @@
 'use client'
 import './page.css';
-import NavBar from '../components/NavBar'
+import NavBar from '../../components/NavBar'
 import React, { useRef, useState, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 //import star from './stars.svg'
@@ -84,8 +84,16 @@ const Card: React.FC<CardProps> = ({ title, content }) => {
     );
 };
 
-export default function App() {
+type Props = {
+    params: {
+        propertyId: string;
+    };
+};
+
+export default function App({ params }: Props) {
     const parallax = useRef<IParallax>(null!)
+    //this is the dynamic route of the property page
+    let propertyId = params.propertyId;
     return (
         <>
             <div style={{ width: '100%', height: '100%', background: '#2596be' }}>
@@ -136,7 +144,7 @@ export default function App() {
                             <div style={{ width: '30%', marginTop: '30px' }}>
 
                                 <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                                    STARTS HERE!!!
+                                    Your Property ID is {propertyId}!
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
 
                                     Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
