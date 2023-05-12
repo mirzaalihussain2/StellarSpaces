@@ -1,4 +1,4 @@
-export interface Favourites {
+export interface Favourite {
   // datetime boilerplate
   createdAt: Date;
 
@@ -7,4 +7,5 @@ export interface Favourites {
   listingId: number;
 
   // flat data fields
-}
+  // id: number;
+};
