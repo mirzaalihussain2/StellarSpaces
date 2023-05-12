@@ -115,48 +115,6 @@ async function updateUser(id: User['id'], data: User) {
   });
 }
 
-// // Soft delete a user by ID
-// async function softDeleteUser(id: User['id']) {
-//   const user = await prisma.user.update({
-//     where: { id: id },
-//     data: {
-//       deletedAt: new Date(),
-//       listings: {
-//         updateMany: {
-//           data: { deletedAt: new Date() },
-//           where: { deletedAt: null },
-//         },
-//       },
-
-//       tenantChats: {
-//         updateMany: {
-//           data: { deletedAt: new Date() },
-//           where: { deletedAt: null },
-//         },
-//       },
-//       landlordChats: {
-//         updateMany: {
-//           data: { deletedAt: new Date() },
-//           where: { deletedAt: null },
-//         },
-//       },
-//       favourites: {
-//         updateMany: {
-//           data: { deletedAt: new Date() },
-//           where: { deletedAt: null },
-//         },
-//       },
-//       messages: {
-//         updateMany: {
-//           data: { deletedAt: new Date() },
-//           where: { deletedAt: null },
-//         },
-//       },
-//     },
-//   });
-//   return user;
-// }
-
 // Delete a user by ID
 async function hardDeleteUser(id: User['id']) {
   const user = await prisma.user.delete({
@@ -171,7 +129,6 @@ export {
   getUsers,
   getUserById,
   updateUser,
-  // softDeleteUser,
   hardDeleteUser,
   loginUser,
   getUserByEmail,
