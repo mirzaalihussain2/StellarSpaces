@@ -23,8 +23,8 @@ app.use('/auth', authRoutes());
 
 /*
 
-/auth/google- initiates Google OAuth.
-/auth/google/callback- callback for Google OAuth.
+http://localhost:3010/auth/google - initiates Google OAuth.
+http://localhost:3010/auth/google/callback - callback for Google OAuth.
 
 */
 
