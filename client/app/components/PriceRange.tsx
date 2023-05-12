@@ -5,14 +5,16 @@ import FormItem from "antd/es/form/FormItem";
 
 
 
-const PriceRange: React.FC = () => {
+const PriceRange: React.FC = ({setPriceMin,setPriceMax}) => {
     const [minValue, setMinValue] = useState(null);
     const [maxValue, setMaxValue] = useState(null);
 
     const onChange = (value: [number, number]) => {
-        
+        console.log(value[0])
         setMinValue(value[0]);
         setMaxValue(value[1]);
+        setPriceMin(value[0]);
+        setPriceMax(value[1]);
     };
     
     const onAfterChange = (value: number | [number, number]) => {
