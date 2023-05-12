@@ -2,12 +2,22 @@
 
 import NavBar from "@/app/components/NavBar";
 import Map from '../components/Map'
-export default function PropertySearch({location}) {
-    console.log(location)
+import {selectLocationState,setLocationState} from "@/app/store/locationSlice";
+import {useDispatch, useSelector} from 'react-redux'
+import {useState} from "react";
+import PropertySearchFilter from "@/app/components/PropertySearchFilter";
+
+
+export default function PropertySearch() {
+    const locationState = useSelector(state =>state.location.locationState)
+    console.log(locationState)
+    const [radiusState,SetRadiusState] =useState(null)
+    
     return (
         <>
             <NavBar></NavBar>
-            <Map></Map>
+            <Map>location={locationState} radius = {radiusState}></Map>
+            <PropertySearchFilter></PropertySearchFilter>
         </>
     )
 }

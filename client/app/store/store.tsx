@@ -1,21 +1,25 @@
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { locationSlice } from "./locationSlice";
+import { createWrapper } from "next-redux-wrapper";
 
-import { createSlice } from '@reduxjs/toolkit';
-
-const initialLocationState = {
-    location: '',
-};
-
-const locationSlice = createSlice({
-    name: 'location',
-    initialState: initialLocationState,
-    reducers: {
-        updateLocation(state, action) {
-            state.postcode = action.payload;
+const makeStore = ()=> // bc its a function
+    configureStore({
+        reducer:{
+            [locationSlice.name]:locationSlice.reducer,
         },
-    },
-});
+        devTools : true,
+        
+    })
 
-export const { updateLocation} = locationSlice.actions;
 
-export default locationSlice.reducer;
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore["getState"]>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    AppState,
+    unknown,
+    Action
+    >;
 
+// export const store = createWrapper<AppStore>(makeStore); // ? can u just create a store?
+export const store = makeStore();
