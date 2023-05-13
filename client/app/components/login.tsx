@@ -44,7 +44,7 @@ function Login(props: LoginProps) {
   }
 
   useEffect(() => {
-    fetch('http://localhost:3010/google/callback')
+    fetch('http://localhost:3010/auth/google/callback')
       .then((response) => {
         if (response.ok) {
           return response.json();
