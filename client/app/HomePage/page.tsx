@@ -5,6 +5,7 @@ import styles from './page.module.css'
 import Head from 'next/head'
 
 import NewNavBar from '../NewNavBar/page'
+import Footer from '../Footer/page'
 import NavBar from '../components/NavBar'
 import banner from '../../public/wood.jpg'
 import Link from "next/link";
@@ -161,6 +162,7 @@ export default function HomePage() {
                     </section>
                 </main>
             </div>
+            <Footer/>
         </>
     )
 }
