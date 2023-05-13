@@ -71,7 +71,7 @@ async function createUserFromGoogleProfile(profile: Profile) {
     password: '',
     firstName: profile._json.given_name || '',
     lastName: profile._json.family_name || '',
-    DOB: '',
+    DOB: new Date(),
     googleId: profile.id,
     displayName: profile.displayName || null,
   };
