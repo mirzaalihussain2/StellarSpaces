@@ -2,18 +2,14 @@
 import { Favourite } from '../interfaces/Favourite';
 import prisma from '../prisma/client';
 
-// (1) User favourites a listing - create record in Listings table
-// (2) User un-favourites a listing - delete record in Listings table
-// (3) Return a list of a properties / propertyIds that a user has favourited
-// (4) Return the number of favourites a specific property has against it
-// (5) Return a landlord's most popular properties by number of favourites - most favourites at top
+// IMPLEMENTED
+  // (1) User favourites a listing - create record in Listings table
+  // (2) User un-favourites a listing - delete record in Listings table
+  // (3) Return a list of a properties / propertyIds that a user has favourited
+  // (4) Return the number of favourites a specific property has against it
 
-// async function hardDeleteFavourite(id: Favourite['id']) {
-//   const favourite = await prisma.favourites.delete({
-//     where: { id: id },
-//   });
-//   return favourite;
-// }
+// NOT IMPLEMENTED
+  // (5) Return a landlord's most popular properties by number of favourites - most favourites at top
 
 // Favourite a listing for a user
 async function addFavourite (data: Favourite) {
@@ -40,7 +36,7 @@ async function getFavouritesByUserId (id: Favourite['userId']) {
   });
 };
 
-// Get the number of times a property has been favourited
+// Get a list of Users that have favourited a property
 async function getFavouritesByListingId (id: Favourite['listingId']) {
   return await prisma.favourites.findMany({
     where: { listingId: id },
@@ -48,51 +44,12 @@ async function getFavouritesByListingId (id: Favourite['listingId']) {
   });
 };
 
+// Get the number of times a property has been favourited
 async function countFavouritesByListingId (id: Favourite['listingId']) {
   return await prisma.favourites.count({
     where: { listingId: id }
   });
 };
-
-// Get all favourites for a user
-// async function getFavouritesByUserId(userId: Favourite['userId']) {
-//   return await prisma.favourites.findMany({
-//     where: {
-//       userId: userId,
-//       deletedAt: null,
-//     },
-//     include: {
-//       listing: true,
-//     },
-//   });
-// }
-
-// // Get all favourites for a listing
-// async function getFavouritesByListingId(listingId: Favourite['listingId']) {
-//   return await prisma.favourites.findMany({
-//     where: {
-//       listingId: listingId,
-//       deletedAt: null,
-//     },
-//     include: {
-//       user: true,
-//     },
-//   });
-// }
-
-// // Remove a favourite by ID (Soft delete)
-// async function softDeleteFavourite(id: Favourite['id']) {
-//   return await prisma.favourites.update({
-//     where: {
-//       id: id,
-//     },
-//     data: {
-//       deletedAt: new Date(),
-//     },
-//   });
-// }
-
-
 
 // Export the CRUD operations
 export {
@@ -101,6 +58,4 @@ export {
   getFavouritesByUserId,
   getFavouritesByListingId,
   countFavouritesByListingId
-  // softDeleteFavourite,
-  // hardDeleteFavourite,
 };
