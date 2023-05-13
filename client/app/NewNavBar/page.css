@@ -4,8 +4,6 @@
     align-items: center;
     height: 80px;
     padding: 0 20px;
-    /* background-color: #ffffff;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); */
     background-color: #fff;
     box-shadow: 0 0 8px #3227440a, 0 0 1px #32274452, 0 8px 8px -8px #32274429;
 }
@@ -20,17 +18,84 @@
 .navbar li {
     margin-left: 20px;
 }
-
+/* 
 .navbar span {
     color: #333333;
     text-decoration: none;
-} */
+}
 
 .navbar span:hover {
     text-decoration: underline;
-}
+} */
+
+.navbar a {
+    text-decoration: none;
+  }
+  
+  /* Add underline to links on hover */
+  .navbar a:hover {
+    text-decoration: underline;
+  }
 
 .logo {
     height: 50px;
     width: auto;
+}
+
+
+
+.NavbarElement {
+    border-radius: 2px;
+    color: #322744;
+    font-weight: 600;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-decoration-line: underline;
+    text-decoration-style: initial;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+.NavbarElement {
+    text-decoration-color: transparent;
+}
+
+.NavbarElement {
+    grid-template-columns: minmax(min-content, 1fr) auto;
+}
+
+.NavbarElement {
+    font-family: ZooplaSans, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    list-style: none;
+}
+
+.NavbarElement:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+.NavbarElement:focus {
+    box-shadow: 0 0 0 2px #fac8f0;
+    outline: 0;
+}
+
+.NavbarElement:hover {
+    cursor: pointer;
+}
+
+.NavbarElement:active,
+.NavbarElement:hover {
+    color: #322744;
+    text-decoration-color: #662dbe;
+}
+
+.NavbarElement:disabled {
+    color: #d1d0cf;
+    text-decoration-color: #d1d0cf;
+}
+
+.NavbarElement:visited {
+    color: #322744;
+    text-decoration-color: #8046f1;
 }

@@ -20,44 +20,44 @@ export default function NewNavBar() {
             <ul>
                 <li>
                     <Link href="/MyListings">
-                        <span>My Listings</span>
+                        <span className='NavbarElement'>My Listings</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/Messages">
-                        <span>Messages</span>
+                        <span className='NavbarElement'>Messages</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/Bookings">
-                        <span>Bookings</span>
+                        <span className='NavbarElement'>Bookings</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/Help">
-                        <span>Help</span>
+                        <span className='NavbarElement'>Help</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/Dashboard">
-                        <span>Dashboard</span>
+                        <span className='NavbarElement'>Dashboard</span>
                     </Link>
                 </li>
             </ul>
             <ul>
                 <li>
                     <Link href="/Account">
-                        <span>Account</span>
+                        <span className='NavbarElement'>Account</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/Favourites">
-                        <span>Favourites</span>
+                        <span className='NavbarElement'>Favourites</span>
                     </Link>
                 </li>
                 <li>
                     <Link href="/SignOut">
-                        <span>Sign out</span>
+                        <span className='NavbarElement'>Sign out</span>
                     </Link>
                 </li>
             </ul>
