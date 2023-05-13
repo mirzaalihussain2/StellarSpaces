@@ -12,6 +12,7 @@ import {numOfBathroomsMinSlice} from "@/app/store/numOfBathroomsMinSlice";
 import {numOfBedroomsMinSlice} from "@/app/store/numOfBedroomsMinSlice";
 import {numOfBedroomsMaxSlice} from "@/app/store/numOfBedroomsMaxSlice";
 import{statusSlice} from "@/app/store/statusSlice";
+import {propertyListSlice} from "@/app/store/propertyListSlice";
 
 const makeStore = ()=> // bc its a function
     configureStore({
@@ -28,6 +29,7 @@ const makeStore = ()=> // bc its a function
             [hasGarageSlice.name]:hasGarageSlice.reducer,
             [statusSlice.name]:statusSlice.reducer,
             [propertyTypeSlice.name]:propertyTypeSlice.reducer,
+            [propertyListSlice.name]:propertyListSlice.reducer,
         },
         devTools : true,
         

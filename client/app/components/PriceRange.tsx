@@ -5,14 +5,9 @@ import FormItem from "antd/es/form/FormItem";
 
 
 
-const PriceRange: React.FC = ({setPriceMin,setPriceMax}) => {
-    const [minValue, setMinValue] = useState(null);
-    const [maxValue, setMaxValue] = useState(null);
-
+const PriceRange: React.FC = ({priceMin,priceMax,setPriceMin,setPriceMax}) => {
+   
     const onChange = (value: [number, number]) => {
-        console.log(value[0])
-        setMinValue(value[0]);
-        setMaxValue(value[1]);
         setPriceMin(value[0]);
         setPriceMax(value[1]);
     };
@@ -24,17 +19,18 @@ const PriceRange: React.FC = ({setPriceMin,setPriceMax}) => {
 return (
     <>
         <Slider
+            value={[priceMin,priceMax]}
             range
             min={0}
             max={3000}
             step={100}
-            defaultValue={[minValue, maxValue]}
+            defaultValue={[priceMin,priceMax]}
             onChange={onChange}
             onAfterChange={onAfterChange}
             tipFormatter={tipFormatter}
         />
         <FormItem label='Minimum'>
-            <InputNumber value ={minValue}  style={{
+            <InputNumber  onChange={(value)=>{{setPriceMin(value)}}} value ={priceMin}  style={{
                 position: 'relative',
                 paddingLeft: '24px',
             }}
@@ -46,7 +42,7 @@ return (
                          }}>£</span>}></InputNumber>
         </FormItem>
         <FormItem label ="Maximum">
-            <InputNumber value = {maxValue}  style={{
+            <InputNumber onChange={(value)=>{{setPriceMax(value)}}} value = {priceMax}  style={{
                 position: 'relative',
                 paddingLeft: '24px',
             }}

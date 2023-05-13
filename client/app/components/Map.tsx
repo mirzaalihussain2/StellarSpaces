@@ -41,6 +41,7 @@ export default function Map(){
 
 
     function moveMapToLocation(location,radius) {
+        
         if(!radius) radius = 1000
         const geocoder = new google.maps.Geocoder();
         // Use the geocoder to get the latitude and longitude of the postcode
@@ -53,7 +54,7 @@ export default function Map(){
             }
 
             const circle = new google.maps.Circle({center:results[0].geometry.location,
-                radius: radius,
+                radius: JSON.parse(radius),
                 fillOpacity: 0.15,
                 fillColor: "#FF0000",
                 map: map});

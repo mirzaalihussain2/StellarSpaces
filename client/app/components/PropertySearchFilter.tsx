@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import type {MenuProps} from 'antd';
 import {Button, Checkbox, Dropdown, Form, Input, Menu, Select} from 'antd';
 
-import RadiusDropDown from "@/app/components/radiusDropDown";
+
 import PriceRange from "@/app/components/PriceRange"
 import BedroomRange from "@/app/components/BedroomRange";
 import BathroomRange from "@/app/components/BathroomRange";
@@ -20,10 +20,12 @@ import {setPriceMaxState} from "@/app/store/priceMaxSlice";
 import {setPriceMinState} from "@/app/store/priceMinSlice";
 import {setStatusState} from "@/app/store/statusSlice";
 import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
+import {setPropertyListState} from "@/app/store/propertyListSlice";
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
 import {OptGroup} from "rc-select";
 import {is} from "@react-spring/shared";
 import FormItem from "antd/es/form/FormItem";
+import {set} from "zod";
 
 const PropertySearchFilter: React.FC = () => {
 
@@ -40,21 +42,45 @@ const PropertySearchFilter: React.FC = () => {
     const [petsAllowed, setPetsAllowed] = useState(false)
     const [hasGarage, setHasGarage] = useState(false)
     const [status, setStatus] = useState([])
-    const [featured, setFeatured] = useState(false)
     const [isAdvanced, setIsAdvanced] = useState(false)
+    const [isCustom, setIsCustom] = useState(false)
 
     function handleFilterInput(e, setter) {
-        setter(e.target.value)
+        if(setter===setRadius) setter(e.target.value*1609.34)
+        else{   setter(e.target.value)}
+     
     }
 
-
-    function handlePropertyType(e, option) {
-        if (option === 'select') setPropertyType(prevPropertyTypes => [...prevPropertyTypes, e]);
+    function handleRadius(e) {
+        if (e === 'custom') setIsCustom(true)
         else {
-            const newTypes = propertyType.filter((type) => type != e);
-            setPropertyType(newTypes);
+            setIsCustom(false)
+            setRadius(e)
         }
     }
+
+    function handleMultiple(e, state, setter, option) {
+        if (option === 'select') setter((prev => [...prev, e]));
+        else {
+            const newInputs = state.filter((type) => type != e);
+            setter(newInputs);
+        }
+    }
+
+    function handleReset() {
+
+        setPropertyType([])
+        setPriceMax(null);
+        setPriceMin(null)
+        setNumOfBathroomsMax(null)
+        setNumOfBedroomsMin(null)
+        setNumOfBedroomsMax(null)
+        setNumOfBathroomsMin(null)
+        setPetsAllowed(false)
+        setHasGarage(false)
+        setStatus([])
+    }
+
 
     function handleCheckbox(e, setter): void {
         console.log(e.target.checked)
@@ -75,10 +101,10 @@ const PropertySearchFilter: React.FC = () => {
             hasGarage,
             status,
             propertyType,
-            featured,
         }
         console.log(queryObject)
         const listings = await fetchListings(queryObject)
+        dispatch(setPropertyListState(listings))
         console.log(listings)
         dispatch(setRadiusState(radius));
         dispatch(setLocationState(location))
@@ -92,32 +118,72 @@ const PropertySearchFilter: React.FC = () => {
         dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
         dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
         dispatch(setPropertyTypeState(propertyType))
+
     }
 
     const items: MenuProps['items'] = [
         {
             label:
                 <>
-                    <Form.Item style={{width: '8vw'}} label="Location">
+                    <Form.Item
+                        labelCol={{span: 24}}
+                        style={{width: '8vw'}} label="Location:">
                         <Input value={location} onChange={(e) => {
                             handleFilterInput(e, setLocation)
                         }}/>
                     </Form.Item>
-                    <Button onClick={handleSearch}>Search</Button>
+                    <div style={{paddingTop: '8vw'}}>
+                        <Button className={'button'} style={{backgroundColor: 'lightblue',zIndex:'20'}} onClick={handleSearch}>Search</Button>
+                        <Button  className={'button'} style={{ position:'absolute',zIndex:'20',marginTop:'0.5vw',left:'7vw', backgroundColor: '#ffcccb'}} onClick={handleReset}>Reset
+                            Filters</Button>
+                        <Button className={'button'} style ={{position:'absolute',zIndex:'20', marginTop:'0.5vw',left:'15.5vw'}} onClick={() => {
+                           
+                            if (!isAdvanced) setIsAdvanced(true)
+                            else setIsAdvanced(false)
+                        }}>Advanced Filter</Button>
+                    </div>
                 </>
             ,
             key: 'location'
         },
         {
-            label: <RadiusDropDown setRadius={setRadius}></RadiusDropDown>,
+            label:
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <Form.Item
+                        
+                        labelCol={{span: 24}}
+                        style={{width: '13vw'}} label="Radius:">
+                        <Select   onSelect={(e) => {
+                            handleRadius(e)
+                        }}>
+                            <Select.Option value="1609.34">1 mile</Select.Option>
+                            <Select.Option value="8046.72">5 miles</Select.Option>
+                            <Select.Option value="16093.4">10 miles</Select.Option>
+                            <Select.Option value="32186.9">20 miles</Select.Option>
+                            <Select.Option  value="48280.3">30 miles</Select.Option>
+                            <Select.Option value="64373.8">40 miles</Select.Option>
+                            <Select.Option value="custom">Custom Radius</Select.Option>
+                        </Select>
+                    </Form.Item>
+                    {isCustom && (
+                        <FormItem style={{width: "13vw"}} label={'Custom Radius (miles)'}>
+                            <span>
+                                  <Input
+                                      onChange={(e) => {
+                                          handleFilterInput((e), setRadius)
+                                      }}></Input>
+                            </span>
+                        </FormItem>
+                    )}
+                </div>,
             key: 'radius',
         },
         {
-            label: <Form.Item style={{width: '18vw'}} label="Property type">
-                <Select mode="multiple" onDeselect={(e) => {
-                    handlePropertyType(e, 'deselect')
+            label: <Form.Item labelCol={{span: 24}} style={{width: '15vw'}} label="Property type">
+                <Select value={propertyType as null} mode="multiple" onDeselect={(e) => {
+                    handleMultiple(e, propertyType, setPropertyType, 'deselect')
                 }} onSelect={(e) => {
-                    handlePropertyType(e, 'select')
+                    handleMultiple(e, propertyType, setPropertyType, 'select')
                 }}>
                     <OptGroup label='Single Occupancy'>
                         <Select.Option value="studio flat">Studio Flat</Select.Option>
@@ -146,7 +212,8 @@ const PropertySearchFilter: React.FC = () => {
         {
             label: (
                 <div style={{width: '15vw'}}>Monthly Rent
-                    <PriceRange setPriceMin={setPriceMin} setPriceMax={setPriceMax}></PriceRange>
+                    <PriceRange priceMin={priceMin} priceMax={priceMax} setPriceMin={setPriceMin}
+                                setPriceMax={setPriceMax}></PriceRange>
                 </div>
 
             ),
@@ -155,7 +222,7 @@ const PropertySearchFilter: React.FC = () => {
         {
             label: (
                 <div style={{width: '12vw'}}> Number of bedrooms
-                    <BedroomRange setBedroomMax={setNumOfBedroomsMax}
+                    <BedroomRange  bedroomMax ={numOfBedroomsMax} bedroomMin={numOfBedroomsMin} setBedroomMax={setNumOfBedroomsMax}
                                   setBedroomMin={setNumOfBedroomsMin}></BedroomRange>
                 </div>
 
@@ -165,23 +232,14 @@ const PropertySearchFilter: React.FC = () => {
         {
             label: (
                 <div style={{width: '12vw'}}> Number of bathrooms
-                    <BathroomRange setBathroomMax={setNumOfBathroomsMax}
+                    <BathroomRange bathroomMax={numOfBathroomsMax} bathroomMin ={numOfBathroomsMin}  setBathroomMax={setNumOfBathroomsMax}
                                    setBathroomMin={setNumOfBathroomsMin}></BathroomRange>
                 </div>
 
             ),
             key: 'bathrange',
         },
-        {
-            label: (
-                <Button onClick={() => {
-                    if (!isAdvanced) setIsAdvanced(true)
-                    else setIsAdvanced(false)
 
-                }}>Advanced Filter</Button>
-            ),
-            key: 'Advanced',
-        }
     ];
 
 
@@ -193,29 +251,28 @@ const PropertySearchFilter: React.FC = () => {
                 <div style={{
                     backgroundColor: 'white',
                     top: '44.5vw',
-                    width: '85vw',
+                    width: '90vw',
                     height: '17vw',
-                    zIndex: '1000',
+                    zIndex: '10',
                     position: 'absolute',
                     display: 'flex'
                 }}>
 
-                    <FormItem style={{paddingRight: '1vw'}} label='Pets Allowed'>
-                        <Checkbox onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
+                    <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Pets Allowed'>
+                        <Checkbox checked={petsAllowed} onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
                     </FormItem>
-                    <FormItem style={{paddingRight: '1vw'}} label='Must have garage'>
-                        <Checkbox onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
+                    <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Must have garage'>
+                        <Checkbox checked={hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
                     </FormItem>
-                    <FormItem style={{paddingRight: '1vw'}} label='Only show featured'>
-                        <Checkbox onChange={(e) => handleCheckbox(e, setFeatured)}></Checkbox>
-                    </FormItem>
-                    <Form.Item style={{paddingRight: '1vw',width:'20vw'}} label="Property Status">
-                        <Select onSelect={(e) => {
-                            handleFilterInput(e,setStatus)
+                    <Form.Item labelCol={{span: 24}} style={{paddingRight: '1vw', width: '20vw'}} label="Property Status">
+                        <Select value={status as null} mode="multiple" onDeselect={(e) => {
+                            handleMultiple(e, status, setStatus, 'deselect')
+                        }} onSelect={(e) => {
+                            handleMultiple(e, status, setStatus, 'select')
                         }}>
                             <Select.Option value="live">Live</Select.Option>
-                            <Select.Option value="let">Let Agreed</Select.Option>
-                            <Select.Option value="dorm">Dormant</Select.Option>
+                            <Select.Option value="let agreed">Let Agreed</Select.Option>
+                            <Select.Option value="dormant">Dormant</Select.Option>
                         </Select>
                     </Form.Item>
 
