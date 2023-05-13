@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import type {MenuProps} from 'antd';
-import {Button, Dropdown, Form, Input, Menu} from 'antd';
+import {Button, Dropdown, Form, Input, Menu, Select} from 'antd';
 
 import RadiusDropDown from "@/app/components/radiusDropDown";
 import PriceRange from "@/app/components/PriceRange"
@@ -20,6 +20,8 @@ import{setPriceMaxState} from "@/app/store/priceMaxSlice";
 import {setPriceMinState} from "@/app/store/priceMinSlice";
 import {setStatusState} from "@/app/store/statusSlice";
 import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
+import fetchListings from "@/app/ApiServices/backend/FetchListings";
+import {OptGroup} from "rc-select";
 
 const PropertySearchFilter: React.FC = () => {
     
@@ -42,24 +44,23 @@ const PropertySearchFilter: React.FC = () => {
     }
 
     
-    function handleSearch(){
-        
-        const queryObject ={
-            priceMin,
-            priceMax,
-            numOfBedroomsMin,
-            numOfBedroomsMax,
-            numOfBathroomsMin,
-            numOfBathroomsMax,
-            status,
-            hasGarage,
-            propertyType,
-            petsAllowed,
-            radius,
-            location
+    async function handleSearch() {
+
+        const queryObject = {
+            priceMin: 100,
+            priceMax: 3500,
+            numOfBedroomsMin: 1,
+            numOfBedroomsMax: 5,
+            numOfBathroomsMin: 1,
+            numOfBathroomsMax: 5,
+            petsAllowed: false, // false is actually true OR false
+            hasGarage: false, // false is actually true OR false
+            status: ['dormant', 'live', 'let agreed'],
+            propertyType: ['flat', 'bungalow', 'terrace'],
+            featured: false,
         }
-        console.log(queryObject)
-        
+        const listings = await fetchListings(queryObject)
+        console.log(listings)
         dispatch(setRadiusState(radius));
         dispatch(setLocationState(location))
         dispatch(setPriceMaxState(priceMax))
@@ -91,64 +92,33 @@ const PropertySearchFilter: React.FC = () => {
             key: 'radius',
         },
         {
-            label: 'Property Type',
+            label: <Form.Item style={{width:'18vw'}} label="Property type">
+                <Select mode="multiple" onSelect={(value) => {
+                    handleFilterInput(value,setPropertyType)
+                }}>
+                    <OptGroup label='Single Occupancy'>
+                        <Select.Option value="studio flat">Studio Flat</Select.Option>
+                        <Select.Option value="bedsit">Bedsit</Select.Option>
+                    </OptGroup>
+                    <OptGroup label='House'>
+                        <Select.Option value="detached">Detached</Select.Option>
+                        <Select.Option value="demi-detached">Semi-Detached</Select.Option>
+                        <Select.Option value="terrace">Terrace</Select.Option>
+                        <Select.Option value="bungalow">Bungalow</Select.Option>
+                        <Select.Option value="end terrace">End Terrace</Select.Option>
+                    </OptGroup>
+                    <OptGroup label='Flat'>
+                        <Select.Option value="flat">Flat</Select.Option>
+                        <Select.Option value="penthouse">Penthouse</Select.Option>
+                        <Select.Option value="maisonette">Maisonette</Select.Option>
+                    </OptGroup>
+                    <OptGroup label='other types'>
+                        <Select.Option value="mobile home">Mobile Home</Select.Option>
+                        <Select.Option value="house boat">House Boat</Select.Option>
+                    </OptGroup>
+                </Select>
+            </Form.Item>,
             key: 'Property Type',
-            children: [
-                {
-                    type: 'group',
-                    label: 'Single Occupancy',
-                    children: [
-                        {
-                            label: 'Studio Flat',
-                            key: 'SF',
-                        },
-                        {
-                            label: 'Bedsit',
-                            key: 'BD',
-                        },
-                    ],
-                },
-                {
-                    type: 'group',
-                    label: 'House',
-                    children: [
-                        {
-                            label: 'Detached',
-                            key: 'setting:3',
-                        },
-                        {
-                            label: 'Semi-Detached',
-                            key: 'SD',
-                        },
-                        {
-                            label: 'Terrace',
-                            key: 'TE',
-                        },
-                        {
-                            label: 'Bungalow',
-                            key: 'BG',
-                        },
-                        {
-                            label: 'End Terrace',
-                            key: 'ET',
-                        },
-                    ],
-                },
-                {
-                    type: 'group',
-                    label: 'other',
-                    children: [
-                        {
-                            label: 'Mobile Home',
-                            key: 'MH',
-                        },
-                        {
-                            label: 'House Boat',
-                            key: 'HB',
-                        },
-                    ],
-                },
-            ],
         },
         {
             label: (

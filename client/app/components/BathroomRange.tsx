@@ -31,10 +31,10 @@ const BathroomRange: React.FC = () => {
                 onAfterChange={onAfterChange}
               
             />
-            <FormItem>
-                <InputNumber value ={minValue}></InputNumber>
+            <FormItem label ='Minimum'>
+                <InputNumber value ={minValue} ></InputNumber>
             </FormItem>
-            <FormItem>
+            <FormItem label = 'Maximum'>
                 <InputNumber value = {maxValue}></InputNumber>
             </FormItem>
         </>

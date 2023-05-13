@@ -2,7 +2,7 @@ import {
   createListing,
   getListings,
   getListingById,
-  userQuery,
+  // userQuery,
   updateListing,
   hardDeleteListing
 } from '../models/listingsModel';
@@ -20,7 +20,10 @@ async function createListings(req: Request, res: Response, next: NextFunction) {
 
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
+  console.log('test')
   try {
+    const userQuery = req.body
+    console.log(userQuery)
     const listings = await getListings(userQuery);
     res.status(200).json(listings);
   } catch (error) {

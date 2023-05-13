@@ -163,7 +163,7 @@ const AddListingForm: React.FC = () => {
                             </Form.Item>
                             <h1>Property Details</h1>
                             <Form.Item label="Property type">
-                                <Select onSelect={(value)=>{handlePropertySelect(value)}}>
+                                <Select mode="multiple" onSelect={(value)=>{handlePropertySelect(value)}}>
                                     <OptGroup label='Single Occupancy'>
                                         <Select.Option value="studio flat">Studio Flat</Select.Option>
                                         <Select.Option value="bedsit">Bedsit</Select.Option>

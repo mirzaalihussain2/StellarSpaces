@@ -33,11 +33,29 @@ return (
             onAfterChange={onAfterChange}
             tipFormatter={tipFormatter}
         />
-        <FormItem>
-            <InputNumber value ={minValue}></InputNumber>
+        <FormItem label='Minimum'>
+            <InputNumber value ={minValue}  style={{
+                position: 'relative',
+                paddingLeft: '24px',
+            }}
+                         addonBefore={<span style={{
+                             position: 'absolute',
+                             top: '50%',
+                             left: '8px',
+                             transform: 'translateY(-50%)',
+                         }}>£</span>}></InputNumber>
         </FormItem>
-        <FormItem>
-            <InputNumber value = {maxValue}></InputNumber>
+        <FormItem label ="Maximum">
+            <InputNumber value = {maxValue}  style={{
+                position: 'relative',
+                paddingLeft: '24px',
+            }}
+                         addonBefore={<span style={{
+                             position: 'absolute',
+                             top: '50%',
+                             left: '8px',
+                             transform: 'translateY(-50%)',
+                         }}>£</span>}></InputNumber>
         </FormItem>
     </>
     

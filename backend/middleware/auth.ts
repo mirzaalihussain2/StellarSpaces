@@ -24,17 +24,17 @@ async function findOrCreateUser(profile: Profile) {
 }
 
 passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: 'http://localhost:3010/auth/google/callback',
-      passReqToCallback: true,
-    },
-    async (req, accessToken, refreshToken, profile, done) => {
-      const user = await findOrCreateUser(profile);
-      return done(null, user);
-    }
+ new GoogleStrategy(
+      {
+          clientID: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+          callbackURL: 'http://localhost:3010/auth/google/callback',
+          passReqToCallback: true,
+      },
+      async (req, accessToken, refreshToken, profile, done) => {
+          const user = await findOrCreateUser(profile);
+          return done(null, user);
+      }
   )
 );
 
