@@ -2,7 +2,7 @@
 import {useEffect} from "react";
 import {useRef} from "react";
 import { useSelector} from 'react-redux'
-import {useState} from "react";
+
 export default function Map(){
     let map;
     let google;
@@ -10,6 +10,8 @@ export default function Map(){
    
     const location = useSelector(state =>state.location.locationState)
     const radius = useSelector(state=>state.radius.radiusState)
+    
+    const listings = useSelector(state=>state.propertyList.propertyListState)
     console.log(location)
     // const [radiusState,SetRadiusState] =useState(null)
     useEffect(()=> {
@@ -31,7 +33,7 @@ export default function Map(){
             });
             
             moveMapToLocation(location,radius)
-
+            createHouseMarkers()
             
         }, 50);
         
@@ -39,7 +41,11 @@ export default function Map(){
         
     }
 
-
+    function createHouseMarkers(){
+        
+        
+    }
+    
     function moveMapToLocation(location,radius) {
         
         if(!radius) radius = 1000
