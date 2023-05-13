@@ -5,12 +5,13 @@ import FormItem from "antd/es/form/FormItem";
 
 
 
-const BathroomRange: React.FC = () => {
+const BathroomRange: React.FC = ({setBathroomMax,setBathroomMin}) => {
     const [minValue, setMinValue] = useState(null);
     const [maxValue, setMaxValue] = useState(null);
 
     const onChange = (value: [number, number]) => {
-
+        setBathroomMin(value[0])
+        setBathroomMax(value[1])
         setMinValue(value[0]);
         setMaxValue(value[1]);
     };

@@ -5,12 +5,13 @@ import FormItem from "antd/es/form/FormItem";
 
 
 
-const BedroomRange: React.FC = () => {
+const BedroomRange: React.FC = ({setBedroomMax,setBedroomMin}) => {
     const [minValue, setMinValue] = useState(null);
     const [maxValue, setMaxValue] = useState(null);
 
     const onChange = (value: [number, number]) => {
-
+        setBedroomMin(value[0])
+        setBedroomMax(value[0])
         setMinValue(value[0]);
         setMaxValue(value[1]);
     };
