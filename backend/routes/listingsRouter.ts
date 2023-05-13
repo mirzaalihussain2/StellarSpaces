@@ -11,7 +11,7 @@ import { authenticateJwt } from '../middleware/auth';
 const router = Router();
 
 router.post('/', authenticateJwt, createListings);
-router.get('/', fetchListings);
+router.post('/filtered', fetchListings);
 router.get('/:id', getListingsById);
 router.put('/:id', authenticateJwt, updateListings);
 router.delete('/:id', authenticateJwt, hardDeleteListings);

@@ -9,21 +9,28 @@ import banner from '../../public/wood.jpg'
 import Link from "next/link";
 import {Button, Checkbox, Input} from "antd";
 import FormItem from "antd/es/form/FormItem";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
+import {selectLocationState,setLocationState} from "@/app/store/locationSlice";
 import {useDispatch, useSelector} from 'react-redux'
-import {updateLocation} from "@/app/store/store";
+
 
 export default function HomePage() {
-
-    // const dispatch = useDispatch();
-    // const location = useSelector((state) => state.location.location);
-    //
-    // function handleLocation(e) {
-    //     const newLocation = e.target.value
-    //     dispatch(updateLocation(newLocation))
-    // }
-
+    const dispatch = useDispatch();
+    const locationState = useSelector(selectLocationState);
+    useEffect(()=> {
+        
+        const script = document.createElement('script');
+        script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+        script.async = true;
+        document.head.appendChild(script);
+        
+    },[]);
+    
+    function handleLocation(e) {
+        const newLocation = e.target.value
+        dispatch(setLocationState(newLocation))
+    }
     return (
         <>
             <NavBar></NavBar>
@@ -56,10 +63,8 @@ export default function HomePage() {
                             </FormItem>
                             or
                             <Checkbox>My current location</Checkbox>
-                            <Link href={'/PropertySearch'} to={{
-                                pathname: "/PropertySearch",
-                                state: {location}
-                            }} className={styles.cardButton}>View Properties</Link>
+                            <Link href={'/PropertySearch'}
+                             className={styles.cardButton}>View Properties</Link>
                         </div>
                         <div className={styles.card}>
                             <h2 className={styles.cardLabel}>List a space</h2>

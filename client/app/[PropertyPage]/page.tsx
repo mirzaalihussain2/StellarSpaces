@@ -56,6 +56,14 @@ interface CardProps {
     content: string;
 }
 
+type Props = {
+    params: { 
+        PropertyPage: string;
+    };
+};
+
+
+
 const Card: React.FC<CardProps> = ({ title, content }) => {
     return (
         <div className="card">
@@ -85,7 +93,7 @@ const Card: React.FC<CardProps> = ({ title, content }) => {
 };
 
 export default function App() {
-    const parallax = useRef<IParallax>(null!)
+ 
     return (
         <>
             <div style={{ width: '100%', height: '100%', background: '#2596be' }}>
