@@ -24,7 +24,7 @@ async function createUsers(user: any) {
 
 // login local user function
 async function loginUser(user: any) {
-  const response = await fetch('http://localhost:3010/users', {
+  const response = await fetch('http://localhost:3010/users/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
