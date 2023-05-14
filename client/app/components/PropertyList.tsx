@@ -1,16 +1,11 @@
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Avatar, List, Space } from 'antd';
 import React from 'react';
+import {selectPropertyListState} from "@/app/store/propertyListSlice";
+import {useSelector} from "react-redux";
 
-const data = Array.from({ length: 23 }).map((_, i) => ({
-    href: 'https://ant.design',
-    title: `ant design part ${i}`,
-    avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}));
+
+   
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
     <Space>
@@ -19,7 +14,11 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
     </Space>
 );
 
-const PropertyList: React.FC = () => (
+const PropertyList: React.FC = () =>{
+ 
+    const listings = useSelector(state =>state.propertyList.propertyListState)
+    
+    return(
     <List
         itemLayout="vertical"
         size="large"
@@ -29,7 +28,7 @@ const PropertyList: React.FC = () => (
             },
             pageSize: 3,
         }}
-        dataSource={data}
+        dataSource={listings}
         footer={
             <div>
                 <b>ant design</b> footer part
@@ -60,5 +59,5 @@ const PropertyList: React.FC = () => (
             </List.Item>
         )}
     />
-);
+)};
 export default PropertyList

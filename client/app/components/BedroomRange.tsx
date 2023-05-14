@@ -5,14 +5,11 @@ import FormItem from "antd/es/form/FormItem";
 
 
 
-const BedroomRange: React.FC = () => {
-    const [minValue, setMinValue] = useState(null);
-    const [maxValue, setMaxValue] = useState(null);
-
+const BedroomRange: React.FC = ({bedroomMin,bedroomMax,setBedroomMax,setBedroomMin}) => {
+   
     const onChange = (value: [number, number]) => {
-
-        setMinValue(value[0]);
-        setMaxValue(value[1]);
+        setBedroomMin(value[0])
+        setBedroomMax(value[1])
     };
 
     const onAfterChange = (value: number | [number, number]) => {
@@ -22,20 +19,21 @@ const BedroomRange: React.FC = () => {
     return (
         <>
             <Slider
+                value={[bedroomMin,bedroomMax]}
                 range
                 min={0}
                 max={10}
                 step={1}
-                defaultValue={[minValue, maxValue]}
+                defaultValue={[bedroomMin, bedroomMax]}
                 onChange={onChange}
                 onAfterChange={onAfterChange}
                 
             />
             <FormItem label ="Minimum">
-                <InputNumber value ={minValue}></InputNumber>
+                <InputNumber onChange={(value)=>{{setBedroomMin(value)}}} value ={bedroomMin}></InputNumber>
             </FormItem>
             <FormItem label = 'Maximum'>
-                <InputNumber value = {maxValue}></InputNumber>
+                <InputNumber onChange={(value)=>{{setBedroomMax(value)}}} value = {bedroomMax}></InputNumber>
             </FormItem>
         </>
 

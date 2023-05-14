@@ -1,6 +1,6 @@
 'use client'
 import './page.css';
-import NavBar from '../components/NavBar'
+import NavBar from '../../components/NavBar'
 import React, { useRef, useState, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 //import star from './stars.svg'
@@ -97,7 +97,7 @@ export default function App() {
     return (
         <>
             <div style={{ width: '100%', height: '100%', background: '#2596be' }}>
-                <Parallax ref={parallax} pages={4}>
+                <Parallax  pages={4}>
                     <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
                     <ParallaxLayer offset={3} speed={1} style={{ backgroundColor: '#B2FFD6' }} />
                     <ParallaxLayer offset={0} speed={0} factor={3}

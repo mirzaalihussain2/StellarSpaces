@@ -10,7 +10,7 @@ interface ImageData {
 const CloudinaryUpload: React.FC = () => {
     const [images, setImages] = useState<ImageData[]>([]);
     const [imageURLs, setImageURLs] = useState<string[]>([]);
-
+    
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newImages: ImageData[] = [];
@@ -23,12 +23,13 @@ const CloudinaryUpload: React.FC = () => {
     };
 
     const uploadImages = () => {
+        console.log(images)
         images.forEach((image) => {
             const data = new FormData();
             data.append('file', image.file);
             data.append('upload_preset', 'StellarSpaces');
             data.append('cloud_name', 'dgwarr7v8');
-
+            console.log(data)
             fetch('https://api.cloudinary.com/v1_1/dgwarr7v8/image/upload', {
                 method: 'POST',
                 body: data,
