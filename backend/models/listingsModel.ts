@@ -30,8 +30,11 @@ type queryObject = {
 async function createListing(data: Listing) {
   const address = `${data.addressHouseNum}, ${data.addressStreetName}, ${data.addressPostCode}`;
   const LatLngObj = await getLatLng(address)
-  data.addressLatitude = LatLngObj.lat
-  data.addressLongitude = LatLngObj.lng
+  if(LatLngObj){
+    data.addressLatitude = LatLngObj.lat
+    data.addressLongitude = LatLngObj.lng
+  }
+  
   return await prisma.listing.create({
     data,
   });

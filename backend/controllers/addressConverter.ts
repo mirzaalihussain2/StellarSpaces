@@ -1,4 +1,5 @@
-export default async function getLatLng(address) {
+
+export default async function getLatLng(address:string) {
     const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
     try {
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}&sensor=false`;
