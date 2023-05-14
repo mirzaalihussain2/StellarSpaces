@@ -9,8 +9,8 @@ import listingsRouter from './routes/listingsRouter';
 import favouritesRouter from './routes/favouritesRouter';
 import { errorHandlingMiddleware } from './middleware/errorHandlingMiddleware';
 import { authRoutes } from './middleware/auth';
-import imagesRouter from "./routes/imagesRouter";
-//import stripeRoute from './routes/stripeRouter';
+import imagesRouter from './routes/imagesRouter';
+import stripeRoute from './routes/stripeRouter';
 dotenv.config();
 
 // Middlewares
@@ -23,9 +23,9 @@ app.use(cors());
 app.use('/users', userRouter);
 app.use('/auth', authRoutes());
 app.use('/listings', listingsRouter);
-app.use('/images',imagesRouter)
+app.use('/images', imagesRouter);
 app.use('/favourites', favouritesRouter);
-//app.use('/stripe', stripeRoute);
+app.use('/stripe', stripeRoute);
 /*
 
 http://localhost:3010/auth/google - initiates Google OAuth.
