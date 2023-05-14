@@ -20,7 +20,6 @@ async function createListings(req: Request, res: Response, next: NextFunction) {
 
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
-  console.log('test')
   try {
     const userQuery = req.body
     console.log(userQuery)
