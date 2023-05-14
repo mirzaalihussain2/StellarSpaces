@@ -1,6 +1,6 @@
 'use client'
 import './page.css';
-import NavBar from '../components/NavBar'
+import NavBar from '../../components/NavBar'
 import React, { useRef, useState, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 //import star from './stars.svg'

@@ -1,6 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons';
 import axios from 'axios';
-
+import uploadImages from "@/app/ApiServices/cloudinary/cloudinary";
+import CreateListing from "@/app/ApiServices/backend/CreateListing";
 interface Address {
     formatted_address: string;
 }
@@ -61,10 +62,29 @@ const AddListingForm: React.FC = () => {
         } else SetPostcodeValidation(false)
     }
     
-    function onSave(){
-        const Obj = {postcode,streetName,city,county,flatOrHouseNumb,propertyType,addressLine2,description,petsAllowed,hasGarage,monthlyRent,bedroomNumb,bathroomNumb,youtubeURL}
-        
-        console.log(Obj)
+    async function onSave() {
+        console.log(images)
+        const imageURLs = await uploadImages(images)
+        console.log(imageURLs)
+        const Obj = {
+            postcode,
+            streetName,
+            city,
+            county,
+            flatOrHouseNumb,
+            propertyType,
+            addressLine2,
+            description,
+            petsAllowed,
+            hasGarage,
+            monthlyRent,
+            bedroomNumb,
+            bathroomNumb,
+            imageURLs,
+            youtubeURL
+        }
+        const newListing = await CreateListing(Obj)
+        console.log(newListing)
     }
     
     function handleNumberInput(value:Number|null,setter):void{

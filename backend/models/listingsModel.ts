@@ -1,6 +1,7 @@
 // Local imports
 import { Listing, PropertyType, Status } from '../interfaces/Listing';
 import prisma from '../prisma/client';
+import getLatLng from "../controllers/addressConverter";
 
 // Defining type: queryObject
 type queryObject = {
@@ -27,6 +28,13 @@ type queryObject = {
 
 // Create a new listing
 async function createListing(data: Listing) {
+  const address = `${data.addressHouseNum}, ${data.addressStreetName}, ${data.addressPostCode}`;
+  const LatLngObj = await getLatLng(address)
+  if(LatLngObj){
+    data.addressLatitude = LatLngObj.lat
+    data.addressLongitude = LatLngObj.lng
+  }
+  
   return await prisma.listing.create({
     data,
   });

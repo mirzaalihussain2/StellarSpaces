@@ -118,7 +118,7 @@ function authRoutes(): Router {
     passport.authenticate('google', { session: false }),
     function (req: Request, res: Response) {
       const token = generateJwtToken(req.user as User);
-      res.cookie('token', token, { httpOnly: true });
+      res.cookie('token', token, { sameSite: 'none', secure: true });
       res.redirect('http://localhost:3000');
     }
   );
