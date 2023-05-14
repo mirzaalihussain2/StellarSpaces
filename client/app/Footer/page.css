@@ -1,0 +1,218 @@
+  a {
+    background-color: transparent;
+    color: #468cc8;
+    touch-action: manipulation;
+  }
+  
+  ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: .54;
+  }
+  
+  ::-webkit-file-upload-button {
+    appearance: button;
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-kerning: inherit;
+    font-optical-sizing: inherit;
+    font-size: inherit;
+    font-variant: inherit;
+    font-variation-settings: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+  
+  ::before {
+    box-sizing: inherit;
+  }
+  
+  .inherited-styles-for-exported-element {
+    color: gray;
+    font-family: Verdana, Helvetica, sans-serif;
+  }
+  
+  footer {
+    background-color: #d9d9d9;
+    clear: both;
+    font-size: 1em;
+    line-height: 1.5;
+    position: relative;
+    text-align: center;
+  }
+  
+  footer, footer * {
+    box-sizing: border-box;
+  }
+  
+  @media (min-width: 992px) {
+    footer {
+      text-align: left;
+    }
+  }
+  
+  footer a, footer a:hover {
+    text-decoration: none;
+  }
+  
+  footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  footer p {
+    margin: 0 0 2px;
+    padding: 0;
+  }
+  
+  .fa, footer ul li {
+    display: inline-block;
+  }
+  
+  footer ul li {
+    margin: 0 0 0 10px;
+  }
+  
+  .fa {
+    -webkit-font-smoothing: antialiased;
+    font-family: FontAwesome;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-optical-sizing: auto;
+    font-size: inherit;
+    font-variant: normal;
+    font-variation-settings: normal;
+    font-weight: 400;
+    line-height: 1;
+    text-rendering: auto;
+  }
+  
+  .content-wrapper {
+    margin: 0 auto;
+    max-width: 960px;
+  }
+  
+  .fa-twitter::before {
+    content: "";
+  }
+  
+  .fa-facebook-f::before {
+    content: "";
+  }
+  
+  .fa-instagram::before {
+    content: "";
+  }
+  
+  a:active {
+    outline: 0;
+  }
+  
+  a:focus {
+    color: #2c6595;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+  }
+  
+  a:hover {
+    color: #3272a9;
+  }
+  
+  a:focus {
+    text-decoration: none;
+  }
+  
+  footer .float-left {
+    float: none;
+    padding: 0;
+  }
+  
+  footer .float-right {
+    float: none;
+    margin: 0;
+    padding: 20px 0 10px;
+  }
+  
+  footer .bottom-menu {
+    margin: 0 0 20px;
+  }
+  
+  footer .bottom-address {
+    color: #9a9a9a;
+    font-size: .9em;
+  }
+  
+  footer .extra-menu {
+    font-size: .9em;
+  }
+  
+  footer .bottom-address .vcard div.country-name, footer .bottom-address .vcard div.fn, footer.openrent-footer {
+    display: none;
+  }
+  
+  @media (min-width: 768px) {
+    footer.openrent-footer {
+      display: block;
+      height: 200px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    footer .float-left {
+      float: left;
+      padding: 44px 10px 20px;
+    }
+  
+    footer .float-right {
+      float: right;
+      margin: 0;
+      padding: 60px 10px 20px;
+    }
+  
+    footer .bottom-menu {
+      margin: 0 0 42px;
+    }
+  }
+  
+  footer .content-wrapper::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  footer .social-new a {
+    font-size: 1.5em;
+  }
+  
+  footer .bottom-address a {
+    color: #999;
+    text-decoration: none;
+  }
+  
+  footer ul li:first-child {
+    margin: 0;
+  }
+  
+  footer ul.social-new li {
+    padding: 0;
+  }
+  
+  a:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  footer .bottom-address .vcard, footer .bottom-address .vcard div {
+    display: inline-block;
+  }
+  
+  footer .bottom-address a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  a:not([href]):not([tabindex]):focus {
+    color: inherit;
+    outline: 0;
+    text-decoration: none;
+  }
