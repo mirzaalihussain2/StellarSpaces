@@ -33,10 +33,32 @@ function Login(props: LoginProps) {
 
     // if email does not exist
     // set setRegister to true
-  
+    if (email === 'admin') {
+      setSeen(!seen);
+      setLogin(!login);
+    } else {
+      setRegister(!register);
+    }
 
     e.preventDefault();
     // change admin to a function that checks if email exists in database
+    // if (login) {
+    //   try {
+    //     const user = await loginUser({ email, password });
+    //     // Handle successful login
+    //   } catch (error) {
+    //     // Handle login error
+    //   }
+    // } else if (register) {
+    //   try {
+    //     await handleRegistration(e);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+  }
+
+  async function handleLoginOrRegister(e: React.FormEvent<HTMLFormElement>) {
     if (login) {
       try {
         const user = await loginUser({ email, password });
@@ -187,7 +209,7 @@ function Login(props: LoginProps) {
                     width: '100%',
                   }}
                 >
-                  <Button type='primary' block>
+                  <Button type='primary' htmlType='submit' block onClick={handleLoginOrRegister}>
                     Submit
                   </Button>
                 </Space>
