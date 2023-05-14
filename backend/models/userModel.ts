@@ -15,6 +15,14 @@ const prisma = new PrismaClient();
 
 import bcrypt from 'bcrypt';
 
+async function findUserByEmail(email: User['email']) {
+  return await prisma.user.findUnique({
+    where: {
+      email: email
+    }
+  })
+};
+
 // Create a new user
 async function createUser(data: User) {
   const salt = await bcrypt.genSalt(10);
@@ -125,6 +133,7 @@ async function hardDeleteUser(id: User['id']) {
 
 // Export the CRUD operations
 export {
+  findUserByEmail,
   createUser,
   getUsers,
   getUserById,

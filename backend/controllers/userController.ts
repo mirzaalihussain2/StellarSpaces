@@ -1,5 +1,6 @@
 // Local imports
 import {
+  findUserByEmail,
   createUser,
   getUsers,
   getUserById,
@@ -10,6 +11,16 @@ import {
 
 // Global imports
 import { NextFunction, Request, Response } from 'express';
+
+// Determine whether user exists by unique email
+async function retrieveUser (req: Request, res: Response, next: NextFunction) {
+  try {
+    const foundUser = await findUserByEmail(req.params.email) ? true : false;
+    res.status(200).json(foundUser);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Create a new user
 async function createUsers(req: Request, res: Response, next: NextFunction) {
@@ -106,6 +117,7 @@ async function hardDeleteUsers(
 
 // Export the controller functions
 export {
+  retrieveUser,
   createUsers,
   getAllUser,
   getUsersById,
