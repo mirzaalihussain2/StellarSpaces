@@ -1,7 +1,10 @@
 import './Login.css';
 import { useEffect, useState } from 'react';
 import { Button, Space } from 'antd';
-
+import {
+  createUsers,
+  loginUser,
+} from '../ApiServices/backend/localUserService';
 interface LoginProps {
   toggle: () => void;
 }
@@ -23,14 +26,40 @@ function Login(props: LoginProps) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // change admin to a function that checks if email exists in database
-    if (email === 'admin') {
-      setSeen(!seen);
-      setLogin(!login);
-    } else {
-      setRegister(!register);
+    if (login) {
+      try {
+        const user = await loginUser({ email, password });
+        // Handle successful login
+      } catch (error) {
+        // Handle login error
+      }
+    } else if (register) {
+      try {
+        await handleRegistration(e);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function handleRegistration(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (register) {
+      try {
+        const newUser = await createUsers({
+          firstName,
+          lastName,
+          email,
+          password,
+          dateOfBirth,
+        });
+        console.log('Registration successful');
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
