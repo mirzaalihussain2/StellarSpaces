@@ -1,20 +1,20 @@
 'use client'
 import {useEffect} from "react";
 import {useRef} from "react";
-import { useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 
-export default function Map(){
+export default function Map() {
     let map;
     let google;
     const mapRef = useRef(null);
-   
-    const location = useSelector(state =>state.location.locationState)
-    const radius = useSelector(state=>state.radius.radiusState)
-    
-    const listings = useSelector(state=>state.propertyList.propertyListState)
+
+    const location = useSelector(state => state.location.locationState)
+    const radius = useSelector(state => state.radius.radiusState)
+
+    const listings = useSelector(state => state.propertyList.propertyListState)
     console.log(location)
     // const [radiusState,SetRadiusState] =useState(null)
-    useEffect(()=> {
+    useEffect(() => {
         const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
@@ -22,7 +22,7 @@ export default function Map(){
         window.initMap = initMap;
         document.head.appendChild(script);
         console.log('test')
-    },[location,radius]);
+    }, [location, radius]);
 
     async function initMap() {
         setTimeout(async () => {
@@ -31,27 +31,36 @@ export default function Map(){
                 center: {lat: 59.95, lng: 30.33},
                 zoom: 12
             });
-            
-            moveMapToLocation(location,radius)
-            createHouseMarkers()
-            
+
+            moveMapToLocation(location, radius)
+            createHouseMarkers(listings)
+
         }, 50);
-        
-       
-        
+
+
     }
 
-    function createHouseMarkers(){
-        
-        
+    function createHouseMarkers(listings) {
+        for (let listing of listings) {
+            const latitude = listings.addressLatitude
+            const longitude = listings.addressLongitude
+            const marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                icon: {
+                    url: '',
+                    anchor: new google.maps.Point(25, 25),
+                },
+            });
+        }
     }
-    
-    function moveMapToLocation(location,radius) {
-        
-        if(!radius) radius = 1000
+
+    function moveMapToLocation(location, radius) {
+
+        if (!radius) radius = 1000
         const geocoder = new google.maps.Geocoder();
         // Use the geocoder to get the latitude and longitude of the postcode
-        geocoder.geocode({ address: location }, (results, status) => {
+        geocoder.geocode({address: location}, (results, status) => {
             if (status === "OK") {
                 // Set the center of the map to the latitude and longitude of the postcode
                 map.setCenter(results[0].geometry.location);
@@ -59,15 +68,17 @@ export default function Map(){
                 alert("Geocode was not successful for the following reason: " + status);
             }
 
-            const circle = new google.maps.Circle({center:results[0].geometry.location,
+            const circle = new google.maps.Circle({
+                center: results[0].geometry.location,
                 radius: JSON.parse(radius),
                 fillOpacity: 0.15,
                 fillColor: "#FF0000",
-                map: map});
+                map: map
+            });
         });
     }
-    
+
     return (
-        <div ref={mapRef} style={{ height: '40vw', width: '100%' }}></div>
-       )           
+        <div ref={mapRef} style={{height: '40vw', width: '100%'}}></div>
+    )
 }
