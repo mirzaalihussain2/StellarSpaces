@@ -1,4 +1,9 @@
-import axios from 'axios';
+function getCookie(name: string) {
+  const value = '; ' + document.cookie;
+  const parts = value.split('; ' + name + '=');
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+}
+const token = getCookie('token');
 
 // create local user function
 async function createUsers(user: any) {
@@ -19,7 +24,7 @@ async function createUsers(user: any) {
 
 // login local user function
 async function loginUser(user: any) {
-  const response = await fetch('http://localhost:3010/users', {
+  const response = await fetch('http://localhost:3010/users/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +39,7 @@ async function loginUser(user: any) {
   }
 }
 // update user information function
-async function updateUsers(id: any, user: any, token: any) {
+async function updateUsers(id: number, user: any) {
   const response = await fetch(`http://localhost:3010/users/${id}`, {
     method: 'PUT',
     headers: {
@@ -52,7 +57,7 @@ async function updateUsers(id: any, user: any, token: any) {
 }
 
 //delete user function
-async function softDeleteUsers(id: any, token: any) {
+async function softDeleteUsers(id: number) {
   const response = await fetch(`http://localhost:3010/users/${id}/soft`, {
     method: 'PUT',
     headers: {
