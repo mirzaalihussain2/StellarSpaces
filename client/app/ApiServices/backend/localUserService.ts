@@ -72,4 +72,19 @@ async function softDeleteUsers(id: number) {
     throw new Error('Error: ' + response.statusText);
   }
 }
-export { createUsers, loginUser, updateUsers, softDeleteUsers };
+
+async function findEmail(email: string) {
+  const response = await fetch(`http://localhost:3010/users/${email}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Error: ' + response.statusText);
+  }
+}
+export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail };
