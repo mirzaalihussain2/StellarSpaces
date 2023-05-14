@@ -27,6 +27,14 @@ function Login(props: LoginProps) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    // check if email exists
+    // if email exists set setLogin and setSeen to true
+    // check if password is correct
+
+    // if email does not exist
+    // set setRegister to true
+  
+
     e.preventDefault();
     // change admin to a function that checks if email exists in database
     if (login) {
