@@ -21,7 +21,7 @@ model User {
 
   // google authentication
   googleId String?
-
+  displayName String?
   // datetime boilerplate
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
