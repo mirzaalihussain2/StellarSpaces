@@ -3,13 +3,16 @@ import { Request, Response, NextFunction } from 'express';
 import { createImage, deleteImage, fetchImages } from '../models/imageModel';
 
 async function create(req: Request, res: Response, next: NextFunction) {
-  const { url, listingId } = req.body;
-
-  try {
-    const newImage = await createImage(url, listingId);
-    res.status(201).json(newImage);
-  } catch (error) {
-    next(error);
+  const { URLs, listingId } = req.body;
+  console.log(URLs)
+  console.log(listingId)
+  for(let URL of URLs){
+    try {
+      const newImage = await createImage(URL, listingId);
+      res.status(201).json(newImage);
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
