@@ -7,6 +7,7 @@ CREATE TABLE "User" (
     "lastName" TEXT NOT NULL,
     "DOB" TIMESTAMP(3) NOT NULL,
     "googleId" TEXT,
+    "displayName" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -23,8 +24,8 @@ CREATE TABLE "Listing" (
     "price" INTEGER NOT NULL,
     "numOfBedrooms" INTEGER NOT NULL,
     "numOfBathrooms" INTEGER NOT NULL,
-    "petsAllowed" BOOLEAN NOT NULL DEFAULT false,
-    "hasGarage" BOOLEAN NOT NULL DEFAULT false,
+    "petsAllowed" INTEGER NOT NULL DEFAULT 0,
+    "hasGarage" INTEGER NOT NULL DEFAULT 0,
     "status" TEXT NOT NULL,
     "featured" BOOLEAN NOT NULL DEFAULT false,
     "addressApartmentFloorNum" INTEGER,
