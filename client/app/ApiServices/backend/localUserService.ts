@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // create local user function
 async function createUsers(user: any) {
-  const response = await fetch('/api/users', {
+  const response = await fetch('http://localhost:3010/users', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ async function createUsers(user: any) {
 
 // login local user function
 async function loginUser(user: any) {
-  const response = await fetch('/api/users/login', {
+  const response = await fetch('http://localhost:3010/users', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ async function loginUser(user: any) {
 }
 // update user information function
 async function updateUsers(id: any, user: any, token: any) {
-  const response = await fetch(`/api/users/${id}`, {
+  const response = await fetch(`http://localhost:3010/users/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ async function updateUsers(id: any, user: any, token: any) {
 
 //delete user function
 async function softDeleteUsers(id: any, token: any) {
-  const response = await fetch(`/api/users/${id}/soft`, {
+  const response = await fetch(`http://localhost:3010/users/${id}/soft`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
