@@ -4,6 +4,8 @@ import Image from 'next/image'
 import logo from '../../public/logo.png'
 import Link from 'next/link';
 import './page.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 export default function Footer() {
     return (
@@ -12,27 +14,18 @@ export default function Footer() {
                 <div className="float-right">
                     <ul className="social-new">
                         <li>
-                            <a
-                                href="/ComingSoon"
-                                target="_blank"
-                            >
-                                <i className="fa fa-facebook-f" />
+                            <a href="/ComingSoon" target="_blank">
+                                <FontAwesomeIcon icon={faFacebookF} />
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="/ComingSoon"
-                                target="_blank"
-                            >
-                                <i className="fa fa-twitter" />
+                            <a href="/ComingSoon" target="_blank" >
+                                <FontAwesomeIcon icon={faTwitter} />
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="/ComingSoon"
-                                target="_blank"
-                            >
-                                <i className="fa fa-instagram" />
+                            <a href="/ComingSoon" target="_blank" >
+                                <FontAwesomeIcon icon={faInstagram} />
                             </a>
                         </li>
                     </ul>
