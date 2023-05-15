@@ -18,10 +18,10 @@ import bcrypt from 'bcrypt';
 async function findUserByEmail(email: User['email']) {
   return await prisma.user.findUnique({
     where: {
-      email: email
-    }
-  })
-};
+      email: email,
+    },
+  });
+}
 
 // Create a new user
 async function createUser(data: User) {
@@ -131,6 +131,13 @@ async function hardDeleteUser(id: User['id']) {
   return user;
 }
 
+async function deleteOne(emailUser: string) {
+  const result = await prisma.user.delete({
+    where: { email: emailUser },
+  });
+  return result;
+}
+
 // Export the CRUD operations
 export {
   findUserByEmail,
@@ -142,4 +149,5 @@ export {
   loginUser,
   getUserByEmail,
   createUserFromGoogleProfile,
+  deleteOne,
 };
