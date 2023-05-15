@@ -43,7 +43,7 @@ async function createListing(data: Listing) {
 }
 
 // query object, with type-safety, that can accept all filter params from front end
-// could potentially use a platform config file to set defaults for these queries - bring back everything
+// // could potentially use a platform config file to set defaults for these queries - bring back everything
 // const userQuery: queryObject = {
 //   priceMin: 100,
 //   priceMax: 3500,
@@ -117,7 +117,7 @@ export {
   createListing,
   getListings,
   getListingById,
-  userQuery,
+  // userQuery,
   updateListing,
   hardDeleteListing,
   setListingAsFeatured,

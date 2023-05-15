@@ -39,8 +39,8 @@ const PropertySearchFilter: React.FC = () => {
     const [numOfBedroomsMax, setNumOfBedroomsMax] = useState(null)
     const [numOfBathroomsMin, setNumOfBathroomsMin] = useState(null)
     const [numOfBathroomsMax, setNumOfBathroomsMax] = useState(null)
-    const [petsAllowed, setPetsAllowed] = useState(false)
-    const [hasGarage, setHasGarage] = useState(false)
+    const [petsAllowed, setPetsAllowed] = useState(0)
+    const [hasGarage, setHasGarage] = useState(0)
     const [status, setStatus] = useState([])
     const [isAdvanced, setIsAdvanced] = useState(false)
     const [isCustom, setIsCustom] = useState(false)
@@ -61,6 +61,7 @@ const PropertySearchFilter: React.FC = () => {
                 propertyType
             }
             const listings = await fetchListings(queryObject)
+            console.log(listings)
             dispatch(setPropertyListState(listings))
         }
         fetchData()
@@ -100,16 +101,16 @@ const PropertySearchFilter: React.FC = () => {
         setNumOfBedroomsMin(null)
         setNumOfBedroomsMax(null)
         setNumOfBathroomsMin(null)
-        setPetsAllowed(false)
-        setHasGarage(false)
+        setPetsAllowed(0)
+        setHasGarage(0)
         setStatus([])
     }
 
 
     function handleCheckbox(e, setter): void {
         console.log(e.target.checked)
-        if (e.target.checked) setter(true)
-        else setter(false)
+        if (e.target.checked) setter(1)
+        else setter(0)
     }
 
     async function handleSearch() {
@@ -128,6 +129,7 @@ const PropertySearchFilter: React.FC = () => {
         }
         console.log(queryObject)
         const listings = await fetchListings(queryObject)
+        console.log(listings)
         dispatch(setPropertyListState(listings))
 
         // dispatch(setRadiusState(radius));
@@ -294,10 +296,10 @@ const PropertySearchFilter: React.FC = () => {
                 }}>
 
                     <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Pets Allowed'>
-                        <Checkbox checked={petsAllowed} onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
+                        <Checkbox checked={!!petsAllowed} onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
                     </FormItem>
                     <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Must have garage'>
-                        <Checkbox checked={hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
+                        <Checkbox checked={!!hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
                     </FormItem>
                     <Form.Item labelCol={{span: 24}} style={{paddingRight: '1vw', width: '20vw'}}
                                label="Property Status">

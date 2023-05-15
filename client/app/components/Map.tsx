@@ -37,19 +37,22 @@ export default function Map() {
 
         }, 50);
 
-
     }
 
     function createHouseMarkers(listings) {
+        console.log(listings)
         for (let listing of listings) {
-            const latitude = listings.addressLatitude
-            const longitude = listings.addressLongitude
+            console.log(listing)
+            const latitude = listing.addressLatitude
+            const longitude = listing.addressLongitude
+            console.log(longitude)
             const marker = new google.maps.Marker({
                 position: { lat: latitude, lng: longitude },
                 map: map,
                 icon: {
-                    url: '',
+                    url: 'https://cdn-icons-png.flaticon.com/512/1670/1670080.png',
                     anchor: new google.maps.Point(25, 25),
+                    scaledSize: new google.maps.Size(50, 30),
                 },
             });
         }

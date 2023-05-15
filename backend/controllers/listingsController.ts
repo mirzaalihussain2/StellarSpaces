@@ -31,8 +31,8 @@ function generateQueryObj (userQuery : queryObject) {
     numOfBedroomsMax: userQuery.numOfBedroomsMax || 1000000,
     numOfBathroomsMin: userQuery.numOfBathroomsMin || 0,
     numOfBathroomsMax: userQuery.numOfBathroomsMax || 1000000,
-    petsAllowed: (userQuery.petsAllowed).length ? userQuery.petsAllowed : [0, 1], 
-    hasGarage: (userQuery.hasGarage).length ? userQuery.hasGarage : [0, 1],
+    petsAllowed: userQuery.petsAllowed ? [1] : [0, 1], 
+    hasGarage: userQuery.hasGarage ? [1] : [0, 1],
     propertyType: (userQuery.propertyType).length ? userQuery.propertyType : [
       'studio flat',
       'bedsit',
@@ -49,6 +49,7 @@ function generateQueryObj (userQuery : queryObject) {
     ],
     status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft']
   };
+  console.log(queryObj)
   return queryObj;
 }
 
@@ -58,6 +59,7 @@ async function fetchListings(req: Request, res: Response, next: NextFunction) {
     const userQuery = generateQueryObj(req.body);
     console.log(userQuery);
     const listings = await getListings(userQuery);
+    console.log(listings)
     res.status(200).json(listings);
   } catch (error) {
     next(error);
