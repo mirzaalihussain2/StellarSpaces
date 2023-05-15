@@ -43,3 +43,36 @@
 .popup-close h2 {
     margin: 0 auto;
 }
+
+/* Button Style for Google Login */
+
+.googleBtn {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #c2c8d0;
+    border-radius: 3px;
+    color: #2d333a;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    height: 48px;
+    outline: 0;
+    padding: 0 16px;
+    transition: box-shadow .15s ease-in-out, background-color .15s ease-in-out;
+    width: 100%;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.googleBtn:focus {
+    background-color: rgba(0, 123, 173, .15);
+    box-shadow: 0 0 0 4px rgba(0, 123, 173, .15);
+}
+
+.googleBtn:hover {
+    box-shadow: inset 0 0 0 150px rgba(0, 0, 0, .1);
+}
+
+.googleBtn:active {
+    box-shadow: inset 0 0 0 150px rgba(0, 123, 173, .15);
+}

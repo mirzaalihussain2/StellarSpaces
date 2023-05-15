@@ -23,7 +23,7 @@ export default function NewNavBar() {
     //non-dry repeats in componenets>login.tsx
     function handleSignout() {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      }
+    }
 
     const token = getCookie('token');
 
@@ -47,6 +47,11 @@ export default function NewNavBar() {
                 </li>
             </ul>
             <ul>
+                <li>
+                    <Link href="/PropertySearch">
+                        <span className='NavbarElement'>Search</span>
+                    </Link>
+                </li>
                 <li>
                     <Link href="/MyListings">
                         <span className='NavbarElement'>My Listings</span>
