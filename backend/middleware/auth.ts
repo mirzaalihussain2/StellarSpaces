@@ -139,8 +139,6 @@ function authController(req: Request, res: Response, next: NextFunction): void {
         }
         const token = generateJwtToken(user as User);
         res.json({ token });
-        res.cookie('token', token, { sameSite: 'none', secure: true });
-        res.redirect('http://localhost:3000');
       } catch (error) {
         next(error);
       }
