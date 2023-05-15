@@ -1,16 +1,9 @@
 import app from '../index';
-import {
-  createUser,
-  deleteOne,
-  loginUser,
-  updateUser,
-} from '../models/userModel';
 import supertest from 'supertest';
 
 let userEmail: string;
 let userId: number;
 let token: string;
-let listingId: string;
 
 describe('registration', () => {
   it('should register a user', async () => {
@@ -58,9 +51,11 @@ describe('login', () => {
 });
 
 describe('get all users', () => {
-  it('should return true if user exists', async () => {
+  it('should array of user objects', async () => {
     const res = await supertest.agent(app).get(`/users`);
     expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.every((obj: any) => typeof obj === 'object')).toBe(true);
     // console.log(res.body);
     // console.log(res.status);
   });
@@ -99,7 +94,56 @@ describe('get all user information by the user id', () => {
   });
 });
 
-afterAll(async () => {
-  // console.log('Deleting user data for user ID:', userId);
-  await deleteOne(userEmail);
+describe('user update', () => {
+  it('should allow a user with a unique email address to update their information', async () => {
+    const res = await supertest
+      .agent(app)
+      .put(`/users/${userId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        firstName: 'User1Changed',
+      });
+    expect(res.status).toBe(200);
+    expect(res.body.firstName).toBe('User1Changed');
+    // console.log(res.body);
+  });
+  it('should not let user change their information if they are not logged in ', async () => {
+    const res = await supertest.agent(app).put(`/users/${userId}`).send({
+      firstName: 'User1Changed',
+    });
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe('Unauthorized');
+    // console.log(res.body);
+  });
+});
+
+describe('user soft delete', () => {
+  it('should allow a user with a valid user Id to delete their user', async () => {
+    const res = await supertest
+      .agent(app)
+      .put(`/users/${userId}/soft`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.id).toBe(0);
+    // console.log(res.body);
+  });
+  it('should not allow user who are not logged in to complete a soft delete operation', async () => {
+    const res = await supertest.agent(app).put(`/users/${userId}/soft`);
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe('Unauthorized');
+    // console.log(res.body);
+  });
+});
+
+describe('user hard delete', () => {
+  it('should delete the user from the database', async () => {
+    const res = await supertest.agent(app).delete(`/users/0`);
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe('User hard-deleted successfully');
+    console.log(res.body);
+  });
+});
+
+afterAll((done) => {
+  app.close(done);
 });
