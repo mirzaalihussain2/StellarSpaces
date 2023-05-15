@@ -1,8 +1,13 @@
 'use client'
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useRef} from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import {setRadiusState} from "@/app/store/radiusSlice";
+import {setPropertyListState} from "@/app/store/propertyListSlice";
+import isEqual from 'lodash/isEqual';
+
+
+
 
 export default function Map() {
     const dispatch = useDispatch()
@@ -12,20 +17,21 @@ export default function Map() {
 
     const location = useSelector(state => state.location.locationState)
     const radius = useSelector(state => state.radius.radiusState)
-
-
+    
     const listings = useSelector(state => state.propertyList.propertyListState)
-    console.log(location)
-    // const [radiusState,SetRadiusState] =useState(null)
+   
+   
     useEffect(() => {
-        const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
-        script.async = true;
-        window.initMap = initMap;
-        document.head.appendChild(script);
-        console.log('test')
+            console.log('testDanB')
+            const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
+            script.async = true;
+            window.initMap = initMap;
+            document.head.appendChild(script);
+            
     }, [listings]);  // map is re initialized when listings is updated 
+
 
 
     async function initMap() {
@@ -35,10 +41,8 @@ export default function Map() {
                 center: {lat: 59.95, lng: 30.33},
                 zoom: 12
             });
-
             moveMapToLocation(location)
             createHouseMarkers(listings)
-
         }, 50);
 
     }
@@ -54,7 +58,7 @@ export default function Map() {
         for (let listing of listings) {
             const latitude = listing.addressLatitude
             const longitude = listing.addressLongitude
-            
+
             const marker = new google.maps.Marker({
                 position: {lat: latitude, lng: longitude},
                 map: map,
@@ -93,7 +97,6 @@ export default function Map() {
                 dispatch(setRadiusState(1609.34))
             }
         }
-        
         const circle = new google.maps.Circle({
             center: center,
             radius: JSON.parse(radius),

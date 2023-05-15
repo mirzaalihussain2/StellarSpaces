@@ -48,7 +48,7 @@ const PropertySearchFilter: React.FC = () => {
     
 
     useEffect(() => {
-
+        
         setRadius(StoreRadius === 1609.34 ? '1609.34' : '16093.4')
         async function fetchData() {
             const queryObject = {
@@ -61,17 +61,31 @@ const PropertySearchFilter: React.FC = () => {
                 petsAllowed,
                 hasGarage,
                 status,
-                propertyType
+                propertyType,
+                location,
+                radius
             }
+            console.log(queryObject)
             const listings = await fetchListings(queryObject)
-            console.log(listings)
             dispatch(setPropertyListState(listings))
         }
         fetchData()
         
     },[StoreRadius] ) // this occurs agan when the Store radius is updated, since this page is rendered before the map is initalized and the radius is determined in the map page
 
+    function filterByRadius() {
+        
+        let newListings = []
+        for (let listing of listings) {
+            const latLng = new google.maps.LatLng(listing.addressLatitude, listing.addressLongitude);
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(center, latLng)
+            console.log(distance)
+            console.log(radius)
+            if (distance <= radius) newListings.push(listing)
+        }
 
+    }
+    
     function handleFilterInput(e, setter) {
         if (setter === setRadius) setter(e.target.value * 1609.34)
         else {
@@ -130,6 +144,8 @@ const PropertySearchFilter: React.FC = () => {
             hasGarage,
             status,
             propertyType,
+            location,
+            radius
         }
         console.log(queryObject)
         const listings = await fetchListings(queryObject)

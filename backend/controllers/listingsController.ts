@@ -9,11 +9,14 @@ import {
 } from '../models/listingsModel';
 
 
-import { status, propertyTypes } from '../interfaces/Listing';
+
+
+import {status, propertyTypes, Listing} from '../interfaces/Listing';
 console.log(status);
 console.log(Array.isArray(status));
 
 import { NextFunction, Request, Response } from 'express';
+import {getSphericalDistance,getLatLng} from "./GoogleMapsAPI";
 // Create a new listing
 async function createListings(req: Request, res: Response, next: NextFunction) {
   try {
@@ -54,6 +57,20 @@ function generateQueryObj (userQuery : queryObject) {
   return queryObj;
 }
 
+
+async function filterBasedOnRadius(listings:Listing[],radius:string,centerPos:{lat:string,lng:string}){
+  let filteredListings = []
+  for(let listing of listings){
+    const listingPos = { lat: listing.addressLatitude, lng: listing.addressLongitude }
+    const sphericalDistance =  await getSphericalDistance(listingPos,centerPos)
+    console.log(sphericalDistance,JSON.parse(radius))
+    if (sphericalDistance<=JSON.parse(radius)) filteredListings.push(listing)
+  }
+  console.log(filteredListings)
+  return filteredListings
+}
+
+
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
   try {
@@ -61,7 +78,9 @@ async function fetchListings(req: Request, res: Response, next: NextFunction) {
     console.log(userQuery);
     const listings = await getListings(userQuery);
     console.log(listings)
-    res.status(200).json(listings);
+    const centerPos = await getLatLng(req.body.location)
+    const filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    res.status(200).json(filteredListings);
   } catch (error) {
     next(error);
   }
