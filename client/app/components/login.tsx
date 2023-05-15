@@ -157,9 +157,6 @@ function Login(props: LoginProps) {
               </div>
             ) : (
               <div>
-                <Button onClick={handleGoogleSignin}>
-                  Sign in with Google
-                </Button>
                 {login ? 'Login' : register ? 'Register' : 'Log in or Sign Up'}
               </div>
             )}
@@ -250,6 +247,10 @@ function Login(props: LoginProps) {
                   <Button type='primary' htmlType='submit' block>
                     Continue
                   </Button>
+                  <hr></hr>
+                  <button className="googleBtn" onClick={handleGoogleSignin}>
+                    Sign in with Google
+                  </button>
                 </Space>
               </div>
             )}
