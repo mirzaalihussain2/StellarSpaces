@@ -1,7 +1,7 @@
 // Local imports
 import { Listing, PropertyType, Status } from '../interfaces/Listing';
 import prisma from '../prisma/client';
-import getLatLng from "../controllers/addressConverter";
+import {getLatLng} from "../controllers/GoogleMapsAPI";
 
 // Defining type: queryObject
 type queryObject = {

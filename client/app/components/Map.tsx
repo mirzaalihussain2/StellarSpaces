@@ -1,15 +1,18 @@
 'use client'
 import {useEffect} from "react";
 import {useRef} from "react";
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import {setRadiusState} from "@/app/store/radiusSlice";
 
 export default function Map() {
+    const dispatch = useDispatch()
     let map;
     let google;
     const mapRef = useRef(null);
 
     const location = useSelector(state => state.location.locationState)
     const radius = useSelector(state => state.radius.radiusState)
+
 
     const listings = useSelector(state => state.propertyList.propertyListState)
     console.log(location)
@@ -22,7 +25,8 @@ export default function Map() {
         window.initMap = initMap;
         document.head.appendChild(script);
         console.log('test')
-    }, [location, radius]);
+    }, [listings]);  // map is re initialized when listings is updated 
+
 
     async function initMap() {
         setTimeout(async () => {
@@ -32,22 +36,27 @@ export default function Map() {
                 zoom: 12
             });
 
-            moveMapToLocation(location, radius)
+            moveMapToLocation(location)
             createHouseMarkers(listings)
 
         }, 50);
 
     }
 
+    function calculateZoomLevel(radius) {
+        console.log(radius)
+        const zoomLevel = Math.log2((360 * 640 * 2 * 1000) / (256 * radius));
+        console.log(zoomLevel)
+        return Math.floor(zoomLevel) + 4.5
+    }
+
     function createHouseMarkers(listings) {
-        console.log(listings)
         for (let listing of listings) {
-            console.log(listing)
             const latitude = listing.addressLatitude
             const longitude = listing.addressLongitude
-            console.log(longitude)
+            
             const marker = new google.maps.Marker({
-                position: { lat: latitude, lng: longitude },
+                position: {lat: latitude, lng: longitude},
                 map: map,
                 icon: {
                     url: 'https://cdn-icons-png.flaticon.com/512/1670/1670080.png',
@@ -58,27 +67,42 @@ export default function Map() {
         }
     }
 
-    function moveMapToLocation(location, radius) {
-
-        if (!radius) radius = 1000
+    async function moveMapToLocation(location) {
+        let addressComponents
+        let center
         const geocoder = new google.maps.Geocoder();
         // Use the geocoder to get the latitude and longitude of the postcode
-        geocoder.geocode({address: location}, (results, status) => {
+        await geocoder.geocode({address: location}, (results, status) => {
             if (status === "OK") {
                 // Set the center of the map to the latitude and longitude of the postcode
-                map.setCenter(results[0].geometry.location);
-            } else {
-                alert("Geocode was not successful for the following reason: " + status);
+                addressComponents = results[0].address_components;
+                center = results[0].geometry.location
             }
-
-            const circle = new google.maps.Circle({
-                center: results[0].geometry.location,
-                radius: JSON.parse(radius),
-                fillOpacity: 0.15,
-                fillColor: "#FF0000",
-                map: map
-            });
+        })
+        // Check if any address component has "locality" or "postal_code" type
+        const isCity = addressComponents.some(component =>
+            component.types.includes("locality")
+        );
+        const isPostalCode = addressComponents.some(component =>
+            component.types.includes("postal_code")
+        );
+        if (!radius) {
+            if (isCity) {
+                dispatch(setRadiusState(16093.4))
+            } else if (isPostalCode) {
+                dispatch(setRadiusState(1609.34))
+            }
+        }
+        
+        const circle = new google.maps.Circle({
+            center: center,
+            radius: JSON.parse(radius),
+            fillOpacity: 0.15,
+            fillColor: "#FF0000",
+            map: map
         });
+        map.zoom = calculateZoomLevel(radius)
+        map.setCenter(center);
     }
 
     return (

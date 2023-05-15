@@ -8,6 +8,7 @@ import {
   queryObject
 } from '../models/listingsModel';
 
+
 import { status, propertyTypes } from '../interfaces/Listing';
 console.log(status);
 console.log(Array.isArray(status));
