@@ -9,8 +9,8 @@ import {
 } from '../models/listingsModel';
 
 import { status, propertyTypes } from '../interfaces/Listing';
-console.log(status);
-console.log(Array.isArray(status));
+// console.log(status);
+// console.log(Array.isArray(status));
 
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../interfaces/User';
@@ -62,7 +62,7 @@ function generateQueryObj(userQuery: queryObject) {
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
   try {
     const userQuery = generateQueryObj(req.body);
-    console.log(userQuery);
+    // console.log(userQuery);
     const listings = await getListings(userQuery);
     res.status(200).json(listings);
   } catch (error) {

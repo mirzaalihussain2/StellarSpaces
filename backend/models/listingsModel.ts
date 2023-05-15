@@ -30,10 +30,10 @@ type queryObject = {
 async function createListing(userId: User['id'], data: Listing) {
   if (!userId) throw new Error('userId is required to create a listing');
 
-  console.log(data);
+  // console.log(data);
   const address = `${data.addressHouseNum}, ${data.addressStreetName}, ${data.addressPostCode}`;
   const LatLngObj = await getLatLng(address);
-  console.log(LatLngObj);
+  // console.log(LatLngObj);
   if (LatLngObj) {
     data.addressLatitude = LatLngObj.lat;
     data.addressLongitude = LatLngObj.lng;

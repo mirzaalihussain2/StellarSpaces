@@ -95,7 +95,7 @@ function authenticateJwt(
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-      console.log('user dawgy:', user);
+      // console.log('user dawgy:', user);
       req.user = user;
       next();
     }
