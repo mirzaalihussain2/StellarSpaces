@@ -1,8 +1,10 @@
 // Local imports
 import { Listing, PropertyType, Status } from '../interfaces/Listing';
 import prisma from '../prisma/client';
-import getLatLng from '../controllers/addressConverter';
+
+import {getLatLng} from "../controllers/GoogleMapsAPI";
 import { User } from '../interfaces/User';
+
 
 // Defining type: queryObject
 type queryObject = {
@@ -51,7 +53,7 @@ async function createListing(userId: User['id'], data: Listing) {
 }
 
 // query object, with type-safety, that can accept all filter params from front end
-// could potentially use a platform config file to set defaults for these queries - bring back everything
+// // could potentially use a platform config file to set defaults for these queries - bring back everything
 // const userQuery: queryObject = {
 //   priceMin: 100,
 //   priceMax: 3500,

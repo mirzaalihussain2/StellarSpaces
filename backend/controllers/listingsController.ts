@@ -8,12 +8,18 @@ import {
   queryObject,
 } from '../models/listingsModel';
 
-import { status, propertyTypes } from '../interfaces/Listing';
-// console.log(status);
-// console.log(Array.isArray(status));
+
+
+
+
+import {status, propertyTypes, Listing} from '../interfaces/Listing';
+import { User } from '../interfaces/User';
+console.log(status);
+console.log(Array.isArray(status));
 
 import { NextFunction, Request, Response } from 'express';
-import { User } from '../interfaces/User';
+import {getSphericalDistance,getLatLng} from "./GoogleMapsAPI";
+
 // Create a new listing
 async function createListings(req: Request, res: Response, next: NextFunction) {
   try {
@@ -33,30 +39,41 @@ function generateQueryObj(userQuery: queryObject) {
     numOfBedroomsMax: userQuery.numOfBedroomsMax || 1000000,
     numOfBathroomsMin: userQuery.numOfBathroomsMin || 0,
     numOfBathroomsMax: userQuery.numOfBathroomsMax || 1000000,
-    petsAllowed: userQuery.petsAllowed.length ? userQuery.petsAllowed : [0, 1],
-    hasGarage: userQuery.hasGarage.length ? userQuery.hasGarage : [0, 1],
-    propertyType: userQuery.propertyType.length
-      ? userQuery.propertyType
-      : [
-          'studio flat',
-          'bedsit',
-          'detached',
-          'semi-detached',
-          'terrace',
-          'bungalow',
-          'end terrace',
-          'flat',
-          'penthouse',
-          'maisonette',
-          'mobile home',
-          'house boat',
-        ],
-    status: userQuery.status.length
-      ? userQuery.status
-      : ['live', 'dormant', 'let agreed', 'draft'],
+    petsAllowed: userQuery.petsAllowed ? [1] : [0, 1], 
+    hasGarage: userQuery.hasGarage ? [1] : [0, 1],
+    propertyType: (userQuery.propertyType).length ? userQuery.propertyType : [
+      'studio flat',
+      'bedsit',
+      'detached',
+      'semi-detached',
+      'terrace',
+      'bungalow',
+      'end terrace',
+      'flat',
+      'penthouse',
+      'maisonette',
+      'mobile home',
+      'house boat'
+    ],
+    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft']
   };
+  console.log(queryObj)
   return queryObj;
 }
+
+
+async function filterBasedOnRadius(listings:Listing[],radius:string,centerPos:{lat:string,lng:string}){
+  let filteredListings = []
+  for(let listing of listings){
+    const listingPos = { lat: listing.addressLatitude, lng: listing.addressLongitude }
+    const sphericalDistance =  await getSphericalDistance(listingPos,centerPos)
+    console.log(sphericalDistance,JSON.parse(radius))
+    if (sphericalDistance<=JSON.parse(radius)) filteredListings.push(listing)
+  }
+  console.log(filteredListings)
+  return filteredListings
+}
+
 
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
@@ -64,7 +81,10 @@ async function fetchListings(req: Request, res: Response, next: NextFunction) {
     const userQuery = generateQueryObj(req.body);
     // console.log(userQuery);
     const listings = await getListings(userQuery);
-    res.status(200).json(listings);
+    console.log(listings)
+    const centerPos = await getLatLng(req.body.location)
+    const filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    res.status(200).json(filteredListings);
   } catch (error) {
     next(error);
   }
