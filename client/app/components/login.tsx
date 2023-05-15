@@ -38,7 +38,6 @@ function Login(props: LoginProps) {
       return false;
     }
   }
-  
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     // check if email exists
@@ -72,11 +71,14 @@ function Login(props: LoginProps) {
     // }
   }
 
-  async function handleLoginOrRegister(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleLoginOrRegister(
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
     if (login) {
       try {
         const user = await loginUser({ email, password });
-        console.log(user);
+        document.cookie = `token=${user.token}; path=/`;
+        // console.log(user);
         console.log('Login successful');
         props.toggleSignIn();
         // Handle successful login
@@ -227,7 +229,12 @@ function Login(props: LoginProps) {
                     width: '100%',
                   }}
                 >
-                  <Button type='primary' htmlType='submit' block onClick={handleLoginOrRegister}>
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    block
+                    onClick={handleLoginOrRegister}
+                  >
                     Submit
                   </Button>
                 </Space>

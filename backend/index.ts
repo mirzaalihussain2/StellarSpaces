@@ -11,12 +11,14 @@ import { errorHandlingMiddleware } from './middleware/errorHandlingMiddleware';
 import { authRoutes } from './middleware/auth';
 import imagesRouter from './routes/imagesRouter';
 import stripeRoute from './routes/stripeRouter';
+import passport from 'passport';
 dotenv.config();
 
 // Middlewares
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(passport.initialize());
 app.use(express.json());
 app.use(cors());
 
