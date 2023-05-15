@@ -62,8 +62,8 @@ const jwtOptions = {
 
 passport.use(
   //assigns a jwt to user
-  new JwtStrategy(jwtOptions, function (jwtPayload, done) {
-    const user = getUserById(jwtPayload.id);
+  new JwtStrategy(jwtOptions, async function (jwtPayload, done) {
+    const user = await getUserById(jwtPayload.id);
     if (!user) {
       return done(null, false);
     }
@@ -95,6 +95,7 @@ function authenticateJwt(
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
+      // console.log('user dawgy:', user);
       req.user = user;
       next();
     }
