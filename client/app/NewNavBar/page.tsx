@@ -1,11 +1,22 @@
 'use client'
 import React, { useRef, useState, useEffect } from 'react'
+import { AppstoreOutlined, HomeOutlined, LoginOutlined, SettingOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 import Image from 'next/image'
 import logo from '../../public/logo.png'
 import Link from 'next/link';
 import './page.css'
+import Login from '../components/login';
 
 export default function NewNavBar() {
+    const [current, setCurrent] = useState('mail');
+    const [showLogin, setShowLogin] = useState(false);
+
+    const togglePop = () => {
+        setShowLogin(!showLogin);
+    }
+
     return (
         <header className='navbar'>
             <ul className='navbar-ul'>
@@ -57,10 +68,14 @@ export default function NewNavBar() {
                 </li>
                 <li>
                     <Link href="/SignOut">
-                        <span className='NavbarElement'>Sign out</span>
+                        <span className='NavbarElement'>Sign Out</span>
                     </Link>
                 </li>
+                <li>
+                    <button onClick={togglePop}>Sign in/ Sign up</button>
+                </li>
             </ul>
+            {showLogin ? <Login toggle={togglePop} /> : null}
         </header>
     )
 }
