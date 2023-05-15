@@ -47,46 +47,52 @@ export default function NewNavBar() {
                 </li>
             </ul>
             <ul>
+                {token ?
+                    <>
+                        <li>
+                            <Link href="/MyListings">
+                                <span className='NavbarElement'>My Listings</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/Messages">
+                                <span className='NavbarElement'>Messages</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/Bookings">
+                                <span className='NavbarElement'>Bookings</span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link href="/Dashboard">
+                                <span className='NavbarElement'>Dashboard</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/Account">
+                                <span className='NavbarElement'>Account</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/Favourites">
+                                <span className='NavbarElement'>Favourites</span>
+                            </Link>
+                        </li>
+                    </>
+                    : null
+                }
+            </ul>
+            <ul>
                 <li>
                     <Link href="/PropertySearch">
                         <span className='NavbarElement'>Search</span>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/MyListings">
-                        <span className='NavbarElement'>My Listings</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/Messages">
-                        <span className='NavbarElement'>Messages</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/Bookings">
-                        <span className='NavbarElement'>Bookings</span>
-                    </Link>
-                </li>
-                <li>
                     <Link href="/Help">
                         <span className='NavbarElement'>Help</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/Dashboard">
-                        <span className='NavbarElement'>Dashboard</span>
-                    </Link>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <Link href="/Account">
-                        <span className='NavbarElement'>Account</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/Favourites">
-                        <span className='NavbarElement'>Favourites</span>
                     </Link>
                 </li>
                 {token ?
