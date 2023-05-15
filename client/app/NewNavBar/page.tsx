@@ -10,8 +10,26 @@ import './page.css'
 import Login from '../components/login';
 
 export default function NewNavBar() {
-    const [current, setCurrent] = useState('mail');
+    const [signedIn, setSignedIn] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+
+    //non-dry repeats in ApiServices>backend>CreateListing.tsx
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    //non-dry repeats in componenets>login.tsx
+    function handleSignout() {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      }
+
+    const token = getCookie('token');
+
+    const toggleSignIn = () => {
+        setSignedIn(!signedIn);
+    }
 
     const togglePop = () => {
         setShowLogin(!showLogin);
@@ -66,16 +84,19 @@ export default function NewNavBar() {
                         <span className='NavbarElement'>Favourites</span>
                     </Link>
                 </li>
-                <li>
-                    <Link href="/SignOut">
-                        <span className='NavbarElement'>Sign Out</span>
-                    </Link>
-                </li>
-                <li>
-                    <button onClick={togglePop}>Sign in/ Sign up</button>
-                </li>
+                {token ?
+                    <li>
+                        <Link href="/">
+                            <span className='NavbarElement' onClick={handleSignout}>Sign Out</span>
+                        </Link>
+                    </li>
+                    :
+                    <li>
+                        <button onClick={togglePop}>Sign in/ Sign up</button>
+                    </li>
+                }
             </ul>
-            {showLogin ? <Login toggle={togglePop} /> : null}
+            {showLogin ? <Login toggle={togglePop} toggleSignIn={toggleSignIn} /> : null}
         </header>
     )
 }

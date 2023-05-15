@@ -8,6 +8,8 @@ import {
 } from '../ApiServices/backend/localUserService';
 interface LoginProps {
   toggle: () => void;
+  toggleSignIn: () => void;
+
 }
 
 interface UserProfile {
@@ -76,6 +78,7 @@ function Login(props: LoginProps) {
         const user = await loginUser({ email, password });
         console.log(user);
         console.log('Login successful');
+        props.toggleSignIn();
         // Handle successful login
       } catch (error) {
         // Handle login error
@@ -83,6 +86,7 @@ function Login(props: LoginProps) {
     } else if (register) {
       try {
         await handleRegistration();
+        props.toggleSignIn();
       } catch (error) {
         console.log(error);
       }
