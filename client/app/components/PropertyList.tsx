@@ -1,6 +1,6 @@
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Avatar, List, Space } from 'antd';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {selectPropertyListState} from "@/app/store/propertyListSlice";
 import {useSelector} from "react-redux";
 
@@ -15,7 +15,7 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
 );
 
 const PropertyList: React.FC = () =>{
- 
+    
     const listings = useSelector(state =>state.propertyList.propertyListState)
     
     return(

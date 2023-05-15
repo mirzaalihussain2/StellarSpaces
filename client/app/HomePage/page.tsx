@@ -15,18 +15,18 @@ import {useEffect, useState} from "react";
 
 import {selectLocationState,setLocationState} from "@/app/store/locationSlice";
 import {useDispatch, useSelector} from 'react-redux'
+import {setRadiusState} from "@/app/store/radiusSlice";
 
 
 export default function HomePage() {
     const dispatch = useDispatch();
     const locationState = useSelector(selectLocationState);
     useEffect(()=> {
-        
         const script = document.createElement('script');
         script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
         script.async = true;
         document.head.appendChild(script);
-        
+        dispatch(setRadiusState(null))
     },[]);
     
     function handleLocation(e) {
