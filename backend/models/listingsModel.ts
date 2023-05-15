@@ -2,6 +2,7 @@
 import { Listing, PropertyType, Status } from '../interfaces/Listing';
 import prisma from '../prisma/client';
 import getLatLng from '../controllers/addressConverter';
+import { User } from '../interfaces/User';
 
 // Defining type: queryObject
 type queryObject = {
@@ -26,7 +27,9 @@ type queryObject = {
 // (6) Hard-delete listing by listing id
 
 // Create a new listing
-async function createListing(data: Listing) {
+async function createListing(userId: User['id'], data: Listing) {
+  if (!userId) throw new Error('userId is required to create a listing');
+
   console.log(data);
   const address = `${data.addressHouseNum}, ${data.addressStreetName}, ${data.addressPostCode}`;
   const LatLngObj = await getLatLng(address);
@@ -37,8 +40,13 @@ async function createListing(data: Listing) {
   }
   data.status = 'draft';
   data.title = `${data.numOfBedrooms} bedroom ${data.propertyType} in ${data.addressStreetName}`;
+
+  // Include userId in the data passed to prisma.listing.create
   return await prisma.listing.create({
-    data,
+    data: {
+      ...data,
+      userId,
+    },
   });
 }
 
