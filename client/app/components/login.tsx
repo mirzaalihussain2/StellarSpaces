@@ -20,12 +20,23 @@ function Login(props: LoginProps) {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
+  const [DOB, setDOB] = useState<Date | null>(null);
   const [seen, setSeen] = useState(false);
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  async function emailExists(email: string) {
+    try {
+      const result = await findEmail(email);
+      return result;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     // check if email exists
@@ -34,14 +45,14 @@ function Login(props: LoginProps) {
 
     // if email does not exist
     // set setRegister to true
-    if (email === 'admin') {
+    e.preventDefault();
+    if (await emailExists(email)) {
       setSeen(!seen);
       setLogin(!login);
     } else {
       setRegister(!register);
     }
 
-    e.preventDefault();
     // change admin to a function that checks if email exists in database
     // if (login) {
     //   try {
@@ -59,33 +70,35 @@ function Login(props: LoginProps) {
     // }
   }
 
-  async function handleLoginOrRegister(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLoginOrRegister(event: React.MouseEvent<HTMLButtonElement>) {
     if (login) {
       try {
         const user = await loginUser({ email, password });
+        console.log(user);
+        console.log('Login successful');
         // Handle successful login
       } catch (error) {
         // Handle login error
       }
     } else if (register) {
       try {
-        await handleRegistration(e);
+        await handleRegistration();
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-  async function handleRegistration(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleRegistration() {
+    // e.preventDefault();
     if (register) {
       try {
         const newUser = await createUsers({
-          firstName,
-          lastName,
           email,
           password,
-          dateOfBirth,
+          firstName,
+          lastName,
+          DOB,
         });
         console.log('Registration successful');
       } catch (error) {
@@ -178,8 +191,8 @@ function Login(props: LoginProps) {
                   Date of Birth:
                   <input
                     type='date'
-                    value={dateOfBirth?.toISOString().substr(0, 10)}
-                    onChange={(e) => setDateOfBirth(new Date(e.target.value))}
+                    value={DOB?.toISOString().substr(0, 10)}
+                    onChange={(e) => setDOB(new Date(e.target.value))}
                   />
                 </label>
                 <label>
