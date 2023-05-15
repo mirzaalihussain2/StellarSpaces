@@ -2,7 +2,7 @@ const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
 
 export async function getLatLng(address: string) {
     try {
-      
+
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}&sensor=false`;
         const response = await fetch(url);
         const data = await response.json();
@@ -14,20 +14,29 @@ export async function getLatLng(address: string) {
     }
 }
 
-export async function getSphericalDistance(listingPos:any,centerPos :any) {
-    try {
-        const listingCoords = `${listingPos.lat},${listingPos.lng}`;
-        const centerCoords = `${centerPos.lat},${centerPos.lng}`;
-        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${listingCoords}&destinations=${centerCoords}&key=${apiKey}`;
-        const response = await fetch(url);
-        const responseData = await response.json();
-        const distance = responseData.rows[0].elements[0].distance.value;
-        return distance;
-    } catch (e) {
-        console.log(e)
-    }
+function toRadians(degrees: number) {
+    return degrees * (Math.PI / 180);
 }
 
+export function getSphericalDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+    console.log(lat1)
+    console.log(lat2)
+    console.log(lon1)
+    console.log(lon2)
+    const earthRadiusKm = 6371; // Radius of the Earth in kilometers
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadiusKm * c;
+    return distance * 1000;
+
+}
 
 
 //

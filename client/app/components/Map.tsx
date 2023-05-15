@@ -101,7 +101,7 @@ export default function Map() {
             center: center,
             radius: JSON.parse(radius),
             fillOpacity: 0.15,
-            fillColor: "#FF0000",
+            fillColor: "lightblue",
             map: map
         });
         map.zoom = calculateZoomLevel(radius)
