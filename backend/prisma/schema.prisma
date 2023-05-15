@@ -43,8 +43,8 @@ model Listing {
   price          Int
   numOfBedrooms  Int
   numOfBathrooms Int
-  petsAllowed    Boolean @default(false)
-  hasGarage      Boolean @default(false)
+  petsAllowed    Int @default(0)
+  hasGarage      Int @default(0)
   status         String
   featured       Boolean @default(false)
 

@@ -18,4 +18,12 @@ async function deleteImage(id: number) {
   });
 }
 
-export { createImage, deleteImage };
+async function fetchImages(listingId: number) {
+  return await prisma.image.findMany({
+    where: {
+      listingId: listingId,
+    },
+  });
+}
+
+export { createImage, deleteImage, fetchImages };

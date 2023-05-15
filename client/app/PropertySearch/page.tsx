@@ -5,6 +5,9 @@ import Map from '../components/Map'
 
 import PropertySearchFilter from "@/app/components/PropertySearchFilter";
 import PropertyList from "@/app/components/PropertyList";
+import {useEffect} from "react";
+import fetchListings from "@/app/ApiServices/backend/FetchListings";
+
 export default function PropertySearch() {
    
     

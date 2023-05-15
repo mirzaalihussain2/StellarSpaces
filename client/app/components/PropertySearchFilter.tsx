@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import type {MenuProps} from 'antd';
 import {Button, Checkbox, Dropdown, Form, Input, Menu, Select} from 'antd';
@@ -8,24 +8,24 @@ import PriceRange from "@/app/components/PriceRange"
 import BedroomRange from "@/app/components/BedroomRange";
 import BathroomRange from "@/app/components/BathroomRange";
 import {useDispatch} from 'react-redux'
-import {setLocationState} from "@/app/store/locationSlice";
-import {setRadiusState} from "@/app/store/radiusSlice";
-import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
-import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
-import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
-import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
-import {setHasGarageState} from "@/app/store/hasGarageSlice";
-import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
-import {setPriceMaxState} from "@/app/store/priceMaxSlice";
-import {setPriceMinState} from "@/app/store/priceMinSlice";
-import {setStatusState} from "@/app/store/statusSlice";
-import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
+// import {setLocationState} from "@/app/store/locationSlice";
+// import {setRadiusState} from "@/app/store/radiusSlice";
+// import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
+// import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
+// import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
+// import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
+// import {setHasGarageState} from "@/app/store/hasGarageSlice";
+// import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
+// import {setPriceMaxState} from "@/app/store/priceMaxSlice";
+// import {setPriceMinState} from "@/app/store/priceMinSlice";
+// import {setStatusState} from "@/app/store/statusSlice";
+// import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
 import {setPropertyListState} from "@/app/store/propertyListSlice";
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
 import {OptGroup} from "rc-select";
-import {is} from "@react-spring/shared";
 import FormItem from "antd/es/form/FormItem";
-import {set} from "zod";
+import {fetchBaseQuery} from "@reduxjs/toolkit/query";
+
 
 const PropertySearchFilter: React.FC = () => {
 
@@ -45,10 +45,34 @@ const PropertySearchFilter: React.FC = () => {
     const [isAdvanced, setIsAdvanced] = useState(false)
     const [isCustom, setIsCustom] = useState(false)
 
+
+    useEffect(() => {
+        async function fetchData() {
+            const queryObject = {
+                priceMin,
+                priceMax,
+                numOfBedroomsMin,
+                numOfBedroomsMax,
+                numOfBathroomsMin,
+                numOfBathroomsMax,
+                petsAllowed,
+                hasGarage,
+                status,
+                propertyType
+            }
+            const listings = await fetchListings(queryObject)
+            dispatch(setPropertyListState(listings))
+        }
+        fetchData()
+    }, [])
+
+
     function handleFilterInput(e, setter) {
-        if(setter===setRadius) setter(e.target.value*1609.34)
-        else{   setter(e.target.value)}
-     
+        if (setter === setRadius) setter(e.target.value * 1609.34)
+        else {
+            setter(e.target.value)
+        }
+
     }
 
     function handleRadius(e) {
@@ -105,19 +129,19 @@ const PropertySearchFilter: React.FC = () => {
         console.log(queryObject)
         const listings = await fetchListings(queryObject)
         dispatch(setPropertyListState(listings))
-        console.log(listings)
-        dispatch(setRadiusState(radius));
-        dispatch(setLocationState(location))
-        dispatch(setPriceMaxState(priceMax))
-        dispatch(setPriceMinState(priceMin))
-        dispatch(setStatusState(status))
-        dispatch(setPetsAllowedState(petsAllowed))
-        dispatch(setHasGarageState(hasGarage))
-        dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
-        dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
-        dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
-        dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
-        dispatch(setPropertyTypeState(propertyType))
+
+        // dispatch(setRadiusState(radius));
+        // dispatch(setLocationState(location))
+        // dispatch(setPriceMaxState(priceMax))
+        // dispatch(setPriceMinState(priceMin))
+        // dispatch(setStatusState(status))
+        // dispatch(setPetsAllowedState(petsAllowed))
+        // dispatch(setHasGarageState(hasGarage))
+        // dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
+        // dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
+        // dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
+        // dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
+        // dispatch(setPropertyTypeState(propertyType))
 
     }
 
@@ -133,14 +157,23 @@ const PropertySearchFilter: React.FC = () => {
                         }}/>
                     </Form.Item>
                     <div style={{paddingTop: '8vw'}}>
-                        <Button className={'button'} style={{backgroundColor: 'lightblue',zIndex:'20'}} onClick={handleSearch}>Search</Button>
-                        <Button  className={'button'} style={{ position:'absolute',zIndex:'20',marginTop:'0.5vw',left:'7vw', backgroundColor: '#ffcccb'}} onClick={handleReset}>Reset
+                        <Button className={'button'} style={{backgroundColor: 'lightblue', zIndex: '20'}}
+                                onClick={handleSearch}>Search</Button>
+                        <Button className={'button'} style={{
+                            position: 'absolute',
+                            zIndex: '20',
+                            marginTop: '0.5vw',
+                            left: '7vw',
+                            backgroundColor: '#ffcccb'
+                        }} onClick={handleReset}>Reset
                             Filters</Button>
-                        <Button className={'button'} style ={{position:'absolute',zIndex:'20', marginTop:'0.5vw',left:'15.5vw'}} onClick={() => {
-                           
-                            if (!isAdvanced) setIsAdvanced(true)
-                            else setIsAdvanced(false)
-                        }}>Advanced Filter</Button>
+                        <Button className={'button'}
+                                style={{position: 'absolute', zIndex: '20', marginTop: '0.5vw', left: '15.5vw'}}
+                                onClick={() => {
+
+                                    if (!isAdvanced) setIsAdvanced(true)
+                                    else setIsAdvanced(false)
+                                }}>Advanced Filter</Button>
                     </div>
                 </>
             ,
@@ -150,17 +183,17 @@ const PropertySearchFilter: React.FC = () => {
             label:
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Form.Item
-                        
+
                         labelCol={{span: 24}}
                         style={{width: '13vw'}} label="Radius:">
-                        <Select   onSelect={(e) => {
+                        <Select onSelect={(e) => {
                             handleRadius(e)
                         }}>
                             <Select.Option value="1609.34">1 mile</Select.Option>
                             <Select.Option value="8046.72">5 miles</Select.Option>
                             <Select.Option value="16093.4">10 miles</Select.Option>
                             <Select.Option value="32186.9">20 miles</Select.Option>
-                            <Select.Option  value="48280.3">30 miles</Select.Option>
+                            <Select.Option value="48280.3">30 miles</Select.Option>
                             <Select.Option value="64373.8">40 miles</Select.Option>
                             <Select.Option value="custom">Custom Radius</Select.Option>
                         </Select>
@@ -222,7 +255,8 @@ const PropertySearchFilter: React.FC = () => {
         {
             label: (
                 <div style={{width: '12vw'}}> Number of bedrooms
-                    <BedroomRange  bedroomMax ={numOfBedroomsMax} bedroomMin={numOfBedroomsMin} setBedroomMax={setNumOfBedroomsMax}
+                    <BedroomRange bedroomMax={numOfBedroomsMax} bedroomMin={numOfBedroomsMin}
+                                  setBedroomMax={setNumOfBedroomsMax}
                                   setBedroomMin={setNumOfBedroomsMin}></BedroomRange>
                 </div>
 
@@ -232,7 +266,8 @@ const PropertySearchFilter: React.FC = () => {
         {
             label: (
                 <div style={{width: '12vw'}}> Number of bathrooms
-                    <BathroomRange bathroomMax={numOfBathroomsMax} bathroomMin ={numOfBathroomsMin}  setBathroomMax={setNumOfBathroomsMax}
+                    <BathroomRange bathroomMax={numOfBathroomsMax} bathroomMin={numOfBathroomsMin}
+                                   setBathroomMax={setNumOfBathroomsMax}
                                    setBathroomMin={setNumOfBathroomsMin}></BathroomRange>
                 </div>
 
@@ -264,7 +299,8 @@ const PropertySearchFilter: React.FC = () => {
                     <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Must have garage'>
                         <Checkbox checked={hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
                     </FormItem>
-                    <Form.Item labelCol={{span: 24}} style={{paddingRight: '1vw', width: '20vw'}} label="Property Status">
+                    <Form.Item labelCol={{span: 24}} style={{paddingRight: '1vw', width: '20vw'}}
+                               label="Property Status">
                         <Select value={status as null} mode="multiple" onDeselect={(e) => {
                             handleMultiple(e, status, setStatus, 'deselect')
                         }} onSelect={(e) => {

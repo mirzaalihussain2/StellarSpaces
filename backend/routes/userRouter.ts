@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  retrieveUser,
   createUsers,
   getAllUser,
   getUsersById,
@@ -14,6 +15,8 @@ const router = Router();
 router.post('/', createUsers);
 // Login user
 router.post('/login', authController);
+// Find user by email
+router.get('/:email', retrieveUser);
 // Get all users
 router.get('/', getAllUser);
 // Get a specific user through their user ID

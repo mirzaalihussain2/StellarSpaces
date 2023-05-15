@@ -11,11 +11,10 @@ type queryObject = {
   numOfBedroomsMax?: number;
   numOfBathroomsMin?: number;
   numOfBathroomsMax?: number;
-  petsAllowed?: boolean;
-  hasGarage?: boolean;
-  status?: Status[];
-  propertyType?: PropertyType[];
-  featured?: boolean;
+  petsAllowed: number[];
+  hasGarage: number[];
+  status: Status[];
+  propertyType: PropertyType[];
 };
 
 // List of LISTING model functions
@@ -28,13 +27,16 @@ type queryObject = {
 
 // Create a new listing
 async function createListing(data: Listing) {
+  console.log(data)
   const address = `${data.addressHouseNum}, ${data.addressStreetName}, ${data.addressPostCode}`;
   const LatLngObj = await getLatLng(address)
+  console.log(LatLngObj)
   if(LatLngObj){
     data.addressLatitude = LatLngObj.lat
     data.addressLongitude = LatLngObj.lng
   }
-  
+  data.status = 'draft'
+  data.title = `${data.numOfBedrooms} bedroom ${data.propertyType} in ${data.addressStreetName}`;
   return await prisma.listing.create({
     data,
   });
@@ -42,19 +44,18 @@ async function createListing(data: Listing) {
 
 // query object, with type-safety, that can accept all filter params from front end
 // could potentially use a platform config file to set defaults for these queries - bring back everything
-const userQuery: queryObject = {
-  priceMin: 100,
-  priceMax: 3500,
-  numOfBedroomsMin: 1,
-  numOfBedroomsMax: 5,
-  numOfBathroomsMin: 1,
-  numOfBathroomsMax: 5,
-  petsAllowed: false, // false is actually true OR false
-  hasGarage: false, // false is actually true OR false
-  status: ['dormant', 'live', 'let agreed'],
-  propertyType: ['flat', 'bungalow', 'terrace'],
-  featured: false,
-};
+// const userQuery: queryObject = {
+//   priceMin: 100,
+//   priceMax: 3500,
+//   numOfBedroomsMin: 1,
+//   numOfBedroomsMax: 5,
+//   numOfBathroomsMin: 1,
+//   numOfBathroomsMax: 5,
+//   petsAllowed: [0], // false is actually true OR false
+//   hasGarage: [1], // false is actually true OR false
+//   status: ['dormant', 'live', 'let agreed'],
+//   propertyType: ['flat', 'bungalow', 'terrace']
+// };
 
 // Get all listings
 async function getListings(userQuery: queryObject) {
@@ -72,11 +73,10 @@ async function getListings(userQuery: queryObject) {
         gte: userQuery.numOfBathroomsMin,
         lte: userQuery.numOfBathroomsMax,
       },
-      petsAllowed: userQuery.petsAllowed, // false => true OR false
-      hasGarage: userQuery.hasGarage, // false => true OR false
+      petsAllowed: { in: userQuery.petsAllowed }, // false => true OR false
+      hasGarage: { in: userQuery.hasGarage }, // false => true OR false
       status: { in: userQuery.status },
-      propertyType: { in: userQuery.propertyType },
-      featured: userQuery.featured,
+      propertyType: { in: userQuery.propertyType }
     },
   });
 }
@@ -121,4 +121,5 @@ export {
   updateListing,
   hardDeleteListing,
   setListingAsFeatured,
+  queryObject
 };
