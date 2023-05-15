@@ -92,7 +92,7 @@ export default function NewNavBar() {
                     </li>
                     :
                     <li>
-                        <button onClick={togglePop}>Sign in/ Sign up</button>
+                        <span className='NavbarElement' onClick={togglePop}>Sign in/ Sign up</span>
                     </li>
                 }
             </ul>
