@@ -68,6 +68,18 @@ export default function Map() {
                     scaledSize: new google.maps.Size(50, 30),
                 },
             });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                marker.setAnimation(null);
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                const listingElement = document.getElementById(listing.id);
+                if (listingElement) {
+                    listingElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         }
     }
 

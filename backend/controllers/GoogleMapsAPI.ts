@@ -2,7 +2,6 @@ const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
 
 export async function getLatLng(address: string) {
     try {
-
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}&sensor=false`;
         const response = await fetch(url);
         const data = await response.json();
