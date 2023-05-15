@@ -1,4 +1,5 @@
 import './Login.css';
+import googleLogo from '../../public/Google_Logo.svg'
 import { useEffect, useState } from 'react';
 import { Button, Space } from 'antd';
 import {
@@ -6,6 +7,7 @@ import {
   loginUser,
   findEmail,
 } from '../ApiServices/backend/localUserService';
+import Image from 'next/image';
 interface LoginProps {
   toggle: () => void;
   toggleSignIn: () => void;
@@ -249,6 +251,8 @@ function Login(props: LoginProps) {
                   </Button>
                   <hr></hr>
                   <button className="googleBtn" onClick={handleGoogleSignin}>
+                    <Image src={googleLogo} alt="google logo"
+                      width={25} height={25} style={{ marginRight: '10px' }} />
                     Sign in with Google
                   </button>
                 </Space>
