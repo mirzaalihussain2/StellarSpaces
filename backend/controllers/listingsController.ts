@@ -4,8 +4,13 @@ import {
   getListingById,
   // userQuery,
   updateListing,
-  hardDeleteListing
+  hardDeleteListing,
+  queryObject
 } from '../models/listingsModel';
+
+import { status, propertyTypes } from '../interfaces/Listing';
+console.log(status);
+console.log(Array.isArray(status));
 
 import { NextFunction, Request, Response } from 'express';
 // Create a new listing
@@ -18,11 +23,40 @@ async function createListings(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+function generateQueryObj (userQuery : queryObject) {
+  let queryObj : queryObject = {
+    priceMin: userQuery.priceMin || 0,
+    priceMax: userQuery.priceMax || 1000000000,
+    numOfBedroomsMin: userQuery.numOfBedroomsMin || 0,
+    numOfBedroomsMax: userQuery.numOfBedroomsMax || 1000000,
+    numOfBathroomsMin: userQuery.numOfBathroomsMin || 0,
+    numOfBathroomsMax: userQuery.numOfBathroomsMax || 1000000,
+    petsAllowed: (userQuery.petsAllowed).length ? userQuery.petsAllowed : [0, 1], 
+    hasGarage: (userQuery.hasGarage).length ? userQuery.hasGarage : [0, 1],
+    propertyType: (userQuery.propertyType).length ? userQuery.propertyType : [
+      'studio flat',
+      'bedsit',
+      'detached',
+      'semi-detached',
+      'terrace',
+      'bungalow',
+      'end terrace',
+      'flat',
+      'penthouse',
+      'maisonette',
+      'mobile home',
+      'house boat'
+    ],
+    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft']
+  };
+  return queryObj;
+}
+
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
   try {
-    const userQuery = req.body
-    console.log(userQuery)
+    const userQuery = generateQueryObj(req.body);
+    console.log(userQuery);
     const listings = await getListings(userQuery);
     res.status(200).json(listings);
   } catch (error) {

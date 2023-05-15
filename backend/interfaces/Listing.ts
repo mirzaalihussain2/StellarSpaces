@@ -1,4 +1,4 @@
-const propertyTypes = [
+export const propertyTypes = [
     'studio flat',
     'bedsit',
     'detached',
@@ -15,7 +15,7 @@ const propertyTypes = [
 
 export type PropertyType = typeof propertyTypes[number];
 
-const status = [
+export const status = [
     'live',
     'dormant',
     'let agreed',
@@ -23,6 +23,9 @@ const status = [
 ] as const;
 
 export type Status = typeof status[number];
+
+// const boolArray = [0, 1] as const;
+// export type Bool = typeof boolArray[number];
 
 export interface Listing {
     // flat data fields
@@ -34,8 +37,8 @@ export interface Listing {
     price: number;
     numOfBedrooms: number;
     numOfBathrooms: number;
-    petsAllowed: boolean;
-    hasGarage: boolean;
+    petsAllowed: number;
+    hasGarage: number;
     status: Status;
     featured: boolean;
 
