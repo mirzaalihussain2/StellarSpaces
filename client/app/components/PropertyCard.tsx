@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Card} from 'antd';
 import AddListingForm from "@/app/components/AddListingForm";
+import Link from "next/link";
 
 const { Meta } = Card;
 
@@ -19,8 +20,10 @@ const PropertyCard: React.FC = (props) => {
         <h2>{listing.description}</h2>
         <h3>£{listing.price} per month</h3>
         <h3>{listing.numOfBathrooms} bathrooms</h3>
-        <Button style={{marginRight:'1vw'}}>Show on Map</Button>
-        <Button>View Details</Button>
+             
+         <Button>Show on Map</Button>   
+        <Link  href = {'/PropertyPage/'+listing.id} style={{marginRight:'1vw'}}>View Details</Link>
+      
             </div>
         </div>
     </Card>
