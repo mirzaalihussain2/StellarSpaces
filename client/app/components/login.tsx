@@ -19,6 +19,8 @@ interface UserProfile {
   name: string;
 }
 
+
+
 function Login(props: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,22 +57,6 @@ function Login(props: LoginProps) {
     } else {
       setRegister(!register);
     }
-
-    // change admin to a function that checks if email exists in database
-    // if (login) {
-    //   try {
-    //     const user = await loginUser({ email, password });
-    //     // Handle successful login
-    //   } catch (error) {
-    //     // Handle login error
-    //   }
-    // } else if (register) {
-    //   try {
-    //     await handleRegistration(e);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
   }
 
   async function handleLoginOrRegister(
@@ -80,21 +66,35 @@ function Login(props: LoginProps) {
       try {
         const user = await loginUser({ email, password });
         document.cookie = `token=${user.token}; path=/`;
+        cookieStorage();
         // console.log(user);
         console.log('Login successful');
         props.toggleSignIn();
-        // Handle successful login
       } catch (error) {
-        // Handle login error
+        console.log(error)
       }
     } else if (register) {
       try {
         await handleRegistration();
+        // // setting the userId in local storage
+        // const cookieValue = document.cookie.split('.')[1];
+        // const decodedValue = JSON.parse(atob(cookieValue));
+        // localStorage.setItem('userId', decodedValue.id);
         props.toggleSignIn();
+        cookieStorage();
+        // props.toggle();
       } catch (error) {
         console.log(error);
       }
     }
+  }
+
+  function cookieStorage() {
+    // setting the userId in local storage
+    const cookieValue = document.cookie.split('.')[1];
+    const decodedValue = JSON.parse(atob(cookieValue));
+    localStorage.setItem('userId', decodedValue.id);
+    props.toggle();
   }
 
   async function handleRegistration() {
@@ -121,12 +121,15 @@ function Login(props: LoginProps) {
 
   function handleSignout() {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('userId');
     setLoggedIn(false);
+    props.toggle();
   }
 
   useEffect(() => {
     fetch('http://localhost:3010/auth/google/callback')
       .then((response) => {
+
         if (response.ok) {
           return response.json();
         } else {

@@ -18,10 +18,10 @@ type Props = {
 }
 
 
-export default function App({ params }: Props) {
+export default function App() {
     //this is the dynamic route of the listing page
     const [listingData, setListingData] = useState(null);
-    const listingId = params.listingId;
+    const listingId = '1';
 
     useEffect(() => {
         const property = async function () {
