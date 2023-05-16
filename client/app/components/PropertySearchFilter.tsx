@@ -10,16 +10,16 @@ import BathroomRange from "@/app/components/BathroomRange";
 import {useDispatch, useSelector} from 'react-redux'
 import {setLocationState} from "@/app/store/locationSlice";
 import {setRadiusState} from "@/app/store/radiusSlice";
-// import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
-// import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
-// import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
-// import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
-// import {setHasGarageState} from "@/app/store/hasGarageSlice";
-// import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
-// import {setPriceMaxState} from "@/app/store/priceMaxSlice";
-// import {setPriceMinState} from "@/app/store/priceMinSlice";
-// import {setStatusState} from "@/app/store/statusSlice";
-// import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
+import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
+import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
+import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
+import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
+import {setHasGarageState} from "@/app/store/hasGarageSlice";
+import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
+import {setPriceMaxState} from "@/app/store/priceMaxSlice";
+import {setPriceMinState} from "@/app/store/priceMinSlice";
+import {setStatusState} from "@/app/store/statusSlice";
+import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
 import {setPropertyListState} from "@/app/store/propertyListSlice";
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
 import {OptGroup} from "rc-select";
@@ -50,6 +50,9 @@ const PropertySearchFilter: React.FC = () => {
     useEffect(() => {
         
         setRadius(StoreRadius === 1609.34 ? '1609.34' : '16093.4')
+        if(StoreRadius){
+            console.log(StoreRadius)
+            console.log(radius)
         async function fetchData() {
             const queryObject = {
                 priceMin,
@@ -63,13 +66,26 @@ const PropertySearchFilter: React.FC = () => {
                 status,
                 propertyType,
                 location,
-                radius
+                radius:JSON.stringify(StoreRadius)
             }
-            console.log(queryObject)
+           
             const listings = await fetchListings(queryObject)
             dispatch(setPropertyListState(listings))
+            dispatch(setHasGarageState(hasGarage))
+            dispatch(setLocationState(location))
+           // dispatch(setRadiusState(radius))
+            dispatch(setPropertyTypeState(propertyType))
+            dispatch(setPetsAllowedState(petsAllowed))
+            dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
+            dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
+            dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
+            dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
+            dispatch(setStatusState(status))
+            dispatch(setPriceMinState(priceMin))
+            dispatch(setPriceMaxState(priceMax))
+            
         }
-        fetchData()
+        fetchData()}
         
     },[StoreRadius] ) // this occurs agan when the Store radius is updated, since this page is rendered before the map is initalized and the radius is determined in the map page
 
@@ -79,8 +95,7 @@ const PropertySearchFilter: React.FC = () => {
         for (let listing of listings) {
             const latLng = new google.maps.LatLng(listing.addressLatitude, listing.addressLongitude);
             const distance = google.maps.geometry.spherical.computeDistanceBetween(center, latLng)
-            console.log(distance)
-            console.log(radius)
+            
             if (distance <= radius) newListings.push(listing)
         }
 
@@ -153,17 +168,19 @@ const PropertySearchFilter: React.FC = () => {
         dispatch(setPropertyListState(listings))
         dispatch(setRadiusState(radius));
         dispatch(setLocationState(location))
-        // dispatch(setPriceMaxState(priceMax))
-        // dispatch(setPriceMinState(priceMin))
-        // dispatch(setStatusState(status))
-        // dispatch(setPetsAllowedState(petsAllowed))
-        // dispatch(setHasGarageState(hasGarage))
-        // dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
-        // dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
-        // dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
-        // dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
-        // dispatch(setPropertyTypeState(propertyType))
-
+        dispatch(setPriceMaxState(priceMax))
+        dispatch(setPriceMinState(priceMin))
+        dispatch(setStatusState(status))
+        dispatch(setPetsAllowedState(petsAllowed))
+        dispatch(setHasGarageState(hasGarage))
+        dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
+        dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
+        dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
+        dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
+        dispatch(setPropertyTypeState(propertyType))
+        
+        
+        
     }
 
     const items: MenuProps['items'] = [
@@ -204,7 +221,6 @@ const PropertySearchFilter: React.FC = () => {
             label:
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Form.Item
-
                         labelCol={{span: 24}}
                         style={{width: '13vw'}} label="Radius:">
                         <Select value={radius as any} onSelect={(e) => {
