@@ -53,6 +53,7 @@ const PropertySearchFilter: React.FC = () => {
         if(StoreRadius){
             console.log(StoreRadius)
             console.log(radius)
+            
         async function fetchData() {
             const queryObject = {
                 priceMin,
@@ -68,6 +69,7 @@ const PropertySearchFilter: React.FC = () => {
                 location,
                 radius:JSON.stringify(StoreRadius)
             }
+            console.log(queryObject)
             const listings = await fetchListings(queryObject)
             dispatch(setPropertyListState(listings))
             dispatch(setHasGarageState(hasGarage))
