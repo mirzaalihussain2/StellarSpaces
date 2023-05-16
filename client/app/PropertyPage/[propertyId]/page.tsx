@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { Button, Space } from "antd";
 import ImageGallery from 'react-image-gallery';
 //Check character limit and change pages accordingly
-import Listing from '../../listings/[listingId]/page'
+import Listing from '../../components/Listing'
 import Footer from '@/app/Footer/page';
 import NewNavBar from '@/app/NewNavBar/page';
 
@@ -134,7 +134,7 @@ export default function App({ params }: Props) {
                 <div style={{ width: '65%', marginTop: '50px' }}>
                     <MyGallery />
                     <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                        <Listing></Listing>
+                        <Listing listingId={propertyId}></Listing>
                         STARTS HERE!!! {ContentString}
                     </p>
                 </div>
