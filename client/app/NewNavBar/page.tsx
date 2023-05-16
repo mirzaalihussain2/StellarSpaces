@@ -37,6 +37,7 @@ export default function NewNavBar() {
         setShowLogin(!showLogin);
     }
 
+    const userId = localStorage.getItem('userId')
     return (
         <header className='navbar'>
             <ul className='navbar-ul'>
@@ -68,17 +69,17 @@ export default function NewNavBar() {
                         </li>
 
                         <li>
-                            <Link href="/Dashboard">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Dashboard</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Account">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Account</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Favourites">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Favourites</span>
                             </Link>
                         </li>
