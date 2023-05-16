@@ -68,7 +68,6 @@ const PropertySearchFilter: React.FC = () => {
                 location,
                 radius:JSON.stringify(StoreRadius)
             }
-           
             const listings = await fetchListings(queryObject)
             dispatch(setPropertyListState(listings))
             dispatch(setHasGarageState(hasGarage))
@@ -83,7 +82,6 @@ const PropertySearchFilter: React.FC = () => {
             dispatch(setStatusState(status))
             dispatch(setPriceMinState(priceMin))
             dispatch(setPriceMaxState(priceMax))
-            
         }
         fetchData()}
         
@@ -312,12 +310,12 @@ const PropertySearchFilter: React.FC = () => {
             key: 'bathrange',
         },
 
-    ];
+    ]
 
 
     return (
         <>
-            <Menu mode="horizontal" items={items}></Menu>;
+            <Menu mode="horizontal" items={items}></Menu>
 
             {isAdvanced && (
                 <div style={{
@@ -353,6 +351,6 @@ const PropertySearchFilter: React.FC = () => {
             )}
         </>)
 
-};
+}
 
 export default PropertySearchFilter;
