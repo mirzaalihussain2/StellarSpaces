@@ -53,7 +53,8 @@ function generateQueryObj(userQuery: queryObject) {
       'mobile home',
       'house boat'
     ],
-    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft']
+    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft'],
+    userId: userQuery.userId 
   };
  
   return queryObj;
@@ -84,6 +85,7 @@ function filterBasedOnScroll(page:number,perPage:number,listings:Listing[]){
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
   try {
+    req.body.userId = parseInt(req.body.userId)
     const userQuery = generateQueryObj(req.body);
     // console.log(userQuery);
     const listings = await getListings(userQuery);

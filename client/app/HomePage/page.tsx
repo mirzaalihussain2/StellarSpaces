@@ -19,18 +19,21 @@ import {setRadiusState} from "@/app/store/radiusSlice";
 
 
 export default function HomePage() {
-   const [token,setToken] =useState('')
+    const isLogedIn = useSelector(state => state.isLogedIn.isLogedInState)
+    const [token,setToken] = useState('')
+    console.log(isLogedIn)
     const dispatch = useDispatch();
     const locationState = useSelector(selectLocationState);
+   
     useEffect(()=> {
         const script = document.createElement('script');
         script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
         script.async = true;
         document.head.appendChild(script);
         dispatch(setRadiusState(null))
-        const token = getCookie('token');
+        const token = getCookie('token')
         setToken(token)
-    },);
+    },[isLogedIn]);
 
     function getCookie(name) {
         const value = "; " + document.cookie;
@@ -39,9 +42,6 @@ export default function HomePage() {
     }
 
     //non-dry repeats in componenets>login.tsx
-  
-
-    
     
     
     function handleLocation(e) {

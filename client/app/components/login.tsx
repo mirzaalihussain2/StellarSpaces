@@ -13,6 +13,8 @@ interface LoginProps {
   toggleSignIn: () => void;
 
 }
+import {useDispatch} from "react-redux";
+import {setIsLogedInState} from "@/app/store/isLogedInSlice";
 
 interface UserProfile {
   imageUrl: string;
@@ -32,7 +34,8 @@ function Login(props: LoginProps) {
   const [register, setRegister] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-
+ const dispatch = useDispatch()
+  
   async function emailExists(email: string) {
     try {
       const result = await findEmail(email);
@@ -67,6 +70,7 @@ function Login(props: LoginProps) {
         const user = await loginUser({ email, password });
         document.cookie = `token=${user.token}; path=/`;
         cookieStorage();
+        dispatch(setIsLogedInState(true))
         // console.log(user);
         console.log('Login successful');
         props.toggleSignIn();
