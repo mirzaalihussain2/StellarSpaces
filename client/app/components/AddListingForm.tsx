@@ -18,6 +18,10 @@ import {
 } from 'antd';
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
+import Link from "next/link";
+
+
+
 
 
 const {RangePicker} = DatePicker;
@@ -31,6 +35,7 @@ const normFile = (e: any) => {
 };
 
 const AddListingForm: React.FC = () => {
+    const userId = localStorage.getItem('userId')
     const [postcodeValidation, SetPostcodeValidation] = useState(false)
     const [postcode, SetPostcode] = useState('')
     const [streetName, SetStreetName] = useState('')
@@ -64,6 +69,7 @@ const AddListingForm: React.FC = () => {
     }
 
     async function onSave() {
+        console.log(userId)
         const URLs =[]
         const responses = await uploadImages(images)
         responses.forEach((response)=>{URLs.push(response.url)})
@@ -82,11 +88,13 @@ const AddListingForm: React.FC = () => {
             price:monthlyRent,
             numOfBedrooms:bedroomNumb,
             numOfBathrooms:bathroomNumb,
-            video:youtubeURL
+            video:youtubeURL,
+            
         }
         const newListing = await CreateListing(Obj)
         const newImages = await postImageURLs(URLs,newListing.id)
         console.log(newListing)
+        
     }
 
     function handleNumberInput(value: Number | null, setter): void {
@@ -278,7 +286,9 @@ const AddListingForm: React.FC = () => {
 
                         <Form.Item>
                             <Button style={{margin: '1vw'}}>Discard</Button>
-                            <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
+                            <Link href={'/'}>
+                                <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
+                            </Link>
                             <Button style={{margin: '1vw'}}>Save and preview</Button>
                         </Form.Item>
 

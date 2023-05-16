@@ -19,6 +19,7 @@ import {setRadiusState} from "@/app/store/radiusSlice";
 
 
 export default function HomePage() {
+   const [token,setToken] =useState('')
     const dispatch = useDispatch();
     const locationState = useSelector(selectLocationState);
     useEffect(()=> {
@@ -27,7 +28,21 @@ export default function HomePage() {
         script.async = true;
         document.head.appendChild(script);
         dispatch(setRadiusState(null))
-    },[]);
+        const token = getCookie('token');
+        setToken(token)
+    },);
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    //non-dry repeats in componenets>login.tsx
+  
+
+    
+    
     
     function handleLocation(e) {
         const newLocation = e.target.value
@@ -80,8 +95,9 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-
-                            <Link href={'/AddListing'} className={styles.cardButton}>Add Listing</Link>
+                            {token ? (<Link href={'/AddListing'} className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}} className={styles.cardButton}>Add Listing</Button> )
+                            }
+                           
                         </div>
                     </section>
                     <section className={styles.featured}>
