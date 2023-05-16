@@ -68,7 +68,6 @@ const PropertySearchFilter: React.FC = () => {
                 location,
                 radius:JSON.stringify(StoreRadius)
             }
-           
             const listings = await fetchListings(queryObject)
             dispatch(setPropertyListState(listings))
             dispatch(setHasGarageState(hasGarage))
@@ -83,7 +82,6 @@ const PropertySearchFilter: React.FC = () => {
             dispatch(setStatusState(status))
             dispatch(setPriceMinState(priceMin))
             dispatch(setPriceMaxState(priceMax))
-            
         }
         fetchData()}
         
