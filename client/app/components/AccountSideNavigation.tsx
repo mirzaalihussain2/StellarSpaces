@@ -40,26 +40,33 @@ const items: MenuItem[] = [
 
 const AccountSideNavigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [activeMenuItem, setActiveMenuItem] = useState('1');
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const handleMenuClick = (item: MenuItem) => {
+        setActiveMenuItem(item.key);
+    };
 
-    return (<>
+    return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu
+                    theme="dark"
+                    defaultSelectedKeys={[activeMenuItem]}
+                    mode="inline"
+                    items={items}
+                    onClick={handleMenuClick}
+                />
             </Sider>
             <Layout>
-                <UserListings>fdf</UserListings>
-               
+                {activeMenuItem === '3' && <UserListings />} {/* Render UserListings only when activeMenuItem is '3' */}
+                {}
             </Layout>
-            <UserListings></UserListings>
         </Layout>
-    
-    <UserListings></UserListings>
-        </>
     );
+
 };
 
 export default AccountSideNavigation;

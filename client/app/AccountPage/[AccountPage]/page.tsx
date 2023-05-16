@@ -12,5 +12,6 @@ export default function AccountPage() {
             <AccountSideNavigation></AccountSideNavigation>
             <Footer></Footer>
         </>
+        
     )
 }
