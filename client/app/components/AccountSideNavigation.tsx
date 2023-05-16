@@ -34,8 +34,7 @@ const items: MenuItem[] = [
     getItem('My Listings', '3', <HomeOutlined />),
     getItem('Favourites', '4', <StarOutlined />),
     getItem('Account Settings', '5', <SettingOutlined />),
-
-
+    
 ];
 
 const AccountSideNavigation: React.FC = () => {
