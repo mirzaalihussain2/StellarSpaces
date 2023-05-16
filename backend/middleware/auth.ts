@@ -12,7 +12,9 @@ import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { Request, Response, NextFunction, Router } from 'express';
 
 import { User } from '../interfaces/User';
-
+interface RequestWithUser extends Request {
+  user: User;
+}
 async function findOrCreateUser(profile: Profile) {
   let user = await getUserByEmail(profile.emails?.[0]?.value || '');
 
@@ -117,9 +119,10 @@ function authRoutes(): Router {
   router.get(
     '/google/callback',
     passport.authenticate('google', { session: false }),
-    function (req: Request, res: Response) {
+    function (req: RequestWithUser, res: Response) {
       const token = generateJwtToken(req.user as User);
       res.cookie('token', token, { sameSite: 'none', secure: true });
+      res.cookie('userId', req.user.id);
       res.redirect('http://localhost:3000');
     }
   );
