@@ -94,7 +94,6 @@ function Login(props: LoginProps) {
     const cookieValue = document.cookie.split('.')[1];
     const decodedValue = JSON.parse(atob(cookieValue));
     localStorage.setItem('userId', decodedValue.id);
-    console.log(decodedValue.id);
     props.toggle();
   }
 
@@ -122,7 +121,7 @@ function Login(props: LoginProps) {
 
   function handleSignout() {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    console.log(localStorage.getItem('userId'));
+
     localStorage.removeItem('userId');
     setLoggedIn(false);
     props.toggle();
