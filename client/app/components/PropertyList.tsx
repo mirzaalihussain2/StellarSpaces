@@ -2,7 +2,7 @@ import {selectPropertyListState, setPropertyListState} from "@/app/store/propert
 import {useSelector} from "react-redux";
 
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
-
+import propertyCard from "@/app/components/PropertyCard";
 
 import React, {CSSProperties, useEffect, useState} from 'react'
 import {List, Image, InfiniteScroll} from 'antd-mobile'
@@ -22,6 +22,7 @@ import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
 import {setStatusState} from "@/app/store/statusSlice";
 import {setPriceMinState} from "@/app/store/priceMinSlice";
 import {setPriceMaxState} from "@/app/store/priceMaxSlice";
+import PropertyCard from "@/app/components/PropertyCard";
 
 
 export default () => {
@@ -92,25 +93,12 @@ export default () => {
         style: CSSProperties
     }) {
         const item = data[index]
+        console.log(item);
         if (!item) return
-
+            
         return (
-            <List.Item
-                key={key}
-                style={style}
-                prefix={
-                    <Image
-
-                        style={{borderRadius: 20}}
-                        fit='cover'
-                        width={40}
-                        height={40}
-                    />
-                }
-                description={item.description}
-            >
-                {item.title}
-            </List.Item>
+            
+            <PropertyCard listing ={item}></PropertyCard>
         )
     }
 
@@ -138,15 +126,15 @@ export default () => {
                         <AutoSizer disableHeight>
                             {({width}) => (
                                 <VirtualizedList
-                                    autoHeight
+                                    
                                     rowCount={data.length}
                                     rowRenderer={rowRenderer}
                                     width={width}
-                                    height={height}
-                                    rowHeight={70}
+                                    height={700}
+                                    rowHeight={350}
                                     overscanRowCount={10}
                                     isScrolling={isScrolling}
-                                    scrollTop={scrollTop}
+                                   
                                 />
                             )}
                         </AutoSizer>

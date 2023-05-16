@@ -310,12 +310,12 @@ const PropertySearchFilter: React.FC = () => {
             key: 'bathrange',
         },
 
-    ];
+    ]
 
 
     return (
         <>
-            <Menu mode="horizontal" items={items}></Menu>;
+            <Menu mode="horizontal" items={items}></Menu>
 
             {isAdvanced && (
                 <div style={{
@@ -351,6 +351,6 @@ const PropertySearchFilter: React.FC = () => {
             )}
         </>)
 
-};
+}
 
 export default PropertySearchFilter;
