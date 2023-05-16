@@ -45,10 +45,7 @@ export default () => {
 
     useEffect(() => {
         setRadius(storeRadius === 1609.34 ? '1609.34' : '16093.4')
-
         loadMore()
-
-
     }, [storeRadius])
 
 
@@ -71,13 +68,10 @@ export default () => {
             radius: JSON.stringify(storeRadius),
             page,
             perPage
-            
-
         }
-        if(radius!==storeRadius){
+        if (radius !== storeRadius) {
             const append = await fetchListings(queryObject)
             console.log(append)
-
             setData((prevData) => {
                 const uniqueData = append.filter((item) => !prevData.some((prevItem) => prevItem.id === item.id));
                 return [...prevData, ...uniqueData]
@@ -85,7 +79,7 @@ export default () => {
             setHasMore(append.length > 0)
             console.log(data)
         }
-       
+
     }
 
     function rowRenderer({
@@ -106,7 +100,7 @@ export default () => {
                 style={style}
                 prefix={
                     <Image
-                        src={item.avatar}
+
                         style={{borderRadius: 20}}
                         fit='cover'
                         width={40}
@@ -115,10 +109,22 @@ export default () => {
                 }
                 description={item.description}
             >
-                {item.name} {index}
+                {item.title}
             </List.Item>
         )
     }
+
+
+    function renderMessage() {
+
+        if (radius !== storeRadius){
+            return <div>No more listings available.</div>;
+        }
+        
+
+        return null; // Render nothing if there are more items to load
+    }
+
 
     return (
         <div>
@@ -147,7 +153,12 @@ export default () => {
                     </List>
                 )}
             </WindowScroller>
-            <InfiniteScroll loadMore={loadMore} hasMore={hasMore}/>
+            <InfiniteScroll locale={{
+                loadingText: 'Loading...',
+                noMoreText: 'No more listings available.',
+            }} loadMore={loadMore} hasMore={hasMore}>
+                <div>{renderMessage()}</div>
+            </InfiniteScroll>
         </div>
     )
 }
