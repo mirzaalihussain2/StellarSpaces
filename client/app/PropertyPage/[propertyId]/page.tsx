@@ -13,20 +13,11 @@ import Image from 'next/image';
 import { Button, Space } from "antd";
 import ImageGallery from 'react-image-gallery';
 //Check character limit and change pages accordingly
+import Listing from '../../listings/[listingId]/page'
+import Footer from '@/app/Footer/page';
+import NewNavBar from '@/app/NewNavBar/page';
 
 const ContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
-
-Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
-
-Phasellus tempus quam ut dui egestas auctor. Vestibulum sollicitudin nulla nec pulvinar vestibulum. Aenean efficitur dapibus elit. Ut eu mauris orci. Sed blandit, nisi eget pretium interdum, neque orci sollicitudin neque, sit amet aliquet ex neque at risus. Donec vitae sapien lacus. Mauris pretium arcu vel odio consequat, eu faucibus odio viverra. In vestibulum augue id diam facilisis tristique. Donec sit amet rhoncus nibh. In non felis quis libero imperdiet vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Duis bibendum lectus diam, ut ullamcorper nunc feugiat ut. Aliquam tristique ligula ac est porta, vitae aliquam sapien lacinia. Suspendisse tempor at dolor id tristique.
-
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer commodo, orci ac consequat facilisis, odio nunc convallis ligula, in interdum erat leo eu ante. Curabitur ac facilisis odio. Nulla pellentesque volutpat ultrices. Ut et fringilla tellus. Curabitur eleifend condimentum mollis. Nam vitae mi in ligula sagittis tristique. Sed gravida tortor ut erat accumsan fringilla. Morbi ultricies mi quis molestie molestie. In id arcu nisi. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus aliquet mauris, maximus placerat orci. Cras fermentum maximus lacus at dignissim. Mauris accumsan nisl eu metus maximus aliquet. Mauris congue leo eget ullamcorper tincidunt. Maecenas aliquet egestas arcu sit amet porttitor.
-
-Donec accumsan ultrices fermentum. Praesent tempus metus ut turpis consectetur, a sagittis lectus ornare. Ut varius non velit non porttitor. Integer quam ipsum, auctor at purus ut, sollicitudin porttitor est. Morbi hendrerit rutrum ex, a sodales nulla cursus et. Maecenas at posuere odio, sed ullamcorper augue. Aenean laoreet nisi eu libero accumsan vulputate. Ut convallis nisi a arcu viverra, a commodo ligula accumsan. Suspendisse eget magna eu est volutpat tincidunt venenatis a nunc. Nunc eu risus augue.
-
-Donec vestibulum lorem ut tincidunt interdum. Donec interdum sodales erat quis sollicitudin. Donec in diam eget velit sollicitudin pellentesque. Proin scelerisque laoreet augue, a ornare lorem malesuada at. Vestibulum id lorem dapibus, luctus risus nec, vehicula eros. Donec sit amet tellus nec sem sagittis laoreet. Curabitur est nibh, ultrices non ligula ac, interdum rutrum nibh. Phasellus sit amet mollis erat, ac fermentum urna. In sed turpis tellus. Cras finibus auctor dui, non accumsan lectus facilisis rutrum. Maecenas dignissim risus vel interdum viverra. Fusce laoreet odio nec orci dictum semper. Nunc tincidunt purus libero, pretium eleifend augue pellentesque id. Quisque ornare nulla sed luctus hendrerit. Suspendisse convallis consequat dolor sodales pretium. Donec tempor semper turpis.
-
-Proin elit massa, consequat condimentum odio ac, gravida maximus eros. Fusce volutpat ex libero, elementum maximus massa vestibulum id. Sed id metus dolor. Nam ac justo augue. Etiam a finibus ante. Donec egestas aliquam odio at feugiat. Quisque enim turpis, porta a accumsan nec, pellentesque id mi. Aliquam dapibus mollis nisl ullamcorper venenatis. Integer tempus auctor orci laoreet sollicitudin. Sed consequat viverra scelerisque. Duis commodo mi vel orci interdum venenatis.
 
 Praesent vitae arcu felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu posuere dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas enim felis, lacinia quis lectus posuere, mattis eleifend eros. Nulla sit amet diam vestibulum, varius lacus eget, varius nunc. Fusce varius felis nunc, et malesuada lectus pharetra ut. Sed vel ante turpis. Aliquam erat volutpat. Maecenas nec dictum velit, eu malesuada ante. Vestibulum ut semper metus.
 
@@ -130,40 +121,34 @@ export default function App({ params }: Props) {
     // useState true or false
 
     return (
-        <Parallax ref={parallax} pages={2.5}>
-            <ParallaxLayer offset={3} speed={0} factor={2}
-                style={{
-                    backgroundImage: 'url("https://images.pexels.com/photos/2501965/pexels-photo-2501965.jpeg")',
-                    backgroundSize: 'cover',
-                }}
-            />
-            <ParallaxLayer offset={0} speed={0} factor={3}
-                style={{
-                    backgroundImage: 'url("https://images.pexels.com/photos/2760888/pexels-photo-2760888.jpeg")',
-                    backgroundSize: 'cover',
-                }}
-            />
-            <ParallaxLayer offset={0} speed={0.5}>
-                < NavBar />
-                <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', color: 'black' }}>
-                    <div style={{ width: '65%', marginTop: '50px' }}>
-                        <MyGallery />
-                        <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                            STARTS HERE!!! {ContentString}
-                        </p>
-                    </div>
-                    <div style={{ width: '30%', marginTop: '30px' }}>
-                        <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                            Your Property ID is {propertyId}!
-                            {SmallContentString}
-                        </p>
-                        <div className="container">
-                            <Card title="Mr LandLord" content="I Hate Poor People. Give me your money." />
-                        </div>
+        <body style={{}}>
+            {/* < NavBar /> */}
+            <NewNavBar />
+            <div style={{
+                display: 'flex', justifyContent: 'space-around', color: 'black',
+                backgroundImage: "url('https://images.pexels.com/photos/2904142/pexels-photo-2904142.jpeg')",
+                backgroundSize: 'cover',
+                paddingLeft: '100px',
+                paddingRight: '100px',
+            }}>
+                <div style={{ width: '65%', marginTop: '50px' }}>
+                    <MyGallery />
+                    <p className='propertyDescription' style={{ fontSize: '20px' }}>
+                        <Listing></Listing>
+                        STARTS HERE!!! {ContentString}
+                    </p>
+                </div>
+                <div style={{ width: '30%', marginTop: '30px' }}>
+                    <p className='propertyDescription' style={{ fontSize: '20px' }}>
+                        Your Property ID is {propertyId}!
+                        {SmallContentString}
+                    </p>
+                    <div className="container">
+                        <Card title="Mr LandLord" content="Give me your money." />
                     </div>
                 </div>
-            </ParallaxLayer>
-
-        </Parallax>
+            </div>
+            <Footer />
+        </body>
     )
 }
