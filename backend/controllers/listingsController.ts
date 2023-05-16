@@ -73,6 +73,13 @@ async function filterBasedOnRadius(listings:Listing[],radius:string,centerPos:{l
   return filteredListings
 }
 
+function filterBasedOnScroll(page:number,perPage:number,listings:Listing[]){
+  const startIndex = (page - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const filteredListings = listings.slice(startIndex, endIndex);
+  return filteredListings
+}
+
 
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
@@ -81,7 +88,10 @@ async function fetchListings(req: Request, res: Response, next: NextFunction) {
     // console.log(userQuery);
     const listings = await getListings(userQuery);
     const centerPos = await getLatLng(req.body.location)
-    const filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    let filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    if(req.body.page){
+        filteredListings = filterBasedOnScroll(req.body.page,req.body.perPage,filteredListings)
+    }
     res.status(200).json(filteredListings);
   } catch (error) {
     next(error);

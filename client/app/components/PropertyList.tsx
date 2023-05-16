@@ -53,7 +53,8 @@ export default () => {
 
 
     async function loadMore() {
-        const page = data.length / 20 + 1
+        const page = data.length / 5 + 1
+        const perPage = 5
         // setRadius(storeRadius === 1609.34 ? '1609.34' : '16093.4')
         const queryObject = {
             priceMin: storePriceMin,
@@ -68,6 +69,9 @@ export default () => {
             propertyType: storePropertyType,
             location: storeLocation,
             radius: JSON.stringify(storeRadius),
+            page,
+            perPage
+            
 
         }
         if(radius!==storeRadius){
