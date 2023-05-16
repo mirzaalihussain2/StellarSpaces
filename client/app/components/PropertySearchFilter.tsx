@@ -7,31 +7,32 @@ import {Button, Checkbox, Dropdown, Form, Input, Menu, Select} from 'antd';
 import PriceRange from "@/app/components/PriceRange"
 import BedroomRange from "@/app/components/BedroomRange";
 import BathroomRange from "@/app/components/BathroomRange";
-import {useDispatch} from 'react-redux'
-// import {setLocationState} from "@/app/store/locationSlice";
-// import {setRadiusState} from "@/app/store/radiusSlice";
-// import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
-// import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
-// import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
-// import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
-// import {setHasGarageState} from "@/app/store/hasGarageSlice";
-// import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
-// import {setPriceMaxState} from "@/app/store/priceMaxSlice";
-// import {setPriceMinState} from "@/app/store/priceMinSlice";
-// import {setStatusState} from "@/app/store/statusSlice";
-// import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
+import {useDispatch, useSelector} from 'react-redux'
+import {setLocationState} from "@/app/store/locationSlice";
+import {setRadiusState} from "@/app/store/radiusSlice";
+import {setNumOfBathroomsMaxState} from "@/app/store/numOfBathroomsMaxSlice";
+import {setNumOfBathroomsMinState} from "@/app/store/numOfBathroomsMinSlice";
+import {setNumOfBedroomsMaxState} from "@/app/store/numOfBedroomsMaxSlice";
+import {setNumOfBedroomsMinState} from "@/app/store/numOfBedroomsMinSlice";
+import {setHasGarageState} from "@/app/store/hasGarageSlice";
+import {setPetsAllowedState} from "@/app/store/petsAllowedSlice";
+import {setPriceMaxState} from "@/app/store/priceMaxSlice";
+import {setPriceMinState} from "@/app/store/priceMinSlice";
+import {setStatusState} from "@/app/store/statusSlice";
+import {setPropertyTypeState} from "@/app/store/propertyTypeSlice";
 import {setPropertyListState} from "@/app/store/propertyListSlice";
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
 import {OptGroup} from "rc-select";
 import FormItem from "antd/es/form/FormItem";
-import {fetchBaseQuery} from "@reduxjs/toolkit/query";
 
 
 const PropertySearchFilter: React.FC = () => {
-
+    
+    const Storelocation = useSelector(state => state.location.locationState)
+    const StoreRadius =  useSelector(state => state.radius.radiusState)
     const dispatch = useDispatch()
-    const [location, setLocation] = useState('');
-    const [radius, setRadius] = useState(null)
+    const [location, setLocation] = useState(Storelocation);
+    const [radius, setRadius] = useState(StoreRadius === 1609.34 ? '1609.34' : '16093.4');
     const [propertyType, setPropertyType] = useState([])
     const [priceMin, setPriceMin] = useState(null)
     const [priceMax, setPriceMax] = useState(null)
@@ -39,14 +40,19 @@ const PropertySearchFilter: React.FC = () => {
     const [numOfBedroomsMax, setNumOfBedroomsMax] = useState(null)
     const [numOfBathroomsMin, setNumOfBathroomsMin] = useState(null)
     const [numOfBathroomsMax, setNumOfBathroomsMax] = useState(null)
-    const [petsAllowed, setPetsAllowed] = useState(false)
-    const [hasGarage, setHasGarage] = useState(false)
+    const [petsAllowed, setPetsAllowed] = useState(0)
+    const [hasGarage, setHasGarage] = useState(0)
     const [status, setStatus] = useState([])
     const [isAdvanced, setIsAdvanced] = useState(false)
     const [isCustom, setIsCustom] = useState(false)
-
+    
 
     useEffect(() => {
+        
+        setRadius(StoreRadius === 1609.34 ? '1609.34' : '16093.4')
+        if(StoreRadius){
+            console.log(StoreRadius)
+            console.log(radius)
         async function fetchData() {
             const queryObject = {
                 priceMin,
@@ -58,15 +64,41 @@ const PropertySearchFilter: React.FC = () => {
                 petsAllowed,
                 hasGarage,
                 status,
-                propertyType
+                propertyType,
+                location,
+                radius:JSON.stringify(StoreRadius)
             }
             const listings = await fetchListings(queryObject)
             dispatch(setPropertyListState(listings))
+            dispatch(setHasGarageState(hasGarage))
+            dispatch(setLocationState(location))
+           // dispatch(setRadiusState(radius))
+            dispatch(setPropertyTypeState(propertyType))
+            dispatch(setPetsAllowedState(petsAllowed))
+            dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
+            dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
+            dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
+            dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
+            dispatch(setStatusState(status))
+            dispatch(setPriceMinState(priceMin))
+            dispatch(setPriceMaxState(priceMax))
         }
-        fetchData()
-    }, [])
+        fetchData()}
+        
+    },[StoreRadius] ) // this occurs agan when the Store radius is updated, since this page is rendered before the map is initalized and the radius is determined in the map page
 
+    function filterByRadius() {
+        
+        let newListings = []
+        for (let listing of listings) {
+            const latLng = new google.maps.LatLng(listing.addressLatitude, listing.addressLongitude);
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(center, latLng)
+            
+            if (distance <= radius) newListings.push(listing)
+        }
 
+    }
+    
     function handleFilterInput(e, setter) {
         if (setter === setRadius) setter(e.target.value * 1609.34)
         else {
@@ -100,20 +132,20 @@ const PropertySearchFilter: React.FC = () => {
         setNumOfBedroomsMin(null)
         setNumOfBedroomsMax(null)
         setNumOfBathroomsMin(null)
-        setPetsAllowed(false)
-        setHasGarage(false)
+        setPetsAllowed(0)
+        setHasGarage(0)
         setStatus([])
     }
 
 
     function handleCheckbox(e, setter): void {
         console.log(e.target.checked)
-        if (e.target.checked) setter(true)
-        else setter(false)
+        if (e.target.checked) setter(1)
+        else setter(0)
     }
 
     async function handleSearch() {
-
+    console.log(radius)
         const queryObject = {
             priceMin,
             priceMax,
@@ -125,24 +157,28 @@ const PropertySearchFilter: React.FC = () => {
             hasGarage,
             status,
             propertyType,
+            location,
+            radius
         }
         console.log(queryObject)
         const listings = await fetchListings(queryObject)
+        console.log(listings)
         dispatch(setPropertyListState(listings))
-
-        // dispatch(setRadiusState(radius));
-        // dispatch(setLocationState(location))
-        // dispatch(setPriceMaxState(priceMax))
-        // dispatch(setPriceMinState(priceMin))
-        // dispatch(setStatusState(status))
-        // dispatch(setPetsAllowedState(petsAllowed))
-        // dispatch(setHasGarageState(hasGarage))
-        // dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
-        // dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
-        // dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
-        // dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
-        // dispatch(setPropertyTypeState(propertyType))
-
+        dispatch(setRadiusState(radius));
+        dispatch(setLocationState(location))
+        dispatch(setPriceMaxState(priceMax))
+        dispatch(setPriceMinState(priceMin))
+        dispatch(setStatusState(status))
+        dispatch(setPetsAllowedState(petsAllowed))
+        dispatch(setHasGarageState(hasGarage))
+        dispatch(setNumOfBathroomsMinState(numOfBathroomsMin))
+        dispatch(setNumOfBathroomsMaxState(numOfBathroomsMax))
+        dispatch(setNumOfBedroomsMaxState(numOfBedroomsMax))
+        dispatch(setNumOfBedroomsMinState(numOfBedroomsMin))
+        dispatch(setPropertyTypeState(propertyType))
+        
+        
+        
     }
 
     const items: MenuProps['items'] = [
@@ -183,10 +219,9 @@ const PropertySearchFilter: React.FC = () => {
             label:
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Form.Item
-
                         labelCol={{span: 24}}
                         style={{width: '13vw'}} label="Radius:">
-                        <Select onSelect={(e) => {
+                        <Select value={radius as any} onSelect={(e) => {
                             handleRadius(e)
                         }}>
                             <Select.Option value="1609.34">1 mile</Select.Option>
@@ -275,12 +310,12 @@ const PropertySearchFilter: React.FC = () => {
             key: 'bathrange',
         },
 
-    ];
+    ]
 
 
     return (
         <>
-            <Menu mode="horizontal" items={items}></Menu>;
+            <Menu mode="horizontal" items={items}></Menu>
 
             {isAdvanced && (
                 <div style={{
@@ -294,10 +329,10 @@ const PropertySearchFilter: React.FC = () => {
                 }}>
 
                     <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Pets Allowed'>
-                        <Checkbox checked={petsAllowed} onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
+                        <Checkbox checked={!!petsAllowed} onChange={(e) => handleCheckbox(e, setPetsAllowed)}></Checkbox>
                     </FormItem>
                     <FormItem labelCol={{span: 24}} style={{paddingRight: '1vw'}} label='Must have garage'>
-                        <Checkbox checked={hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
+                        <Checkbox checked={!!hasGarage} onChange={(e) => handleCheckbox(e, setHasGarage)}></Checkbox>
                     </FormItem>
                     <Form.Item labelCol={{span: 24}} style={{paddingRight: '1vw', width: '20vw'}}
                                label="Property Status">
@@ -316,6 +351,6 @@ const PropertySearchFilter: React.FC = () => {
             )}
         </>)
 
-};
+}
 
 export default PropertySearchFilter;

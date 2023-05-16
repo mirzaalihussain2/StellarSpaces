@@ -40,8 +40,8 @@ const AddListingForm: React.FC = () => {
     const [propertyType, SetPropertyType] = useState('')
     const [addressLine2, SetAddressLine2] = useState(null)
     const [description, SetDescription] = useState('')
-    const [petsAllowed, SetPetsAllowed] = useState(false)
-    const [hasGarage, SetHasGarage] = useState(false)
+    const [petsAllowed, SetPetsAllowed] = useState(0)
+    const [hasGarage, SetHasGarage] = useState(0)
     const [monthlyRent, SetMonthlyRent] = useState(null)
     const [bedroomNumb, SetBedroomNumb] = useState(null)
     const [bathroomNumb, SetBathroomNumb] = useState(null)
@@ -108,9 +108,12 @@ const AddListingForm: React.FC = () => {
     }
 
     function handleCheckbox(e, setter): void {
+       
         console.log(e.target.checked)
-        if (e.target.checked) setter(true)
-        else setter(false)
+        if (e.target.checked) setter(1)
+        else setter(0)
+        
+        
     }
 
     function handleImageInput(newImage) {
@@ -225,7 +228,7 @@ const AddListingForm: React.FC = () => {
                             }}/>
                         </Form.Item>
                         <Form.Item label="Is there a garage?">
-                            <Checkbox checked={hasGarage} onChange={(e) => {
+                            <Checkbox checked={!!hasGarage} onChange={(e) => {
                                 handleCheckbox(e, SetHasGarage)
                             }}/>
                         </Form.Item>
@@ -268,7 +271,7 @@ const AddListingForm: React.FC = () => {
                         {/*    <InputNumber/>*/}
                         {/*</Form.Item>*/}
                         <Form.Item label="Are pets allowed?">
-                            <Checkbox checked={petsAllowed} onChange={(e) => {
+                            <Checkbox checked={!!petsAllowed} onChange={(e) => {
                                 handleCheckbox(e, SetPetsAllowed)
                             }}/>
                         </Form.Item>

@@ -131,12 +131,12 @@ async function hardDeleteUser(id: User['id']) {
   return user;
 }
 
-async function deleteOne(emailUser: string) {
-  const result = await prisma.user.delete({
-    where: { email: emailUser },
-  });
-  return result;
-}
+// async function deleteOne(emailUser: string) {
+//   const result = await prisma.user.delete({
+//     where: { email: emailUser },
+//   });
+//   return result;
+// }
 
 // Export the CRUD operations
 export {
@@ -149,5 +149,5 @@ export {
   loginUser,
   getUserByEmail,
   createUserFromGoogleProfile,
-  deleteOne,
+  // deleteOne,
 };

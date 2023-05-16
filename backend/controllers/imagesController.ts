@@ -4,8 +4,8 @@ import { createImage, deleteImage, fetchImages } from '../models/imageModel';
 
 async function create(req: Request, res: Response, next: NextFunction) {
   const { URLs, listingId } = req.body;
-  console.log(URLs)
-  console.log(listingId)
+  // console.log(URLs)
+  // console.log(listingId)
   for(let URL of URLs){
     try {
       const newImage = await createImage(URL, listingId);

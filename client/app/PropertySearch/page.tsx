@@ -2,7 +2,7 @@
 
 import NavBar from "@/app/components/NavBar";
 import Map from '../components/Map'
-
+import Footer from '../Footer/page'
 import PropertySearchFilter from "@/app/components/PropertySearchFilter";
 import PropertyList from "@/app/components/PropertyList";
 import {useEffect} from "react";
@@ -17,6 +17,7 @@ export default function PropertySearch() {
             <Map></Map>
             <PropertySearchFilter></PropertySearchFilter>
             <PropertyList></PropertyList>
+            <Footer></Footer>
         </>
     )
 }
