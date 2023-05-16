@@ -42,9 +42,6 @@ export default function HomePage() {
     }
 
     //non-dry repeats in componenets>login.tsx
-  
-
-    
     
     
     function handleLocation(e) {

@@ -123,8 +123,9 @@ async function getListings(userQuery: queryObject) {
         propertyType: {in: userQuery.propertyType},
     };
 
-    if (userQuery.userId) {
-        whereClause.userId = userQuery.userId;
+    if (userQuery.userId as number) {
+        
+        whereClause.userId   = userQuery.userId as number
     }
 
     return await prisma.listing.findMany({

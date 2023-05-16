@@ -18,10 +18,7 @@ function toRadians(degrees: number) {
 }
 
 export function getSphericalDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-    console.log(lat1)
-    console.log(lat2)
-    console.log(lon1)
-    console.log(lon2)
+   
     const earthRadiusKm = 6371; // Radius of the Earth in kilometers
     const dLat = toRadians(lat2 - lat1);
     const dLon = toRadians(lon2 - lon1);
