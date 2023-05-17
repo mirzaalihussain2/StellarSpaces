@@ -169,7 +169,8 @@ const AddListingForm: React.FC = () => {
 
     return (
         <>
-
+        {showStripe ? (<StripePopUp listingId = {listingId} setReady = {setReady}></StripePopUp>):(
+            <>
             <h1 style={{marginLeft: '8.7vw'}}>Where is your property located?</h1>
             <Form
                 labelCol={{span: 4}}
@@ -325,7 +326,8 @@ const AddListingForm: React.FC = () => {
 
                 )}
             </Form>
-            {showStripe && <StripePopUp listingId = {listingId} setReady = {setReady}></StripePopUp>}
+            </>
+        )}
         </>
     );
 

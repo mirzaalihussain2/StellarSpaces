@@ -16,15 +16,19 @@ export default function StripePopUp({ listingId, setReady }: any) {
 
   return (
     <>
-      <h1>TEst</h1>
-      <Button
+      <h2 style={{marginLeft:'27vw',marginTop:'5vw'}}>Would you like to pay for this property to be listed as Featured?</h2>
+        <img style={{width:'30vw',marginLeft:'37vw'}} src ="https://thumbs.dreamstime.com/z/featured-product-vector-stamp-illustration-featured-product-vector-stamp-132790127.jpg"/>
+        <div style={{marginTop:'7vw',marginBottom:'5vw',marginLeft:'40vw'}}>
+        <h4 style={{position:'absolute',zIndex:'100',top:'40vw',left:'20vw',padding:'2vw',backgroundColor:'white'}}>*Featured houses will be presented on the homepage, and will always appear first when tennats search for a property</h4>
+      <Button style={{marginRight:'3vw'}}
         onClick={() => {
           setReady(true);
         }}
       >
-        No, fuck off
+       No thanks, I'm good
       </Button>
-      <Button onClick={handleCheckout}>Pay now</Button>
+      <Button onClick={handleCheckout}>Yes, pay now</Button>
+        </div>
     </>
   );
 }
