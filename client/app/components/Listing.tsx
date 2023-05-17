@@ -8,10 +8,12 @@ import getListing from '@/app/ApiServices/backend/getListing';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBath, faBed, faDog, faWarehouse, faSterlingSign, faHouse, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import './Listing.css';
+import Draft from './Draft';
 
 interface ListingProps {
     listingId: string;
-  }
+}
 
 export default function Listing(props: ListingProps) {
     //this is the dynamic route of the listing page
@@ -40,6 +42,9 @@ export default function Listing(props: ListingProps) {
 
     return (
         <div>
+            {listingData?.status === 'draft' && <Draft />}
+            {/* <Draft /> */}
+            {listingData?.featured === true && <div className="ribbon ribbon-top-left"><span>Featured</span></div>}
             <h3>£{listingData?.price}</h3>
             <h2>Overview</h2>
             <hr></hr>
