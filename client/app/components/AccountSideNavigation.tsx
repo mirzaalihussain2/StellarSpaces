@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import UserListings from "@/app/components/UserListings";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -39,31 +40,33 @@ const items: MenuItem[] = [
 
 const AccountSideNavigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [activeMenuItem, setActiveMenuItem] = useState('1');
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const handleMenuClick = (item: MenuItem) => {
+        setActiveMenuItem(item.key);
+    };
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu
+                    theme="dark"
+                    defaultSelectedKeys={[activeMenuItem]}
+                    mode="inline"
+                    items={items}
+                    onClick={handleMenuClick}
+                />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
-                <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                        Bill is a cat.
-                    </div>
-                </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+                {activeMenuItem === '3' && <UserListings />} {/* Render UserListings only when activeMenuItem is '3' */}
+                {}
             </Layout>
         </Layout>
     );
+
 };
 
 export default AccountSideNavigation;

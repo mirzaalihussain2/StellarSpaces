@@ -10,8 +10,8 @@ export default function AccountPage() {
         <>  
             <NavBar></NavBar>
             <AccountSideNavigation></AccountSideNavigation>
-            <UserListings></UserListings>
             <Footer></Footer>
         </>
+        
     )
 }

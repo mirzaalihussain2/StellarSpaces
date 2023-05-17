@@ -7,13 +7,14 @@ import PropertySearchFilter from "@/app/components/PropertySearchFilter";
 import PropertyList from "@/app/components/PropertyList";
 import {useEffect} from "react";
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
+import NewNavBar from "@/app/NewNavBar/page";
 
 export default function PropertySearch() {
    
     
     return (
         <>
-            <NavBar></NavBar>
+            <NewNavBar></NewNavBar>
             <Map></Map>
             <PropertySearchFilter></PropertySearchFilter>
             <PropertyList></PropertyList>

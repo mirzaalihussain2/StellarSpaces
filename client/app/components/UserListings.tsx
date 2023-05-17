@@ -1,11 +1,14 @@
 import fetchListings from "@/app/ApiServices/backend/FetchListings";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+
+import PropertyCard from "@/app/components/PropertyCard";
 
 
 export default function UserListings() {
+    const [userListings,setUserListings] =useState([])
     const userId = localStorage.getItem('userId')
     console.log(userId)
-    let userListings = []
+    
     useEffect(()=>{
         async function fetchData(){
             const queryObject = {
@@ -24,13 +27,26 @@ export default function UserListings() {
                 location:'london',
                 
             }
-            userListings = await fetchListings(queryObject)
+            const userListings = await fetchListings(queryObject)
+            setUserListings(userListings)
             console.log(userListings)
         }
         fetchData()
         
-    })
+    },[])
+
+
+    return (
+       
         
-    
-    return (<h1>{userListings[0]}</h1>)
+        <div>
+            {userListings.map((listing, index) => (
+                <div key={index}>
+                    <PropertyCard listing = {listing}></PropertyCard>
+                </div>
+            ))}
+        </div>
+        
+    );
+
 } 
