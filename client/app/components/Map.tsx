@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setRadiusState} from "@/app/store/radiusSlice";
 import {setPropertyListState} from "@/app/store/propertyListSlice";
 import isEqual from 'lodash/isEqual';
+import {setPropertyCardSelectedState} from "@/app/store/propertyCardSelectedSlice";
 
 
 
@@ -63,9 +64,9 @@ export default function Map() {
                 position: {lat: latitude, lng: longitude},
                 map: map,
                 icon: {
-                    url: 'https://cdn-icons-png.flaticon.com/512/1670/1670080.png',
+                    url: 'https://exoffender.org/wp-content/uploads/2018/01/house-icon.png',
                     anchor: new google.maps.Point(25, 25),
-                    scaledSize: new google.maps.Size(50, 30),
+                    scaledSize: new google.maps.Size(40, 40),
                 },
             });
             google.maps.event.addListener(marker, 'mouseover', function () {
@@ -77,9 +78,13 @@ export default function Map() {
             google.maps.event.addListener(marker, 'click', function () {
                 const listingElement = document.getElementById(listing.id);
                 if (listingElement) {
+                    // Scroll to the property card
                     listingElement.scrollIntoView({ behavior: 'smooth' });
+                    // Highlight the property card
+                    dispatch(setPropertyCardSelectedState(listing.id));
                 }
             });
+           
         }
     }
 

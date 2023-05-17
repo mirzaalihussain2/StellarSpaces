@@ -15,6 +15,7 @@ import{statusSlice} from "@/app/store/statusSlice";
 import {propertyListSlice} from "@/app/store/propertyListSlice";
 import {tokenSlice} from "@/app/store/tokenSlice";
 import {isLogedInSlice} from "@/app/store/isLogedInSlice";
+import {propertyCardSelectedSlice} from "@/app/store/propertyCardSelectedSlice";
 
 const makeStore = ()=> // bc its a function
     configureStore({
@@ -34,6 +35,7 @@ const makeStore = ()=> // bc its a function
             [propertyListSlice.name]:propertyListSlice.reducer,
             [tokenSlice.name]:tokenSlice.reducer,
             [isLogedInSlice.name]:isLogedInSlice.reducer,
+            [propertyCardSelectedSlice.name]:propertyCardSelectedSlice.reducer
         },
         devTools : true,
         

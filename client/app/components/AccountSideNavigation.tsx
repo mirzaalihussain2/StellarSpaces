@@ -60,7 +60,7 @@ const AccountSideNavigation: React.FC = () => {
                     onClick={handleMenuClick}
                 />
             </Sider>
-            <Layout>
+            <Layout style={{marginLeft:'-5vw'}}>
                 {activeMenuItem === '3' && <UserListings />} {/* Render UserListings only when activeMenuItem is '3' */}
                 {}
             </Layout>

@@ -58,7 +58,7 @@ export default function HomePage() {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 </Head>
                 <header>
-                    <Image style={{width: '100%'}} src={banner} alt='banner, shows image'/>
+                    <Image style={{width: '100%',height:'30vw'}} src={banner} alt='banner, shows image'/>
                     <h1 className={styles.tagline}>Where renters and landlords meet</h1>
                 </header>
                 <main>
@@ -97,7 +97,7 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'14vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
+                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
                             }
                            
                         </div>

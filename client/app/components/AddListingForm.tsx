@@ -160,7 +160,7 @@ const AddListingForm: React.FC = () => {
 
     return (
         <>
-            <h1>Where is your property located?</h1>
+            <h1 style={{marginLeft:'8.7vw'}}>Where is your property located?</h1>
             <Form
                 labelCol={{span: 4}}
                 wrapperCol={{span: 14}}
@@ -204,7 +204,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetCounty)
                             }}/>
                         </Form.Item>
-                        <h1>Property Details</h1>
+                        <h1 style={{marginLeft:'8.7vw'}}>Property Details</h1>
                         <Form.Item label="Property type">
                             <Select onSelect={(value) => {
                                 handlePropertySelect(value)
@@ -270,7 +270,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetYoutubeURL)
                             }}/>
                         </Form.Item>
-                        <h1>Tenancy Details</h1>
+                        <h1 style={{marginLeft:'8.7vw'}}>Tenancy Details</h1>
                         <Form.Item label="Monthly rent">
                             <InputNumber value={monthlyRent} onChange={(value) => {
                                 handleNumberInput(value, SetMonthlyRent)
