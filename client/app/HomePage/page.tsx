@@ -97,7 +97,7 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'14vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
+                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
                             }
                            
                         </div>
