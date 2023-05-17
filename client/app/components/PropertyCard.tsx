@@ -14,7 +14,7 @@ const PropertyCard: React.FC = (props) => {
         
         width: '75vw', marginTop: '3vw',marginLeft:'10vw',
         
-        backgroundColor: isSelected ? 'lightblue' : 'white',
+        backgroundColor: isSelected ? 'lightyellow' : 'white',
     };
     return (
         <>

@@ -8,7 +8,7 @@ export default function UserListings() {
     const [userListings,setUserListings] =useState([])
     const userId = localStorage.getItem('userId')
     console.log(userId)
-    
+
     useEffect(()=>{
         async function fetchData(){
             const queryObject = {
@@ -25,20 +25,20 @@ export default function UserListings() {
                 userId,
                 radius:'16093.4',
                 location:'london',
-                
+
             }
             const userListings = await fetchListings(queryObject)
             setUserListings(userListings)
             console.log(userListings)
         }
         fetchData()
-        
+
     },[])
 
 
     return (
-       
-        
+
+
         <div>
             {userListings.map((listing, index) => (
                 <div key={index}>
@@ -46,7 +46,7 @@ export default function UserListings() {
                 </div>
             ))}
         </div>
-        
+
     );
 
 } 

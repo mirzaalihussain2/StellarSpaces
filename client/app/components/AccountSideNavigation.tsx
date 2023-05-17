@@ -9,6 +9,7 @@ import {
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import UserListings from "@/app/components/UserListings";
+import UserProfile from "@/app/components/UserProfile";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -61,9 +62,11 @@ const AccountSideNavigation: React.FC = () => {
                 />
             </Sider>
             <Layout style={{marginLeft:'-5vw'}}>
-                {activeMenuItem === '3' && <UserListings />} {/* Render UserListings only when activeMenuItem is '3' */}
-                {}
+                {activeMenuItem === '3' && <UserListings />}
+              
             </Layout>
+        <Layout>  {activeMenuItem === '1' && <UserProfile></UserProfile>}</Layout>
+          
         </Layout>
     );
 
