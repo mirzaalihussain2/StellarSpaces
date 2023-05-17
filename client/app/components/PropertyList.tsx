@@ -98,7 +98,7 @@ export default () => {
             
         return (
             
-            <PropertyCard  listing ={item}></PropertyCard>
+            <PropertyCard id ={item.id}  listing ={item}></PropertyCard>
         )
     }
 

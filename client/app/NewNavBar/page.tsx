@@ -88,11 +88,11 @@ export default function NewNavBar() {
                 }
             </ul>
             <ul>
-                <li>
-                    <Link href="/PropertySearch">
-                        <span className='NavbarElement'>Search</span>
-                    </Link>
-                </li>
+                {/*<li>*/}
+                {/*    <Link href="/PropertySearch">*/}
+                {/*        <span className='NavbarElement'>Search</span>*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
                 <li>
                     <Link href="/Help">
                         <span className='NavbarElement'>Help</span>
