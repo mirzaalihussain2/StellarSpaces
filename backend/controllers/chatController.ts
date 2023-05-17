@@ -9,29 +9,22 @@ import {
   getChatByChatId
 } from '../models/chatModel';
 
-import {
-  createMsg
-} from '../models/messageModel';
-
-import {
-  getUserIdForListing
-} from '../models/listingsModel';
-
-// import type { Chat } from '@prisma/client';
+import { createMsg } from '../models/messageModel';
+import { getUserIdForListing } from '../models/listingsModel';
 
 // Global imports
 import { NextFunction, Request, Response } from 'express';
 
-// Main
+// CONTROLLER FUNCTIONS (running in PROD)
 
+// CONTROLLER (FOR PROD): Send message (incl chat creation / continuation logic)
 // req.body = {
 //   listingId: 1,
 //   content: "hello",
 //   authorId: 7,
 //   chatId: 12
 // };
-
-async function initiateConvo (req: Request, res: Response, next: NextFunction) {
+async function sendMessage (req: Request, res: Response, next: NextFunction) {
   try {
     const listingId = req.body.listingId;
     const landlordId = (await getUserIdForListing(listingId)).userId; // 12
@@ -57,7 +50,7 @@ async function initiateConvo (req: Request, res: Response, next: NextFunction) {
         .status(201)
         .json({message: message, chat: updatedChat});
     } else {
-      res.status(400).json({message: "Landlord's cannot initiate chats"})
+      res.status(404).json({message: "Landlord's cannot initiate chats"})
     };
 
   } catch (error) {
@@ -65,37 +58,7 @@ async function initiateConvo (req: Request, res: Response, next: NextFunction) {
   }
 };
 
-
-// getLandlordId,
-// retrieveChatByChatId,
-// retrieveChatByUniqueKey,
-// createNewChat,
-// updateChat
-
-// }
-
-
-// Chat doesn't exist
-  // Create chat & message
-// Chat does exist
-  // Create message, update chat
-
-// Create new chat if chat doesn't already exist
-// Expected body:
-  // CHAT - listingId, landlordId, tenantTd
-  // MSG - content, authorId, chatId
-
-// create message / chat is a POST request
-// what are we expecting in request body?
-  // chat.listingId
-  // chat.landlordId
-  // chat.tenantId
-
-  // message.content
-
-
-
-// Get all chats
+// CONTROLLER (FOR PROD): Get all chats
 async function getChats (req: Request, res: Response, next: NextFunction) {
   try {
     const chats = await getAllChats();
@@ -105,7 +68,7 @@ async function getChats (req: Request, res: Response, next: NextFunction) {
   }
 };
 
-// Get chats by User Id
+// CONTROLLER (FOR PROD): Get chats by User Id
 async function retrieveChatsByUser (req: Request, res: Response, next: NextFunction) {
   try {
     const userId = parseInt(req.params.userId);
@@ -116,7 +79,7 @@ async function retrieveChatsByUser (req: Request, res: Response, next: NextFunct
   }
 };
 
-// Get chats by Listing Id
+// CONTROLLER (FOR PROD): Get chats by Listing Id
 async function retrieveChatsByListing (req: Request, res: Response, next: NextFunction) {
   try {
     const listingId = parseInt(req.params.listingId);
@@ -127,7 +90,9 @@ async function retrieveChatsByListing (req: Request, res: Response, next: NextFu
   }
 };
 
-// Get landlordId // Output: userId (as number: 12) OR null
+// UTILITY FUNCTIONS (FOR TESTING)
+
+// UTILITY (FOR TESTING): Get landlordId // Output: userId (as number: 12) OR null
 async function getLandlordId (req: Request, res: Response, next: NextFunction) {
   try {
     const listingId = parseInt(req.params.listingId);
@@ -138,7 +103,7 @@ async function getLandlordId (req: Request, res: Response, next: NextFunction) {
   }
 };
 
-// Get chat by chatId - determining whether a chat exists
+// UTILITY (FOR TESTING): Get chat by chatId - determining whether a chat exists
 async function retrieveChatByChatId (req: Request, res: Response, next: NextFunction) {
   try {
     const chatId = parseInt(req.params.chatId);
@@ -149,7 +114,7 @@ async function retrieveChatByChatId (req: Request, res: Response, next: NextFunc
   }
 }
 
-// Get chat by Unique Key
+// UTILITY (FOR TESTING): Get chat by Unique Key
 async function retrieveChatByUniqueKey (req: Request, res: Response, next: NextFunction) {
   try {
     const data = {
@@ -164,43 +129,22 @@ async function retrieveChatByUniqueKey (req: Request, res: Response, next: NextF
   }
 }
 
-// Number, AND record exists in chatTable
-// {
-//   "id": 6,
-//   "createdAt": "2023-05-17T12:49:34.992Z",
-//   "updatedAt": "2023-05-17T12:49:34.992Z",
-//   "listingId": 6,
-//   "landlordId": 6,
-//   "tenantId": 94
-// }
-
-// Number, BUT record NOT exist in chatTable
-// empty object {} --> truthy
-
-// for this GET request, IF chatId not passed in as a parameter
-// then route will error - even if chatid = parseInt(params) || 6
-// i.e. will not fallback to 6.
-
-// if (chat == null) {
-//   res.json({message:'Nothing to show'})
-// } else (res.status(200).json(chat));
-
-
-// Create new chat as a tenant
+// UTILITY (FOR TESTING): Create new chat as a tenant
 async function createNewChat (req: Request, res: Response, next: NextFunction) {
   try {
-    const chat = await createChat({
+    const chatObject = {
       listingId: req.body.listingId,
       landlordId: req.body.landlordId,
-      tenantId: req.body.tenantId
-    });
+      tenantId: req.body.authorId
+    };
+    const chat = await createChat(chatObject);
     res.status(201).json(chat);
   } catch (error) {
     next(error);
   }
 };
 
-// Set updatedAt time on chat to now
+// UTILITY (FOR TESTING): Set updatedAt time on chat to now
 async function updateChat (req: Request, res: Response, next: NextFunction) {
   try {
     const chatId = parseInt(req.params.chatId);
@@ -211,15 +155,18 @@ async function updateChat (req: Request, res: Response, next: NextFunction) {
   }
 };
 
-// Export the controller functions
+// Exports
 export {
+  // CONTROLLER FUNCTIONS (FOR PROD)
+  sendMessage,
+  getChats,
   retrieveChatsByUser,
   retrieveChatsByListing,
-  getChats,
+
+  // UTILITY FUNCTIONS (CONNECTED TO ROUTES FOR TESTING)
   getLandlordId,
   retrieveChatByChatId,
   retrieveChatByUniqueKey,
   createNewChat,
-  updateChat,
-  initiateConvo
+  updateChat
 };

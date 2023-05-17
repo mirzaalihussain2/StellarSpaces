@@ -64,7 +64,7 @@ async function getChatByChatId (id: Chat['id']) {
   return await prisma.chat.findUnique({
     where: { id: id }
   })
-}
+};
 
 // Export the CRUD operations
 export {
