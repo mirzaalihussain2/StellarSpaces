@@ -16,7 +16,7 @@ router.post('/', createUsers);
 // Login user
 router.post('/login', authController);
 // Find user by email
-router.get('/:email', retrieveUser);
+router.get('/exist/:email', retrieveUser);
 // Get all users
 router.get('/', getAllUser);
 // Get a specific user through their user ID
