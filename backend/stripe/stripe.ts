@@ -30,8 +30,8 @@ async function stripeTransaction(
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: `http://localhost:3000/${listingId}`,
+      cancel_url: 'http://localhost:3000/AddListing',
     });
 
     // if the session is created successfully, set the listing as featured

@@ -1,20 +1,30 @@
-import {createCheckoutSession} from "@/app/ApiServices/backend/stripeService";
-import {Button} from "antd";
+import { useStripe } from '@stripe/react-stripe-js';
+import { Button } from 'antd';
+import { createCheckoutSession } from '../ApiServices/backend/stripeService';
 
-export default function StripePopUp({listingId,setReady}) {
-    
-    
-    return (
-        <>
+export default function StripePopUp({ listingId, setReady }: any) {
+  const stripe = useStripe();
+
+  const handleCheckout = async () => {
+    console.log(listingId);
+    const data = await createCheckoutSession(listingId);
+
+    if (data && data.url) {
+      window.location.href = data.url;
+    }
+  };
+
+  return (
+    <>
       <h1>TEst</h1>
-            <Button onClick={() => {
-               setReady(true)
-            }}>No, fuck off</Button>
-        <Button onClick={async () => {
-            console.log(listingId)
-            await createCheckoutSession(listingId)
-        }}>Pay now</Button>
-        </>
-    );
-
-} 
+      <Button
+        onClick={() => {
+          setReady(true);
+        }}
+      >
+        No, fuck off
+      </Button>
+      <Button onClick={handleCheckout}>Pay now</Button>
+    </>
+  );
+}
