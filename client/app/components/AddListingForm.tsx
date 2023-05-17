@@ -1,7 +1,7 @@
 import {PlusOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import uploadImages from "@/app/ApiServices/cloudinary/cloudinary";
-import {CreateListing,postImageURLs}from "@/app/ApiServices/backend/CreateListing";
+import {CreateListing, postImageURLs} from "@/app/ApiServices/backend/CreateListing";
 
 interface Address {
     formatted_address: string;
@@ -19,8 +19,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
 import Link from "next/link";
-
-
 
 
 
@@ -70,32 +68,41 @@ const AddListingForm: React.FC = () => {
 
     async function onSave() {
         console.log(userId)
-        const URLs =[]
+        const URLs = []
         const responses = await uploadImages(images)
-        responses.forEach((response)=>{URLs.push(response.url)})
+        responses.forEach((response) => {
+            URLs.push(response.url)
+        })
         console.log(URLs)
         const Obj = {
-            addressPostCode:postcode,
-            addressStreetName:streetName,
-            addressCity:city,
-            addressCounty:county,
-            addressHouseNum:JSON.parse(flatOrHouseNumb),
+            addressPostCode: postcode,
+            addressStreetName: streetName,
+            addressCity: city,
+            addressCounty: county,
+            addressHouseNum: JSON.parse(flatOrHouseNumb),
             propertyType,
             addressApartmentFloorNum: addressLine2,
             description,
             petsAllowed,
             hasGarage,
-            price:monthlyRent,
-            numOfBedrooms:bedroomNumb,
-            numOfBathrooms:bathroomNumb,
-            video:youtubeURL,
-            
+            price: monthlyRent,
+            numOfBedrooms: bedroomNumb,
+            numOfBathrooms: bathroomNumb,
+            video: youtubeURL,
+
         }
         const newListing = await CreateListing(Obj)
-        const newImages = await postImageURLs(URLs,newListing.id)
-        console.log(newListing)
-        
+        const newImages = await postImageURLs(URLs, newListing.id)
+        return newListing.id
     }
+
+    async function handleSaveAndPreview() {
+        console.log('test')
+        const listingId = await onSave();
+        console.log(listingId)
+        window.location.replace(`http://localhost:3000/PropertyPage/${listingId}`)
+    }
+
 
     function handleNumberInput(value: Number | null, setter): void {
         if (value) {
@@ -116,12 +123,12 @@ const AddListingForm: React.FC = () => {
     }
 
     function handleCheckbox(e, setter): void {
-       
+
         console.log(e.target.checked)
         if (e.target.checked) setter(1)
         else setter(0)
-        
-        
+
+
     }
 
     function handleImageInput(newImage) {
@@ -284,12 +291,17 @@ const AddListingForm: React.FC = () => {
                             }}/>
                         </Form.Item>
 
-                        <Form.Item>
-                            <Button style={{margin: '1vw'}}>Discard</Button>
+                        <Form.Item style={{marginLeft: '32vw'}}>
+                            <Link href={'/'}>
+                                <Button style={{margin: '1vw'}}>Discard</Button>
+                            </Link>
                             <Link href={'/'}>
                                 <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
                             </Link>
-                            <Button style={{margin: '1vw'}}>Save and preview</Button>
+
+                            <Button onClick={handleSaveAndPreview} style={{margin: '1vw'}}>Save and preview</Button>
+
+
                         </Form.Item>
 
                     </>

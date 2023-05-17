@@ -23,7 +23,7 @@ export default function HomePage() {
     const [token,setToken] = useState('')
     console.log(isLogedIn)
     const dispatch = useDispatch();
-    const locationState = useSelector(selectLocationState);
+    const locationState = useSelector( state =>state.location.locationState);
    
     useEffect(()=> {
         const script = document.createElement('script');
@@ -74,15 +74,17 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-                            <FormItem value={location} label='Enter location'>
+                            <FormItem value={location} style={{marginTop:'16vw',width:'15vw',marginLeft:'12vw'}} label='Enter location'>
                                 <Input onChange={(e) => {
                                     handleLocation(e)
                                 }}></Input>
+                                <Checkbox>My current location</Checkbox>
                             </FormItem>
-                            or
-                            <Checkbox>My current location</Checkbox>
-                            <Link href={'/PropertySearch'}
-                             className={styles.cardButton}>View Properties</Link>
+                            {locationState &&
+                              <Link   className={styles.cardButton} href={'/PropertySearch'}
+                              >View Properties</Link>
+                            }
+                            
                         </div>
                         <div className={styles.card}>
                             <h2 className={styles.cardLabel}>List a space</h2>
@@ -95,7 +97,7 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-                            {token ? (<Link href={'/AddListing'} className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}} className={styles.cardButton}>Add Listing</Button> )
+                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'14vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
                             }
                            
                         </div>
