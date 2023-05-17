@@ -19,15 +19,30 @@ import {setRadiusState} from "@/app/store/radiusSlice";
 
 
 export default function HomePage() {
+    const isLogedIn = useSelector(state => state.isLogedIn.isLogedInState)
+    const [token,setToken] = useState('')
+    console.log(isLogedIn)
     const dispatch = useDispatch();
-    const locationState = useSelector(selectLocationState);
+    const locationState = useSelector( state =>state.location.locationState);
+   
     useEffect(()=> {
         const script = document.createElement('script');
         script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
         script.async = true;
         document.head.appendChild(script);
         dispatch(setRadiusState(null))
-    },[]);
+        const token = getCookie('token')
+        setToken(token)
+    },[isLogedIn]);
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    //non-dry repeats in componenets>login.tsx
+    
     
     function handleLocation(e) {
         const newLocation = e.target.value
@@ -43,7 +58,7 @@ export default function HomePage() {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 </Head>
                 <header>
-                    <Image style={{width: '100%'}} src={banner} alt='banner, shows image'/>
+                    <Image style={{width: '100%',height:'30vw'}} src={banner} alt='banner, shows image'/>
                     <h1 className={styles.tagline}>Where renters and landlords meet</h1>
                 </header>
                 <main>
@@ -59,15 +74,17 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-                            <FormItem value={location} label='Enter location'>
+                            <FormItem value={location} style={{marginTop:'16vw',width:'15vw',marginLeft:'12vw'}} label='Enter location'>
                                 <Input onChange={(e) => {
                                     handleLocation(e)
                                 }}></Input>
+                                <Checkbox>My current location</Checkbox>
                             </FormItem>
-                            or
-                            <Checkbox>My current location</Checkbox>
-                            <Link href={'/PropertySearch'}
-                             className={styles.cardButton}>View Properties</Link>
+                            {locationState &&
+                              <Link   className={styles.cardButton} href={'/PropertySearch'}
+                              >View Properties</Link>
+                            }
+                            
                         </div>
                         <div className={styles.card}>
                             <h2 className={styles.cardLabel}>List a space</h2>
@@ -80,8 +97,9 @@ export default function HomePage() {
                                                height: '30vw'
                                            }}
                                            loop autoplay></lottie-player>
-
-                            <Link href={'/AddListing'} className={styles.cardButton}>Add Listing</Link>
+                            {token ? (<Link href={'/AddListing'} style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Link> ): (<Button onClick={()=>{alert('Please sign in first.')}}  style={{zIndex:'1000',marginTop:'25.5vw',marginLeft:'15vw'}}   className={styles.cardButton}>Add Listing</Button> )
+                            }
+                           
                         </div>
                     </section>
                     <section className={styles.featured}>

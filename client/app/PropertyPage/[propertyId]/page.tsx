@@ -13,20 +13,26 @@ import Image from 'next/image';
 import { Button, Space } from "antd";
 import ImageGallery from 'react-image-gallery';
 //Check character limit and change pages accordingly
+import Listing from '../../components/Listing'
+import Footer from '@/app/Footer/page';
+import NewNavBar from '@/app/NewNavBar/page';
+
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import ButtonMui from '@mui/material/Button';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { IconButton } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import { useRouter } from 'next/router';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import SendIcon from '@mui/icons-material/Send';
+import GetPropertyImages from "@/app/ApiServices/backend/getPropertyImages";
 
 const ContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
-
-Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
-
-Phasellus tempus quam ut dui egestas auctor. Vestibulum sollicitudin nulla nec pulvinar vestibulum. Aenean efficitur dapibus elit. Ut eu mauris orci. Sed blandit, nisi eget pretium interdum, neque orci sollicitudin neque, sit amet aliquet ex neque at risus. Donec vitae sapien lacus. Mauris pretium arcu vel odio consequat, eu faucibus odio viverra. In vestibulum augue id diam facilisis tristique. Donec sit amet rhoncus nibh. In non felis quis libero imperdiet vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Duis bibendum lectus diam, ut ullamcorper nunc feugiat ut. Aliquam tristique ligula ac est porta, vitae aliquam sapien lacinia. Suspendisse tempor at dolor id tristique.
-
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer commodo, orci ac consequat facilisis, odio nunc convallis ligula, in interdum erat leo eu ante. Curabitur ac facilisis odio. Nulla pellentesque volutpat ultrices. Ut et fringilla tellus. Curabitur eleifend condimentum mollis. Nam vitae mi in ligula sagittis tristique. Sed gravida tortor ut erat accumsan fringilla. Morbi ultricies mi quis molestie molestie. In id arcu nisi. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus aliquet mauris, maximus placerat orci. Cras fermentum maximus lacus at dignissim. Mauris accumsan nisl eu metus maximus aliquet. Mauris congue leo eget ullamcorper tincidunt. Maecenas aliquet egestas arcu sit amet porttitor.
-
-Donec accumsan ultrices fermentum. Praesent tempus metus ut turpis consectetur, a sagittis lectus ornare. Ut varius non velit non porttitor. Integer quam ipsum, auctor at purus ut, sollicitudin porttitor est. Morbi hendrerit rutrum ex, a sodales nulla cursus et. Maecenas at posuere odio, sed ullamcorper augue. Aenean laoreet nisi eu libero accumsan vulputate. Ut convallis nisi a arcu viverra, a commodo ligula accumsan. Suspendisse eget magna eu est volutpat tincidunt venenatis a nunc. Nunc eu risus augue.
-
-Donec vestibulum lorem ut tincidunt interdum. Donec interdum sodales erat quis sollicitudin. Donec in diam eget velit sollicitudin pellentesque. Proin scelerisque laoreet augue, a ornare lorem malesuada at. Vestibulum id lorem dapibus, luctus risus nec, vehicula eros. Donec sit amet tellus nec sem sagittis laoreet. Curabitur est nibh, ultrices non ligula ac, interdum rutrum nibh. Phasellus sit amet mollis erat, ac fermentum urna. In sed turpis tellus. Cras finibus auctor dui, non accumsan lectus facilisis rutrum. Maecenas dignissim risus vel interdum viverra. Fusce laoreet odio nec orci dictum semper. Nunc tincidunt purus libero, pretium eleifend augue pellentesque id. Quisque ornare nulla sed luctus hendrerit. Suspendisse convallis consequat dolor sodales pretium. Donec tempor semper turpis.
-
-Proin elit massa, consequat condimentum odio ac, gravida maximus eros. Fusce volutpat ex libero, elementum maximus massa vestibulum id. Sed id metus dolor. Nam ac justo augue. Etiam a finibus ante. Donec egestas aliquam odio at feugiat. Quisque enim turpis, porta a accumsan nec, pellentesque id mi. Aliquam dapibus mollis nisl ullamcorper venenatis. Integer tempus auctor orci laoreet sollicitudin. Sed consequat viverra scelerisque. Duis commodo mi vel orci interdum venenatis.
 
 Praesent vitae arcu felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu posuere dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas enim felis, lacinia quis lectus posuere, mattis eleifend eros. Nulla sit amet diam vestibulum, varius lacus eget, varius nunc. Fusce varius felis nunc, et malesuada lectus pharetra ut. Sed vel ante turpis. Aliquam erat volutpat. Maecenas nec dictum velit, eu malesuada ante. Vestibulum ut semper metus.
 
@@ -40,43 +46,26 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt mau
 
 Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
 
-const SmallContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
+const SmallContentString: string = `Lorem Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
 
-Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
-
-Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
-
-const MyGallery = () => {
-    const [images, setImages] = useState<{ original: string; thumbnail: string; }[]>([]);
+const MyGallery = ({propertyId}) => {
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        const images = [
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
-            }
-        ];
-        setImages(images);
+        
+        
+        async function fetchImages(){
+            let images =[]
+            console.log(propertyId)
+            const fetchedImages = await GetPropertyImages(propertyId)
+            fetchedImages.forEach((image)=>{
+                images.push({original:image.url,thumbnail:image.url})
+            })
+            setImages(images)
+        }
+        fetchImages()
+        
+       
     }, []);
 
     return <ImageGallery autoPlay={true} items={images} showBullets={true} />;
@@ -86,33 +75,78 @@ const MyGallery = () => {
 interface CardProps {
     title: string;
     content: string;
+    currentUrl: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, content }) => {
+const Card: React.FC<CardProps> = ({ title, content, currentUrl }) => {
+    const [copied, setCopied] = useState(false);
+    //track visibility of snackbar/alert
+    const [open, setOpen] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+        setSaved(false);
+    };
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText("localhost:3000/PropertyPage/" + currentUrl);
+            setCopied(true);
+            setOpen(true);
+        } catch (error) {
+            console.error('Failed to copy:', error);
+        }
+    };
+
+    const handleSave = async () => {
+        try {
+            //save to favourites
+            console.log('saving');
+        } catch (error) {
+            console.error('Failed to save:', error);
+        }
+    }
+
+
     return (
         <div className="card">
             <Image src={profilePicture} alt={title} width={100} height={100} />
             <h1>{title}</h1>
             <p>{content}</p>
 
-
-            <Space direction="vertical" style={{ width: "100%", }}>
-                <Button type="primary" htmlType="submit" block>
-                    Message Landlord
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Book a Viewing
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Save to Favourites
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Share Link
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    View Similar Properties
-                </Button>
-            </Space>
+            <div className='cardButtons'>
+                <Space direction="vertical" style={{ width: "100%", }}>
+                    <ButtonMui variant="contained" endIcon={<SendIcon />} fullWidth={true} color="success">
+                        Message Landlord
+                    </ButtonMui>
+                    <ButtonMui variant="contained" fullWidth={true}>
+                        Book a Viewing
+                    </ButtonMui>
+                    <ButtonMui variant="contained" fullWidth={true}>
+                        View Similar Properties
+                    </ButtonMui>
+                    <div className='shareSave'>
+                        <ButtonMui variant="contained" startIcon={<ShareIcon />} onClick={handleCopy} fullWidth={true}>
+                            Share
+                        </ButtonMui>
+                        <ButtonMui variant="contained" startIcon={<FavoriteBorderIcon />} fullWidth={true} color='secondary'
+                            style={{ marginLeft: '5px' }}>
+                            Save
+                        </ButtonMui>
+                        <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                            <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                                Link copied to clipboard
+                            </MuiAlert>
+                        </Snackbar>
+                        <Snackbar open={saved} autoHideDuration={1000} onClose={handleClose}>
+                            <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                                Saved Listing to Favourites
+                            </MuiAlert>
+                        </Snackbar>
+                    </div>
+                </Space>
+            </div>
         </div>
     );
 };
@@ -130,40 +164,32 @@ export default function App({ params }: Props) {
     // useState true or false
 
     return (
-        <Parallax ref={parallax} pages={2.5}>
-            <ParallaxLayer offset={3} speed={0} factor={2}
-                style={{
-                    backgroundImage: 'url("https://images.pexels.com/photos/2501965/pexels-photo-2501965.jpeg")',
-                    backgroundSize: 'cover',
-                }}
-            />
-            <ParallaxLayer offset={0} speed={0} factor={3}
-                style={{
-                    backgroundImage: 'url("https://images.pexels.com/photos/2760888/pexels-photo-2760888.jpeg")',
-                    backgroundSize: 'cover',
-                }}
-            />
-            <ParallaxLayer offset={0} speed={0.5}>
-                < NavBar />
-                <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', color: 'black' }}>
-                    <div style={{ width: '65%', marginTop: '50px' }}>
-                        <MyGallery />
-                        <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                            STARTS HERE!!! {ContentString}
-                        </p>
-                    </div>
-                    <div style={{ width: '30%', marginTop: '30px' }}>
-                        <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                            Your Property ID is {propertyId}!
-                            {SmallContentString}
-                        </p>
-                        <div className="container">
-                            <Card title="Mr LandLord" content="I Hate Poor People. Give me your money." />
-                        </div>
+        <body style={{}}>
+            {/* < NavBar /> */}
+            <NewNavBar />
+            <div style={{
+                display: 'flex', justifyContent: 'center', color: 'black',
+                // backgroundImage: "url('https://images.pexels.com/photos/2904142/pexels-photo-2904142.jpeg')",
+                // backgroundSize: 'cover',
+                // paddingLeft: '100px',
+                // paddingRight: '100px',
+                backgroundColor: '#eff7fa',
+            }}>
+                <div style={{ width: '50%', marginTop: '50px', marginRight: '30px' }}>
+                    <MyGallery propertyId ={propertyId} />
+                    <p className='propertyDescription' style={{ fontSize: '20px' }}>
+                        <Listing listingId={propertyId}></Listing>
+                        Welcome to this charming London property located in the heart of the city. This beautifully designed home offers a perfect blend of modern elegance and classic style. With its spacious living areas and tasteful decor, you will feel right at home the moment you step through the door. The property features stunning views of the city skyline, providing a picturesque backdrop for your daily activities. Enjoy the convenience of the nearby amenities, including trendy cafes, fine dining restaurants, and vibrant shopping districts. The bustling city life is just a stone's throw away, allowing you to explore all that London has to offer. Don't miss the opportunity to make this remarkable property your own and experience the epitome of urban living in the vibrant capital city
+                    </p>
+                </div>
+                <div style={{ width: '20%', marginTop: '30px' }}>
+    
+                    <div className="container">
+                        <Card title="Mr LandLord" content="Give me your money." currentUrl={propertyId} />
                     </div>
                 </div>
-            </ParallaxLayer>
-
-        </Parallax>
+            </div>
+            <Footer />
+        </body>
     )
 }

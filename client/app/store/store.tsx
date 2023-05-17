@@ -13,6 +13,9 @@ import {numOfBedroomsMinSlice} from "@/app/store/numOfBedroomsMinSlice";
 import {numOfBedroomsMaxSlice} from "@/app/store/numOfBedroomsMaxSlice";
 import{statusSlice} from "@/app/store/statusSlice";
 import {propertyListSlice} from "@/app/store/propertyListSlice";
+import {tokenSlice} from "@/app/store/tokenSlice";
+import {isLogedInSlice} from "@/app/store/isLogedInSlice";
+import {propertyCardSelectedSlice} from "@/app/store/propertyCardSelectedSlice";
 
 const makeStore = ()=> // bc its a function
     configureStore({
@@ -30,6 +33,9 @@ const makeStore = ()=> // bc its a function
             [statusSlice.name]:statusSlice.reducer,
             [propertyTypeSlice.name]:propertyTypeSlice.reducer,
             [propertyListSlice.name]:propertyListSlice.reducer,
+            [tokenSlice.name]:tokenSlice.reducer,
+            [isLogedInSlice.name]:isLogedInSlice.reducer,
+            [propertyCardSelectedSlice.name]:propertyCardSelectedSlice.reducer
         },
         devTools : true,
         

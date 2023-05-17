@@ -74,7 +74,7 @@ async function softDeleteUsers(id: number) {
 }
 
 async function findEmail(email: string) {
-  const response = await fetch(`http://localhost:3010/users/${email}`, {
+  const response = await fetch(`http://localhost:3010/users/exist/${email}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -87,4 +87,19 @@ async function findEmail(email: string) {
     throw new Error('Error: ' + response.statusText);
   }
 }
-export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail };
+
+async function findUserById(id: number) {
+  const response = await fetch(`http://localhost:3010/users/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Error: ' + response.statusText);
+  }
+}
+export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail,findUserById };

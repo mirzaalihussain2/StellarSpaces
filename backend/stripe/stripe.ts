@@ -24,14 +24,14 @@ async function stripeTransaction(
             product_data: {
               name: 'Featured listing',
             },
-            unit_amount: 5, // 500 pence = £5
+            unit_amount: 30, // 500 pence = £5
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: `http://localhost:3000/PropertyPage/${listingId}`,
+      cancel_url: 'http://localhost:3000/AddListing',
     });
 
     // if the session is created successfully, set the listing as featured

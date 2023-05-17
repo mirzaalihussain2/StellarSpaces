@@ -1,6 +1,5 @@
 'use client'
-import './page.css';
-import NewNavBar from '../../NewNavBar/page'
+import NewNavBar from '../NewNavBar/page'
 import React, { useRef, useState, useEffect } from 'react'
 import Image from 'next/image';
 import { Button, Space } from "antd";
@@ -9,27 +8,25 @@ import getListing from '@/app/ApiServices/backend/getListing';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBath, faBed, faDog, faWarehouse, faSterlingSign, faHouse, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import './Listing.css';
+import Draft from './Draft';
 
-
-type Props = {
-    params: {
-        listingId: string;
-    };
+interface ListingProps {
+    listingId: string;
 }
 
-
-export default function App({ params }: Props) {
+export default function Listing(props: ListingProps) {
     //this is the dynamic route of the listing page
     const [listingData, setListingData] = useState(null);
-    const listingId = params.listingId;
-
+    console.log(props.listingId);
+    console.log(typeof props.listingId);
     useEffect(() => {
         const property = async function () {
-            const listing = await getListing(listingId);
+            const listing = await getListing(props.listingId);
             setListingData(listing);
         }
         property();
-    }, [listingId]);
+    }, []);
 
     // console.log('This is the listing object', listingData);
     // console.log('this is the dynamic route of the listing page', listingId);
@@ -45,6 +42,9 @@ export default function App({ params }: Props) {
 
     return (
         <div>
+            {listingData?.status === 'draft' && <Draft />}
+            {/* <Draft /> */}
+            {listingData?.featured === true && <div className="ribbon ribbon-top-left"><span>Featured</span></div>}
             <h3>£{listingData?.price}</h3>
             <h2>Overview</h2>
             <hr></hr>

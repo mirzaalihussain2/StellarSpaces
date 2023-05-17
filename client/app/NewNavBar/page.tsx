@@ -23,6 +23,8 @@ export default function NewNavBar() {
     //non-dry repeats in componenets>login.tsx
     function handleSignout() {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        localStorage.removeItem('userId');
+        
     }
 
     const token = getCookie('token');
@@ -35,6 +37,7 @@ export default function NewNavBar() {
         setShowLogin(!showLogin);
     }
 
+    const userId = localStorage.getItem('userId')
     return (
         <header className='navbar'>
             <ul className='navbar-ul'>
@@ -66,17 +69,17 @@ export default function NewNavBar() {
                         </li>
 
                         <li>
-                            <Link href="/Dashboard">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Dashboard</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Account">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Account</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Favourites">
+                            <Link href={'/AccountPage/'+userId}>
                                 <span className='NavbarElement'>Favourites</span>
                             </Link>
                         </li>
@@ -85,11 +88,11 @@ export default function NewNavBar() {
                 }
             </ul>
             <ul>
-                <li>
-                    <Link href="/PropertySearch">
-                        <span className='NavbarElement'>Search</span>
-                    </Link>
-                </li>
+                {/*<li>*/}
+                {/*    <Link href="/PropertySearch">*/}
+                {/*        <span className='NavbarElement'>Search</span>*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
                 <li>
                     <Link href="/Help">
                         <span className='NavbarElement'>Help</span>

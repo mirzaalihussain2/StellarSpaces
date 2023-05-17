@@ -14,8 +14,6 @@ import {
 
 import {status, propertyTypes, Listing} from '../interfaces/Listing';
 import { User } from '../interfaces/User';
-console.log(status);
-console.log(Array.isArray(status));
 
 import { NextFunction, Request, Response } from 'express';
 import {getSphericalDistance,getLatLng} from "./GoogleMapsAPI";
@@ -55,9 +53,10 @@ function generateQueryObj(userQuery: queryObject) {
       'mobile home',
       'house boat'
     ],
-    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft']
+    status: (userQuery.status).length ? userQuery.status : ['live', 'dormant', 'let agreed', 'draft'],
+    userId: userQuery.userId 
   };
-  console.log(queryObj)
+ 
   return queryObj;
 }
 
@@ -65,12 +64,20 @@ function generateQueryObj(userQuery: queryObject) {
 async function filterBasedOnRadius(listings:Listing[],radius:string,centerPos:{lat:string,lng:string}){
   let filteredListings = []
   for(let listing of listings){
-    const listingPos = { lat: listing.addressLatitude, lng: listing.addressLongitude }
-    const sphericalDistance =  await getSphericalDistance(listingPos,centerPos)
-    console.log(sphericalDistance,JSON.parse(radius))
+    
+    const sphericalDistance =  getSphericalDistance( listing.addressLatitude as number,listing.addressLongitude as number,JSON.parse(centerPos.lat),JSON.parse(centerPos.lng ))
+    // console.log(sphericalDistance)
     if (sphericalDistance<=JSON.parse(radius)) filteredListings.push(listing)
+   
   }
-  console.log(filteredListings)
+  
+  return filteredListings
+}
+
+function filterBasedOnScroll(page:number,perPage:number,listings:Listing[]){
+  const startIndex = (page - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const filteredListings = listings.slice(startIndex, endIndex);
   return filteredListings
 }
 
@@ -78,12 +85,15 @@ async function filterBasedOnRadius(listings:Listing[],radius:string,centerPos:{l
 // Get all listings
 async function fetchListings(req: Request, res: Response, next: NextFunction) {
   try {
+    req.body.userId = parseInt(req.body.userId)
     const userQuery = generateQueryObj(req.body);
     // console.log(userQuery);
     const listings = await getListings(userQuery);
-    console.log(listings)
     const centerPos = await getLatLng(req.body.location)
-    const filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    let filteredListings = await filterBasedOnRadius(listings as Listing[],req.body.radius,centerPos as {lat:string,lng:string})
+    if(req.body.page){
+        filteredListings = filterBasedOnScroll(req.body.page,req.body.perPage,filteredListings)
+    }
     res.status(200).json(filteredListings);
   } catch (error) {
     next(error);

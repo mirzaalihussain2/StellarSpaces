@@ -1,7 +1,8 @@
 import {PlusOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import uploadImages from "@/app/ApiServices/cloudinary/cloudinary";
-import {CreateListing,postImageURLs}from "@/app/ApiServices/backend/CreateListing";
+import {CreateListing, postImageURLs} from "@/app/ApiServices/backend/CreateListing";
+import StripePopUp from "@/app/components/StripePopUp";
 
 interface Address {
     formatted_address: string;
@@ -18,6 +19,7 @@ import {
 } from 'antd';
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
+import Link from "next/link";
 
 
 const {RangePicker} = DatePicker;
@@ -31,6 +33,7 @@ const normFile = (e: any) => {
 };
 
 const AddListingForm: React.FC = () => {
+    const userId = localStorage.getItem('userId')
     const [postcodeValidation, SetPostcodeValidation] = useState(false)
     const [postcode, SetPostcode] = useState('')
     const [streetName, SetStreetName] = useState('')
@@ -47,9 +50,18 @@ const AddListingForm: React.FC = () => {
     const [bathroomNumb, SetBathroomNumb] = useState(null)
     const [images, SetImages] = useState([])
     const [youtubeURL, SetYoutubeURL] = useState('')
-
-
+    const [showStripe, setShowStripe] = useState(false)
+    const [ready, setReady] = useState(false)
+    const [listingId, setListingId] = useState(null)
     const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+
+    
+    useEffect(() => {
+        if (ready) {
+            window.location.replace(`http://localhost:3000/PropertyPage/${listingId}`);
+        }
+
+    }, [showStripe,ready])
 
     async function handleSearchPostcode() {
         const address = await getAddress(postcode)
@@ -64,30 +76,42 @@ const AddListingForm: React.FC = () => {
     }
 
     async function onSave() {
-        const URLs =[]
+        console.log(userId)
+        const URLs = []
         const responses = await uploadImages(images)
-        responses.forEach((response)=>{URLs.push(response.url)})
+        responses.forEach((response) => {
+            URLs.push(response.url)
+        })
         console.log(URLs)
         const Obj = {
-            addressPostCode:postcode,
-            addressStreetName:streetName,
-            addressCity:city,
-            addressCounty:county,
-            addressHouseNum:JSON.parse(flatOrHouseNumb),
+            addressPostCode: postcode,
+            addressStreetName: streetName,
+            addressCity: city,
+            addressCounty: county,
+            addressHouseNum: JSON.parse(flatOrHouseNumb),
             propertyType,
             addressApartmentFloorNum: addressLine2,
             description,
             petsAllowed,
             hasGarage,
-            price:monthlyRent,
-            numOfBedrooms:bedroomNumb,
-            numOfBathrooms:bathroomNumb,
-            video:youtubeURL
+            price: monthlyRent,
+            numOfBedrooms: bedroomNumb,
+            numOfBathrooms: bathroomNumb,
+            video: youtubeURL,
         }
         const newListing = await CreateListing(Obj)
-        const newImages = await postImageURLs(URLs,newListing.id)
-        console.log(newListing)
+        const newImages = await postImageURLs(URLs, newListing.id)
+        return newListing.id
     }
+
+    async function handleSaveAndPreview() {
+        console.log('test')
+        const listingId = await onSave();
+        setListingId(listingId)
+        setShowStripe(true)
+        
+    }
+
 
     function handleNumberInput(value: Number | null, setter): void {
         if (value) {
@@ -108,12 +132,12 @@ const AddListingForm: React.FC = () => {
     }
 
     function handleCheckbox(e, setter): void {
-       
+
         console.log(e.target.checked)
         if (e.target.checked) setter(1)
         else setter(0)
-        
-        
+
+
     }
 
     function handleImageInput(newImage) {
@@ -145,7 +169,9 @@ const AddListingForm: React.FC = () => {
 
     return (
         <>
-            <h1>Where is your property located?</h1>
+        {showStripe ? (<StripePopUp listingId = {listingId} setReady = {setReady}></StripePopUp>):(
+            <>
+            <h1 style={{marginLeft: '8.7vw'}}>Where is your property located?</h1>
             <Form
                 labelCol={{span: 4}}
                 wrapperCol={{span: 14}}
@@ -189,7 +215,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetCounty)
                             }}/>
                         </Form.Item>
-                        <h1>Property Details</h1>
+                        <h1 style={{marginLeft: '8.7vw'}}>Property Details</h1>
                         <Form.Item label="Property type">
                             <Select onSelect={(value) => {
                                 handlePropertySelect(value)
@@ -255,7 +281,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetYoutubeURL)
                             }}/>
                         </Form.Item>
-                        <h1>Tenancy Details</h1>
+                        <h1 style={{marginLeft: '8.7vw'}}>Tenancy Details</h1>
                         <Form.Item label="Monthly rent">
                             <InputNumber value={monthlyRent} onChange={(value) => {
                                 handleNumberInput(value, SetMonthlyRent)
@@ -276,10 +302,17 @@ const AddListingForm: React.FC = () => {
                             }}/>
                         </Form.Item>
 
-                        <Form.Item>
-                            <Button style={{margin: '1vw'}}>Discard</Button>
-                            <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
-                            <Button style={{margin: '1vw'}}>Save and preview</Button>
+                        <Form.Item style={{marginLeft: '32vw'}}>
+                            <Link href={'/'}>
+                                <Button style={{margin: '1vw'}}>Discard</Button>
+                            </Link>
+                            <Link href={'/'}>
+                                <Button onClick={onSave} style={{margin: '1vw'}}>Save as draft</Button>
+                            </Link>
+
+                            <Button onClick={handleSaveAndPreview} style={{margin: '1vw'}}>Save and preview</Button>
+
+
                         </Form.Item>
 
                     </>
@@ -293,6 +326,8 @@ const AddListingForm: React.FC = () => {
 
                 )}
             </Form>
+            </>
+        )}
         </>
     );
 

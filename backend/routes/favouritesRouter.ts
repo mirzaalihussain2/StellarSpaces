@@ -8,12 +8,13 @@ import {
   deleteFavourites,
   getUserFavourites,
   getListingFavourites,
-  countListingFavourites
+  countListingFavourites,
 } from '../controllers/favouriteControllers';
+import { authenticateJwt } from '../middleware/auth';
 
 // Routes
-router.post('/', addFavourites);
-router.delete('/', deleteFavourites);
+router.post('/', authenticateJwt, addFavourites);
+router.delete('/', authenticateJwt, deleteFavourites);
 router.get('/user/:id', getUserFavourites);
 router.get('/listing/:id', getListingFavourites);
 router.get('/:id', countListingFavourites);
