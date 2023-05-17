@@ -74,7 +74,7 @@ async function softDeleteUsers(id: number) {
 }
 
 async function findEmail(email: string) {
-  const response = await fetch(`http://localhost:3010/users/${email}`, {
+  const response = await fetch(`http://localhost:3010/users/exist/${email}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
