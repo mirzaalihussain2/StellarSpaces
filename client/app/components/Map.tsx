@@ -72,6 +72,7 @@ export default function Map() {
             google.maps.event.addListener(marker, 'mouseover', function () {
                 marker.setAnimation(google.maps.Animation.BOUNCE);
             });
+            
             google.maps.event.addListener(marker, 'mouseout', function () {
                 marker.setAnimation(null);
             });
