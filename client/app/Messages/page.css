@@ -1,0 +1,29 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+  background-image: url('../../public/chat.png');
+}
+
+.receiver {
+  display: flex;
+  align-self: flex-end;
+  margin: 0 0 10px 10px;
+  background: #2bdcff;
+  padding: 5px 10px;
+  border-radius: 20px 20px 0 20px;
+  max-width: 200px;
+  height: auto;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sender {
+  display: flex;
+  align-self: flex-start;
+  margin: 0 0 10px 10px;
+  background: #11ff99;
+  padding: 5px 10px;
+  border-radius: 20px 20px 20px 0;
+  max-width: 200px;
+  height: auto;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
