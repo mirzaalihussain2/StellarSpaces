@@ -48,7 +48,6 @@ async function fetchLikedListings(userId: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(userId),
     }
   );
 
