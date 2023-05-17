@@ -89,7 +89,7 @@ async function findEmail(email: string) {
 }
 
 async function findUserById(id: number) {
-  const response = await fetch(`http://localhost:3010/users/exist/${id}`, {
+  const response = await fetch(`http://localhost:3010/users/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -102,4 +102,4 @@ async function findUserById(id: number) {
     throw new Error('Error: ' + response.statusText);
   }
 }
-export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail };
+export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail,findUserById };
