@@ -63,14 +63,15 @@ describe('get all users', () => {
 
 describe('check if user exists by their email address', () => {
   it('should return true if user exists', async () => {
-    const res = await supertest.agent(app).get(`/users/${userEmail}`);
+    const res = await supertest.agent(app).get(`/users/exist/${userEmail}`);
     expect(res.status).toBe(200);
+    expect(res.body).toBe(true);
     // console.log(res.body);
     // console.log(res.status);
   });
 
   it('should return false if user does not exist', async () => {
-    const res = await supertest.agent(app).get('/users/bla@mail.com');
+    const res = await supertest.agent(app).get('/users/exist/bla@mail.com');
     expect(res.status).toBe(200);
     // console.log(res.body);
     // console.log(res.status);
@@ -83,12 +84,15 @@ describe('get all user information by the user id', () => {
     expect(res.status).toBe(200);
     // console.log(res.body);
     // console.log(res.status);
+    expect(res.body.firstName).toBe('User1');
+    expect(res.body.lastName).toBe('One1');
+    expect(res.body.DOB).toBe('1990-10-06T00:00:00.000Z');
   });
 
   it('should false if user does not exist', async () => {
     const res = await supertest.agent(app).get('/users/12132');
-    expect(res.status).toBe(200);
-    expect(res.body).toBe(false);
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe('User not found');
     // console.log(res.body);
     // console.log(res.status);
   });
@@ -140,7 +144,7 @@ describe('user hard delete', () => {
     const res = await supertest.agent(app).delete(`/users/0`);
     expect(res.status).toBe(200);
     expect(res.body.message).toBe('User hard-deleted successfully');
-    console.log(res.body);
+    // console.log(res.body);
   });
 });
 
