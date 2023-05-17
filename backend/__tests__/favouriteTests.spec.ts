@@ -76,13 +76,19 @@ describe('Create a favourite', () => {
 
 describe('fetch the favourited listings of the user', () => {
   it('should get all favourited listings of the user', async () => {
-    const res = await supertest.agent(app).get(`/favourites/user/${userId}`);
+    const res = await supertest
+      .agent(app)
+      .get(`/favourites/user/${userId}`)
+      .set('Authorization', `Bearer ${token}`);
     // console.log(res.body);
     expect(res.status).toBe(200);
     expect(res.body.length).toBeGreaterThanOrEqual(1);
   });
   it('should retrieve nothing for users that do not exist', async () => {
-    const res = await supertest.agent(app).get(`/favourites/user/912312312`);
+    const res = await supertest
+      .agent(app)
+      .get(`/favourites/user/912312312`)
+      .set('Authorization', `Bearer ${token}`);
     // console.log(res.body);
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
@@ -94,14 +100,18 @@ describe('fetch the users who favourited the listings with the listingId', () =>
   it('should get all users who favourited this listing', async () => {
     const res = await supertest
       .agent(app)
-      .get(`/favourites/listing/${listingId}`);
+      .get(`/favourites/listing/${listingId}`)
+      .set('Authorization', `Bearer ${token}`);
     // console.log(res.body);
     expect(res.status).toBe(200);
     expect(res.body.length).toBeGreaterThanOrEqual(1);
   });
   it('should retrieve nothing for listings that do not exist', async () => {
-    const res = await supertest.agent(app).get(`/favourites/listing/912312312`);
-    // console.log(res.body);
+    const res = await supertest
+      .agent(app)
+      .get(`/favourites/listing/912312312`)
+      .set('Authorization', `Bearer ${token}`);
+    console.log(res.body);
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
     expect(res.body.length).toBe(0);
@@ -124,10 +134,11 @@ describe('count the number of people who liked this listing', () => {
 });
 
 describe('Delete all favourite', () => {
-  it('should delete all favourites', async () => {
+  it('should delete the specified favourite', async () => {
     const res = await supertest
       .agent(app)
       .delete('/favourites')
+      .send({ listingId: listingId, userId: userId })
       .set('Authorization', `Bearer ${token}`);
     // console.log(res.body);
     expect(res.status).toBe(200);
