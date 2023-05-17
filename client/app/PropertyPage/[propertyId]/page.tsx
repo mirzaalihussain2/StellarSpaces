@@ -17,6 +17,21 @@ import Listing from '../../components/Listing'
 import Footer from '@/app/Footer/page';
 import NewNavBar from '@/app/NewNavBar/page';
 
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import ButtonMui from '@mui/material/Button';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { IconButton } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import { useRouter } from 'next/router';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import SendIcon from '@mui/icons-material/Send';
+
+
 const ContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
 
 Praesent vitae arcu felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu posuere dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas enim felis, lacinia quis lectus posuere, mattis eleifend eros. Nulla sit amet diam vestibulum, varius lacus eget, varius nunc. Fusce varius felis nunc, et malesuada lectus pharetra ut. Sed vel ante turpis. Aliquam erat volutpat. Maecenas nec dictum velit, eu malesuada ante. Vestibulum ut semper metus.
@@ -31,11 +46,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt mau
 
 Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
 
-const SmallContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
-
-Suspendisse ornare urna non erat maximus, elementum tempor lectus accumsan. Donec libero metus, dictum at pulvinar a, tristique eget erat. In ultrices ante nec turpis vehicula, eu dignissim lectus semper. Cras tincidunt tortor a dui fringilla, ac ultricies ante molestie. Aenean iaculis id urna quis vestibulum. Cras mollis neque nunc, ac venenatis nisl volutpat at. Suspendisse ut ligula sapien.
-
-Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
+const SmallContentString: string = `Lorem Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
 
 const MyGallery = () => {
     const [images, setImages] = useState<{ original: string; thumbnail: string; }[]>([]);
@@ -77,33 +88,78 @@ const MyGallery = () => {
 interface CardProps {
     title: string;
     content: string;
+    currentUrl: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, content }) => {
+const Card: React.FC<CardProps> = ({ title, content, currentUrl }) => {
+    const [copied, setCopied] = useState(false);
+    //track visibility of snackbar/alert
+    const [open, setOpen] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+        setSaved(false);
+    };
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText("localhost:3000/PropertyPage/" + currentUrl);
+            setCopied(true);
+            setOpen(true);
+        } catch (error) {
+            console.error('Failed to copy:', error);
+        }
+    };
+
+    const handleSave = async () => {
+        try {
+            //save to favourites
+            console.log('saving');
+        } catch (error) {
+            console.error('Failed to save:', error);
+        }
+    }
+
+
     return (
         <div className="card">
             <Image src={profilePicture} alt={title} width={100} height={100} />
             <h1>{title}</h1>
             <p>{content}</p>
 
-
-            <Space direction="vertical" style={{ width: "100%", }}>
-                <Button type="primary" htmlType="submit" block>
-                    Message Landlord
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Book a Viewing
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Save to Favourites
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    Share Link
-                </Button>
-                <Button type="primary" htmlType="submit" block>
-                    View Similar Properties
-                </Button>
-            </Space>
+            <div className='cardButtons'>
+                <Space direction="vertical" style={{ width: "100%", }}>
+                    <ButtonMui variant="contained" endIcon={<SendIcon />} fullWidth={true} color="success">
+                        Message Landlord
+                    </ButtonMui>
+                    <ButtonMui variant="contained" fullWidth={true}>
+                        Book a Viewing
+                    </ButtonMui>
+                    <ButtonMui variant="contained" fullWidth={true}>
+                        View Similar Properties
+                    </ButtonMui>
+                    <div className='shareSave'>
+                        <ButtonMui variant="contained" startIcon={<ShareIcon />} onClick={handleCopy} fullWidth={true}>
+                            Share
+                        </ButtonMui>
+                        <ButtonMui variant="contained" startIcon={<FavoriteBorderIcon />} fullWidth={true} color='secondary'
+                            style={{ marginLeft: '5px' }}>
+                            Save
+                        </ButtonMui>
+                        <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                            <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                                Link copied to clipboard
+                            </MuiAlert>
+                        </Snackbar>
+                        <Snackbar open={saved} autoHideDuration={1000} onClose={handleClose}>
+                            <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                                Saved Listing to Favourites
+                            </MuiAlert>
+                        </Snackbar>
+                    </div>
+                </Space>
+            </div>
         </div>
     );
 };
@@ -125,26 +181,27 @@ export default function App({ params }: Props) {
             {/* < NavBar /> */}
             <NewNavBar />
             <div style={{
-                display: 'flex', justifyContent: 'space-around', color: 'black',
-                backgroundImage: "url('https://images.pexels.com/photos/2904142/pexels-photo-2904142.jpeg')",
-                backgroundSize: 'cover',
-                paddingLeft: '100px',
-                paddingRight: '100px',
+                display: 'flex', justifyContent: 'center', color: 'black',
+                // backgroundImage: "url('https://images.pexels.com/photos/2904142/pexels-photo-2904142.jpeg')",
+                // backgroundSize: 'cover',
+                // paddingLeft: '100px',
+                // paddingRight: '100px',
+                backgroundColor: '#eff7fa',
             }}>
-                <div style={{ width: '65%', marginTop: '50px' }}>
+                <div style={{ width: '50%', marginTop: '50px', marginRight: '30px' }}>
                     <MyGallery />
                     <p className='propertyDescription' style={{ fontSize: '20px' }}>
                         <Listing listingId={propertyId}></Listing>
                         STARTS HERE!!! {ContentString}
                     </p>
                 </div>
-                <div style={{ width: '30%', marginTop: '30px' }}>
+                <div style={{ width: '20%', marginTop: '30px' }}>
                     <p className='propertyDescription' style={{ fontSize: '20px' }}>
                         Your Property ID is {propertyId}!
                         {SmallContentString}
                     </p>
                     <div className="container">
-                        <Card title="Mr LandLord" content="Give me your money." />
+                        <Card title="Mr LandLord" content="Give me your money." currentUrl={propertyId} />
                     </div>
                 </div>
             </div>
