@@ -11,7 +11,7 @@ const PropertyCard: React.FC = (props) => {
         <>
             <Card
                 hoverable
-                style={{width: '95vw', marginTop: '3vw'}}
+                style={{width: '75vw', marginTop: '3vw',marginLeft:'10vw'}}
             >
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     <img style={{width: '20vw', borderRadius: '1vw'}}

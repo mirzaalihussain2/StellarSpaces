@@ -98,7 +98,7 @@ export default () => {
             
         return (
             
-            <PropertyCard listing ={item}></PropertyCard>
+            <PropertyCard  listing ={item}></PropertyCard>
         )
     }
 
@@ -115,17 +115,17 @@ export default () => {
 
 
     return (
-        <div>
-            <WindowScroller
+        <div >
+            <WindowScroller 
                 onScroll={({scrollTop}) => {
                     console.log('scrollTop', scrollTop)
                 }}
             >
                 {({height, scrollTop, isScrolling}) => (
-                    <List>
+                    <List >
                         <AutoSizer disableHeight>
                             {({width}) => (
-                                <VirtualizedList
+                                <VirtualizedList style={{backgroundColor:'#eff7fa'}}
                                     
                                     rowCount={data.length}
                                     rowRenderer={rowRenderer}
