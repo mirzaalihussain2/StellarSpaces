@@ -87,4 +87,19 @@ async function findEmail(email: string) {
     throw new Error('Error: ' + response.statusText);
   }
 }
+
+async function findUserById(id: number) {
+  const response = await fetch(`http://localhost:3010/users/exist/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Error: ' + response.statusText);
+  }
+}
 export { createUsers, loginUser, updateUsers, softDeleteUsers, findEmail };
