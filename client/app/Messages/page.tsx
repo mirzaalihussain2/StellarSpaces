@@ -1,8 +1,13 @@
 'use client'
 import React, { useState } from 'react';
 import { chat, messageList } from './Chat';
+import { chat2, messageList2 } from './Chat2';
 import './page.css'
 import chatBackground from '../../public/chat.png'
+import ChatSideBar from './ChatSideBar';
+import { Layout, Menu, theme } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
+import { Button, Input, Select, Space } from 'antd';
 
 interface msgObj {
   "id": number,
@@ -50,13 +55,32 @@ const Messages: React.FC = () => {
   const userId = localStorage.getItem('userId');
   console.log(messageList[0]);
   return (
-      <div className='messages' style={{ backgroundImage: `url(${chatBackground})` }}>
-        {messages.map((message, index) => (
-          message.authorId === Number(userId) ?
-            <div className='sender'>{message.content}</div>
-            : <Receiver message={message} />
-        ))}
-      </div>
+    <Layout>
+      <Sider>
+        <ChatSideBar />
+      </Sider>
+      <Layout>
+        <Content>
+          <div className='chatApp'>
+            <div className='messages' style={{ backgroundImage: `url(${chatBackground})` }}>
+              {messages.map((message, index) => (
+                message.authorId === Number(userId) ?
+                  <div className='sender'>{message.content}</div>
+                  : <Receiver message={message} />
+              ))}
+            </div>
+          </div>
+        </Content>
+      </Layout>
+      <Layout>
+        <Footer>
+
+              <Input defaultValue="Combine input and button" />
+              <Button type="primary">Submit</Button>
+
+        </Footer>
+      </Layout>
+    </Layout>
   );
 };
 
