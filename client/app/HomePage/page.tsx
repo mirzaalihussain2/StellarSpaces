@@ -58,7 +58,7 @@ export default function HomePage() {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 </Head>
                 <header>
-                    <Image style={{width: '100%'}} src={banner} alt='banner, shows image'/>
+                    <Image style={{width: '100%',height:'30vw'}} src={banner} alt='banner, shows image'/>
                     <h1 className={styles.tagline}>Where renters and landlords meet</h1>
                 </header>
                 <main>
