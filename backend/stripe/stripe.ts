@@ -24,7 +24,7 @@ async function stripeTransaction(
             product_data: {
               name: 'Featured listing',
             },
-            unit_amount: 5, // 500 pence = £5
+            unit_amount: 30, // 500 pence = £5
           },
           quantity: 1,
         },

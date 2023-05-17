@@ -2,6 +2,7 @@ import {PlusOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import uploadImages from "@/app/ApiServices/cloudinary/cloudinary";
 import {CreateListing, postImageURLs} from "@/app/ApiServices/backend/CreateListing";
+import StripePopUp from "@/app/components/StripePopUp";
 
 interface Address {
     formatted_address: string;
@@ -19,7 +20,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {OptGroup} from "rc-select";
 import Link from "next/link";
-
 
 
 const {RangePicker} = DatePicker;
@@ -50,9 +50,18 @@ const AddListingForm: React.FC = () => {
     const [bathroomNumb, SetBathroomNumb] = useState(null)
     const [images, SetImages] = useState([])
     const [youtubeURL, SetYoutubeURL] = useState('')
-
-
+    const [showStripe, setShowStripe] = useState(false)
+    const [ready, setReady] = useState(false)
+    const [listingId, setListingId] = useState(null)
     const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+
+    
+    useEffect(() => {
+        if (ready) {
+            window.location.replace(`http://localhost:3000/PropertyPage/${listingId}`);
+        }
+
+    }, [showStripe,ready])
 
     async function handleSearchPostcode() {
         const address = await getAddress(postcode)
@@ -89,7 +98,6 @@ const AddListingForm: React.FC = () => {
             numOfBedrooms: bedroomNumb,
             numOfBathrooms: bathroomNumb,
             video: youtubeURL,
-
         }
         const newListing = await CreateListing(Obj)
         const newImages = await postImageURLs(URLs, newListing.id)
@@ -99,8 +107,9 @@ const AddListingForm: React.FC = () => {
     async function handleSaveAndPreview() {
         console.log('test')
         const listingId = await onSave();
-        console.log(listingId)
-        window.location.replace(`http://localhost:3000/PropertyPage/${listingId}`)
+        setListingId(listingId)
+        setShowStripe(true)
+        
     }
 
 
@@ -160,7 +169,8 @@ const AddListingForm: React.FC = () => {
 
     return (
         <>
-            <h1 style={{marginLeft:'8.7vw'}}>Where is your property located?</h1>
+
+            <h1 style={{marginLeft: '8.7vw'}}>Where is your property located?</h1>
             <Form
                 labelCol={{span: 4}}
                 wrapperCol={{span: 14}}
@@ -204,7 +214,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetCounty)
                             }}/>
                         </Form.Item>
-                        <h1 style={{marginLeft:'8.7vw'}}>Property Details</h1>
+                        <h1 style={{marginLeft: '8.7vw'}}>Property Details</h1>
                         <Form.Item label="Property type">
                             <Select onSelect={(value) => {
                                 handlePropertySelect(value)
@@ -270,7 +280,7 @@ const AddListingForm: React.FC = () => {
                                 handleInputChange(e, SetYoutubeURL)
                             }}/>
                         </Form.Item>
-                        <h1 style={{marginLeft:'8.7vw'}}>Tenancy Details</h1>
+                        <h1 style={{marginLeft: '8.7vw'}}>Tenancy Details</h1>
                         <Form.Item label="Monthly rent">
                             <InputNumber value={monthlyRent} onChange={(value) => {
                                 handleNumberInput(value, SetMonthlyRent)
@@ -315,6 +325,7 @@ const AddListingForm: React.FC = () => {
 
                 )}
             </Form>
+            {showStripe && <StripePopUp listingId = {listingId} setReady = {setReady}></StripePopUp>}
         </>
     );
 
