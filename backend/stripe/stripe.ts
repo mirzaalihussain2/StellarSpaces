@@ -30,7 +30,7 @@ async function stripeTransaction(
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:3000/${listingId}`,
+      success_url: `http://localhost:3000/PropertyPage/${listingId}`,
       cancel_url: 'http://localhost:3000/AddListing',
     });
 

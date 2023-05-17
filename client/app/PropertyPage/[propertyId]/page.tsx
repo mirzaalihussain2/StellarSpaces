@@ -30,7 +30,7 @@ import { useRouter } from 'next/router';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import SendIcon from '@mui/icons-material/Send';
-
+import GetPropertyImages from "@/app/ApiServices/backend/getPropertyImages";
 
 const ContentString: string = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices metus eget purus tempor facilisis. Nam leo lorem, eleifend sit amet ligula et, consectetur finibus turpis. Vivamus a nisl sed lorem volutpat aliquam quis id ipsum. Donec eget sapien et diam posuere volutpat vitae in metus. Curabitur quis justo vel purus mattis sollicitudin. Nam nisi neque, iaculis eu mi in, sollicitudin dignissim nisl. Curabitur non nisi sed mi accumsan venenatis. Phasellus at dapibus dui. Cras erat neque, tempus sed urna sit amet, tempor vulputate elit.
 
@@ -48,37 +48,24 @@ Suspendisse in pulvinar felis. Donec nec ullamcorper ligula. Mauris magna elit, 
 
 const SmallContentString: string = `Lorem Donec nec ullamcorper ligula. Mauris magna elit, pretium eu ornare id, gravida a mi. Aliquam tincidunt mollis dolor, in consequat justo blandit eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin rhoncus, lectus at facilisis lacinia, est ex lacinia tortor, suscipit pulvinar erat magna sed tortor. Sed facilisis congue ex sed placerat. Aliquam erat volutpat. Duis sed scelerisque lectus. ENDS HERE!!!`;
 
-const MyGallery = () => {
-    const [images, setImages] = useState<{ original: string; thumbnail: string; }[]>([]);
+const MyGallery = ({propertyId}) => {
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        const images = [
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/2ccda3fda47807074a9a42796f8841aed4890605.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/9920efd25784e0048490c640e858f3254fb2237c.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1600/1200/40e8ea52aefcf251bc70182ba6a4e8a6555517d3.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/44ace4ee113d6da2815a04485a5769e8dd7b5922.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/d2cfa2b23871d5e07452159ee4d00fa6144cdc05.jpg:p',
-            },
-            {
-                original: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
-                thumbnail: 'https://lid.zoocdn.com/u/1200/900/f383f7849b2b4fd9e836a5bb3ada4384b26c77ee.jpg:p',
-            }
-        ];
-        setImages(images);
+        
+        
+        async function fetchImages(){
+            let images =[]
+            console.log(propertyId)
+            const fetchedImages = await GetPropertyImages(propertyId)
+            fetchedImages.forEach((image)=>{
+                images.push({original:image.url,thumbnail:image.url})
+            })
+            setImages(images)
+        }
+        fetchImages()
+        
+       
     }, []);
 
     return <ImageGallery autoPlay={true} items={images} showBullets={true} />;
@@ -189,17 +176,14 @@ export default function App({ params }: Props) {
                 backgroundColor: '#eff7fa',
             }}>
                 <div style={{ width: '50%', marginTop: '50px', marginRight: '30px' }}>
-                    <MyGallery />
+                    <MyGallery propertyId ={propertyId} />
                     <p className='propertyDescription' style={{ fontSize: '20px' }}>
                         <Listing listingId={propertyId}></Listing>
-                        STARTS HERE!!! {ContentString}
+                        Welcome to this charming London property located in the heart of the city. This beautifully designed home offers a perfect blend of modern elegance and classic style. With its spacious living areas and tasteful decor, you will feel right at home the moment you step through the door. The property features stunning views of the city skyline, providing a picturesque backdrop for your daily activities. Enjoy the convenience of the nearby amenities, including trendy cafes, fine dining restaurants, and vibrant shopping districts. The bustling city life is just a stone's throw away, allowing you to explore all that London has to offer. Don't miss the opportunity to make this remarkable property your own and experience the epitome of urban living in the vibrant capital city
                     </p>
                 </div>
                 <div style={{ width: '20%', marginTop: '30px' }}>
-                    <p className='propertyDescription' style={{ fontSize: '20px' }}>
-                        Your Property ID is {propertyId}!
-                        {SmallContentString}
-                    </p>
+    
                     <div className="container">
                         <Card title="Mr LandLord" content="Give me your money." currentUrl={propertyId} />
                     </div>
