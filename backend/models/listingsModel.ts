@@ -53,17 +53,18 @@ type whereClause =
         }
         userId?:number
     }
-    
+
 
 // List of LISTING model functions
 // (1) Create property listing associated with userId
 // (2) Get a single property listing, by listing.id
 // (3) Get all properties on site, with some filter criteria applied
 // (4) Update a single property listing, by listing.id
-// (5) Soft-delete listing by listing id
+// (5) Set listing as featured
 // (6) Hard-delete listing by listing id
+// (7) Get userId for property, using listing.Id
 
-// Create a new listing
+// (1) Create property listing associated with userId
 async function createListing(userId: User['id'], data: Listing) {
     if (!userId) throw new Error('userId is required to create a listing');
 
@@ -102,7 +103,7 @@ async function createListing(userId: User['id'], data: Listing) {
 //   propertyType: ['flat', 'bungalow', 'terrace']
 // };
 
-// Get all listings
+// (3) Get all properties on site, with some filter criteria applied
 async function getListings(userQuery: queryObject) {
     const whereClause: whereClause= {
         price: {
@@ -124,7 +125,7 @@ async function getListings(userQuery: queryObject) {
     };
 
     if (userQuery.userId as number) {
-        
+
         whereClause.userId   = userQuery.userId as number
     }
 
@@ -133,8 +134,7 @@ async function getListings(userQuery: queryObject) {
     });
 }
 
-
-// Get a listing by ID
+// (2) Get a single property listing, by listing.id
 async function getListingById(id: Listing['id']) {
     return await prisma.listing.findUnique({
         where: {
@@ -143,6 +143,7 @@ async function getListingById(id: Listing['id']) {
     });
 }
 
+// (4) Update a single property listing, by listing.id
 async function updateListing(id: Listing['id'], data: Listing) {
     return await prisma.listing.update({
         where: {id: id},
@@ -150,30 +151,41 @@ async function updateListing(id: Listing['id'], data: Listing) {
     });
 }
 
+// (6) Hard-delete listing by listing id
 async function hardDeleteListing(id: Listing['id']) {
     return await prisma.listing.delete({
         where: {id: id},
     });
 }
 
+// (5) Set listing as featured
 async function setListingAsFeatured(id: Listing['id']) {
-    return await prisma.listing.update({
-        where: {
-            id: id,
-        },
-        data: {
-            featured: true,
-        },
-    });
-}
+  return await prisma.listing.update({
+    where: {
+      id: id,
+    },
+    data: {
+      featured: true,
+    },
+  });
+};
+
+// (7) Get userId for property, using listing.Id
+async function getUserIdForListing (id: Listing['id']) {
+  return await prisma.listing.findUniqueOrThrow({
+    where: { id: id },
+    select: { userId: true }
+  });
+};
 
 export {
-    createListing,
-    getListings,
-    getListingById,
-    // userQuery,
-    updateListing,
-    hardDeleteListing,
-    setListingAsFeatured,
-    queryObject,
+  createListing,
+  getListings,
+  getListingById,
+  // userQuery,
+  updateListing,
+  hardDeleteListing,
+  setListingAsFeatured,
+  getUserIdForListing,
+  queryObject
 };
