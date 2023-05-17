@@ -52,3 +52,14 @@ body {
   position: sticky;
   top: 0;
 }
+
+.shareSave {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardButtons {
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 200px;
+}
