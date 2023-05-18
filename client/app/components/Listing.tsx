@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBath, faBed, faDog, faWarehouse, faSterlingSign, faHouse, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import './Listing.css';
 import Draft from './Draft';
+import makePropertyStatusLive from '@/app/ApiServices/backend/propertyLive';
+
 
 interface ListingProps {
     listingId: string;
@@ -40,9 +42,20 @@ export default function Listing(props: ListingProps) {
     //     setListingData(newListingData);
     // }
 
+    const handlePublish = async () => {
+        try {
+            console.log(typeof listingData?.id);
+            const response = await makePropertyStatusLive(listingData?.id);
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div>
             {listingData?.status === 'draft' && <Draft />}
+            {listingData?.status === 'draft' && <Button onClick={handlePublish}>Publish</Button>}
             {/* <Draft /> */}
             {listingData?.featured === true && <div className="ribbon ribbon-top-left"><span>Featured</span></div>}
             <h3>£{listingData?.price}</h3>

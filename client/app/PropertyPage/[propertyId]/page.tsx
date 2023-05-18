@@ -176,6 +176,15 @@ export default function App({ params }: Props) {
     let propertyId = params.propertyId;
     // useState true or false
 
+    const handleDraft = () => {
+        try {
+            //publishing a draft
+            console.log('publishing a draft');
+        } catch (error) {
+            console.error('Failed to publish the draft:', error);
+        }
+    }
+
     return (
         <body style={{}}>
             {/* < NavBar /> */}
