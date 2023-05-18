@@ -16,6 +16,7 @@ import ImageGallery from 'react-image-gallery';
 import Listing from '../../components/Listing'
 import Footer from '@/app/Footer/page';
 import NewNavBar from '@/app/NewNavBar/page';
+import { createFavourite, deleteFavourite, getFavourites } from '@/app/ApiServices/backend/favouritesService';
 
 
 import '@fontsource/roboto/300.css';
@@ -108,6 +109,18 @@ const Card: React.FC<CardProps> = ({ title, content, currentUrl }) => {
         }
     }
 
+    const handleFavourite = async () => {
+        try {
+            //save to favourites
+            console.log('favouriting');
+            let userId = localStorage.getItem('userId');
+            let listingId = Number(currentUrl);
+            createFavourite(Number(userId), listingId);
+        } catch (error) {
+            console.error('Failed to favourite:', error);
+        }
+    }
+
 
     return (
         <div className="card">
@@ -131,7 +144,7 @@ const Card: React.FC<CardProps> = ({ title, content, currentUrl }) => {
                             Share
                         </ButtonMui>
                         <ButtonMui variant="contained" startIcon={<FavoriteBorderIcon />} fullWidth={true} color='secondary'
-                            style={{ marginLeft: '5px' }}>
+                            style={{ marginLeft: '5px' }} onClick={handleFavourite}>
                             Save
                         </ButtonMui>
                         <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
@@ -162,6 +175,15 @@ export default function App({ params }: Props) {
     //this is the dynamic route of the property page
     let propertyId = params.propertyId;
     // useState true or false
+
+    const handleDraft = () => {
+        try {
+            //publishing a draft
+            console.log('publishing a draft');
+        } catch (error) {
+            console.error('Failed to publish the draft:', error);
+        }
+    }
 
     return (
         <body style={{}}>
