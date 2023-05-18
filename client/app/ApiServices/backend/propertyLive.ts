@@ -5,7 +5,7 @@ function getCookie(name: string) {
 }
 const token = getCookie('token');
 
-export default async function makePropertyStatusLive(listingId: number) {
+export async function makePropertyStatusLive(listingId: number) {
   try {
     const response = await fetch(
       `http://localhost:3010/listings/${listingId}`,
@@ -13,7 +13,7 @@ export default async function makePropertyStatusLive(listingId: number) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authentication: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: 'live' }),
       }
