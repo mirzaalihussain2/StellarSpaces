@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     DesktopOutlined,
     FileOutlined, HomeOutlined, MessageOutlined,
@@ -6,12 +6,12 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import type {MenuProps} from 'antd';
+import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import UserListings from "@/app/components/UserListings";
 import UserProfile from "@/app/components/UserProfile";
 
-const { Header, Content, Footer, Sider } = Layout;
+const {Header, Content, Footer, Sider} = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -30,29 +30,29 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    
-    getItem('Profile Details', '1', <UserOutlined />),
-    getItem('Messages', '2', <MessageOutlined />),
-    getItem('My Listings', '3', <HomeOutlined />),
-    getItem('Favourites', '4', <StarOutlined />),
-    getItem('Account Settings', '5', <SettingOutlined />),
-    
+
+    getItem('Profile Details', '1', <UserOutlined/>),
+    getItem('Messages', '2', <MessageOutlined/>),
+    getItem('My Listings', '3', <HomeOutlined/>),
+    getItem('Favourites', '4', <StarOutlined/>),
+    getItem('Account Settings', '5', <SettingOutlined/>),
+
 ];
 
 const AccountSideNavigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [activeMenuItem, setActiveMenuItem] = useState('1');
     const {
-        token: { colorBgContainer },
+        token: {colorBgContainer},
     } = theme.useToken();
     const handleMenuClick = (item: MenuItem) => {
         setActiveMenuItem(item.key);
     };
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{minHeight: '100vh'}}>
             <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-                <div className="demo-logo-vertical" />
+                <div className="demo-logo-vertical"/>
                 <Menu
                     theme="dark"
                     defaultSelectedKeys={[activeMenuItem]}
@@ -61,12 +61,13 @@ const AccountSideNavigation: React.FC = () => {
                     onClick={handleMenuClick}
                 />
             </Sider>
-            <Layout style={{marginLeft:'-5vw'}}>
-                {activeMenuItem === '3' && <UserListings />}
-              
+            <Layout style={{marginLeft: '-5vw'}}>
+                {activeMenuItem === '3' && <UserListings/>}
             </Layout>
-        <Layout>  {activeMenuItem === '1' && <UserProfile></UserProfile>}</Layout>
-          
+            <Layout> 
+                {activeMenuItem === '1' && <UserProfile></UserProfile>}
+            </Layout>
+
         </Layout>
     );
 
