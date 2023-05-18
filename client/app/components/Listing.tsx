@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBath, faBed, faDog, faWarehouse, faSterlingSign, faHouse, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import './Listing.css';
 import Draft from './Draft';
-import makePropertyStatusLive from '@/app/ApiServices/backend/propertyLive';
+import { makePropertyStatusLive } from '@/app/ApiServices/backend/propertyLive';
 
 
 interface ListingProps {
