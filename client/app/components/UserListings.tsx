@@ -42,7 +42,7 @@ export default function UserListings() {
         <div>
             {userListings.map((listing, index) => (
                 <div key={index}>
-                    <PropertyCard listing = {listing}></PropertyCard>
+                    <PropertyCard id = {listing.id} listing = {listing}></PropertyCard>
                 </div>
             ))}
         </div>

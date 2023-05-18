@@ -20,8 +20,8 @@ model User {
   DOB       DateTime
 
   // google authentication
-  googleId String?
-  displayName String?
+  googleId      String?
+  displayName   String?
   // datetime boilerplate
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
@@ -43,8 +43,8 @@ model Listing {
   price          Int
   numOfBedrooms  Int
   numOfBathrooms Int
-  petsAllowed    Int @default(0)
-  hasGarage      Int @default(0)
+  petsAllowed    Int     @default(0)
+  hasGarage      Int     @default(0)
   status         String
   featured       Boolean @default(false)
 
@@ -117,8 +117,8 @@ model Chat {
   id Int @id @default(autoincrement())
 
   // datetime boilerplate
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt // should this be the datetime of the latest msg in chat?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt // should this be the datetime of the latest msg in chat?
 
   // relations FROM other tables
   listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull, onUpdate: Cascade)
@@ -141,7 +141,6 @@ model Message {
 
   // datetime boilerplate
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   // relations FROM other tables
   chat   Chat? @relation(fields: [chatId], references: [id], onDelete: SetNull, onUpdate: Cascade)

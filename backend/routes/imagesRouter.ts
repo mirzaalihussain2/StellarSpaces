@@ -10,6 +10,6 @@ router.post('/listings/:listingId/images', authenticateJwt, create);
 // Route to delete an image from a listing
 router.delete('/listings/:listingId/images/:imageId', authenticateJwt, remove);
 
-router.get('/listings/:listingId/images/get', authenticateJwt, getAll);
+router.get('/listings/:listingId/images/get', getAll);
 
 export default router;

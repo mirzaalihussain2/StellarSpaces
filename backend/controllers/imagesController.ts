@@ -1,41 +1,42 @@
 // ImageController.ts
-import { Request, Response, NextFunction } from 'express';
-import { createImage, deleteImage, fetchImages } from '../models/imageModel';
+import {Request, Response, NextFunction} from 'express';
+import {createImage, deleteImage, fetchImages} from '../models/imageModel';
 
 async function create(req: Request, res: Response, next: NextFunction) {
-  const { URLs, listingId } = req.body;
-  // console.log(URLs)
-  // console.log(listingId)
-  for(let URL of URLs){
-    try {
-      const newImage = await createImage(URL, listingId);
-      res.status(201).json(newImage);
-    } catch (error) {
-      next(error);
+    const {URLs, listingId} = req.body;
+    // console.log(URLs)
+    // console.log(listingId)
+    for (let URL of URLs) {
+        try {
+            const newImage = await createImage(URL, listingId);
+            res.status(201).json(newImage);
+        } catch (error) {
+            next(error);
+        }
     }
-  }
 }
 
 async function remove(req: Request, res: Response, next: NextFunction) {
-  const { id } = req.params;
+    const {id} = req.params;
 
-  try {
-    await deleteImage(parseInt(id));
-    res.status(204).json({ message: 'Image deleted successfully' });
-  } catch (error) {
-    next(error);
-  }
+    try {
+        await deleteImage(parseInt(id));
+        res.status(204).json({message: 'Image deleted successfully'});
+    } catch (error) {
+        next(error);
+    }
 }
 
 async function getAll(req: Request, res: Response, next: NextFunction) {
-  const { listingId } = req.params;
+    const {listingId} = req.params;
+    console.log(listingId)
+    try {
 
-  try {
-    await fetchImages(parseInt(listingId));
-    res.status(204).json({ message: 'All Images fetches successfully' });
-  } catch (error) {
-    next(error);
-  }
+        const images = await fetchImages(parseInt(listingId));
+        res.status(201).json(images);
+    } catch (error) {
+        next(error);
+    }
 }
 
-export { create, remove, getAll };
+export {create, remove, getAll};
