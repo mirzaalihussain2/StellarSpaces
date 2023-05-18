@@ -23,11 +23,12 @@ export default function UserProfile() {
 
     return (
         <>
-            <h1>Yest</h1>
-        <h1>{userProfile.diplayName}</h1>
-        <h2>{userProfile.email}</h2>
-        <h2>{userProfile.DOB}</h2>
+         <div style={{marginLeft:'-35vw'}}> 
+        <h1 style={{fontSize:'2vw'}}>{` name : ${userProfile.firstName} ${userProfile.lastName}`}</h1>
+        <h3>{`email : ${userProfile.email}`}</h3>
+         </div>
         </>
+            
     );
 
 } 
