@@ -32,3 +32,8 @@
 .chatApp {
   width: 100%;
 }
+
+.userButton {
+  width: 100%;
+  margin-bottom: 5px;
+}
