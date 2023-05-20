@@ -1,4 +1,5 @@
 // Local
+import { Favourite } from '../interfaces/Favourite';
 import {
   addFavourite,
   deleteFavourite,
