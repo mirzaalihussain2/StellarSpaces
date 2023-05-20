@@ -8,10 +8,6 @@ import {
   queryObject,
 } from '../models/listingsModel';
 
-
-
-
-
 import {status, propertyTypes, Listing} from '../interfaces/Listing';
 import { User } from '../interfaces/User';
 
@@ -37,7 +33,7 @@ function generateQueryObj(userQuery: queryObject) {
     numOfBedroomsMax: userQuery.numOfBedroomsMax || 1000000,
     numOfBathroomsMin: userQuery.numOfBathroomsMin || 0,
     numOfBathroomsMax: userQuery.numOfBathroomsMax || 1000000,
-    petsAllowed: userQuery.petsAllowed ? [1] : [0, 1], 
+    petsAllowed: userQuery.petsAllowed ? [1] : [0, 1],
     hasGarage: userQuery.hasGarage ? [1] : [0, 1],
     propertyType: (userQuery.propertyType).length ? userQuery.propertyType : [
       'studio flat',

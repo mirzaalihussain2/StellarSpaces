@@ -2,6 +2,9 @@
 import { Favourite } from '../interfaces/Favourite';
 import prisma from '../prisma/client';
 
+import { User } from '../interfaces/User';
+import { Listing } from '../interfaces/Listing';
+
 // IMPLEMENTED
   // (1) User favourites a listing - create record in Listings table
   // (2) User un-favourites a listing - delete record in Listings table
@@ -18,15 +21,28 @@ async function addFavourite (data: Favourite) {
   });
 };
 
-// Un-favourite a list for a user (i.e. delete record)
+//Un-favourite a list for a user (i.e. delete record)
 async function deleteFavourite (data: Favourite) {
-  return await prisma.favourites.deleteMany({
+  return await prisma.favourites.delete({
     where: {
-      userId: data.userId,
-      listingId: data.listingId
+      userId_listingId: {
+        userId: data.userId,
+        listingId: data.listingId
+      }
     }
   });
 };
+
+// async function deleteFavourite (userId: User['id'], listingId: Listing['id']) {
+//   return await prisma.favourites.delete({
+//     where: {
+//         userId: userId,
+//         listingId: listingId
+//       }
+//     }
+//   );
+// };
+
 
 // Get a list of property Ids a user has favourited
 async function getFavouritesByUserId (id: Favourite['userId']) {
