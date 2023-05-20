@@ -11,6 +11,8 @@ import { errorHandlingMiddleware } from './middleware/errorHandlingMiddleware';
 import { authRoutes } from './middleware/auth';
 import imagesRouter from './routes/imagesRouter';
 import stripeRoute from './routes/stripeRouter';
+import chatRoute from './routes/chatRouter';
+import messageRoute from './routes/messageRouter';
 import passport from 'passport';
 dotenv.config();
 
@@ -28,6 +30,9 @@ app.use('/listings', listingsRouter);
 app.use('/images', imagesRouter);
 app.use('/favourites', favouritesRouter);
 app.use('/stripe', stripeRoute);
+app.use('/chats', chatRoute);
+app.use('/message', messageRoute);
+
 /*
 
 http://localhost:3010/auth/google - initiates Google OAuth.

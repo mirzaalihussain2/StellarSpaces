@@ -1,10 +1,10 @@
 export interface Chat {
   // flat data fields
-  id: number;
+  id?: number;
 
   // datetime boilerplate
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   // foreign keys
   listingId: number;
