@@ -18,7 +18,7 @@ dotenv.config();
 
 // Middlewares
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || "8080";
 
 app.use(passport.initialize());
 app.use(express.json());
