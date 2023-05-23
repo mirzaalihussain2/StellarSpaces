@@ -45,3 +45,6 @@ app.use(errorHandlingMiddleware);
 export default app.listen(port, '0.0.0.0', () => {
   console.log(`Server is listening on http://localhost:${port}`);
 });
+app.listen(port, '127.0.0.1', () => {
+  console.log(`Server is listening on http://localhost:${port}`);
+});
