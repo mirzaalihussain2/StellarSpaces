@@ -18,7 +18,7 @@ dotenv.config();
 
 // Middlewares
 const app: Express = express();
-const port = process.env.PORT || "8080";
+const port = Number(process.env.PORT);
 
 app.use(passport.initialize());
 app.use(express.json());
@@ -42,6 +42,6 @@ http://localhost:3010/auth/google/callback - callback for Google OAuth.
 
 app.use(errorHandlingMiddleware);
 
-export default app.listen(port, () => {
+export default app.listen(port, '0.0.0.0', () => {
   console.log(`Server is listening on http://localhost:${port}`);
 });
