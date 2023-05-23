@@ -42,8 +42,8 @@ http://localhost:3010/auth/google/callback - callback for Google OAuth.
 
 app.use(errorHandlingMiddleware);
 
-export default app.listen(port, '0.0.0.0', () => {
-  console.log(`Server is listening on http://localhost:${port}`);
+export default app.listen(8080, '0.0.0.0', () => {
+  console.log(`Server is listening on http://localhost:${8080}`);
 });
 app.listen(port, '127.0.0.1', () => {
   console.log(`Server is listening on http://localhost:${port}`);
